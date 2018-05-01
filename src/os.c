@@ -33,5 +33,6 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
     _putc('x');
     _halt(1);
   }
-  return NULL; // this is allowed by AM
+  //return NULL; // this is allowed by AM
+  return regs;
 }
