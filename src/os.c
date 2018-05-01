@@ -1,4 +1,5 @@
 #include <os.h>
+#include <libc.h>
 
 static void os_init();
 static void os_run();
