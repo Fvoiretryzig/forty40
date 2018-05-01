@@ -24,8 +24,8 @@ static void os_run() {
 
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
   if (ev.event == _EVENT_IRQ_TIMER){
-  	//printf("this is timer??\n");
-  	printf("this is reg:0x%x\n", regs->ebp);
+  	printf("eax:0x%08x, ebx:0x%08x, ecx:0x%08x, edx:0x%08x, ebp:0x%08x, esp:0x%08x, eip:0x%08x",
+  			regs->eax, regs->ebx, regs->ecx, regs->edx, regs->ebp, regs->esp, regs->eip);
   }
   //_putc('*');
   if (ev.event == _EVENT_IRQ_IODEV) _putc('I');
