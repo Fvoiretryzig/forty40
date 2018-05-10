@@ -1,8 +1,7 @@
 #include <os.h>
 #include <libc.h>
 
-#include <unistd.h>
-#include <stdint.h>
+
 
 static void os_init();
 static void os_run();

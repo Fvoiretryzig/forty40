@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <stdint.h>
 
+#include<stdio.h>
+
 #define block_size 20
 struct block 
 {
