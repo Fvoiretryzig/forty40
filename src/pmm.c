@@ -1,9 +1,7 @@
 #include <os.h>
 
-#include <unistd.h>
+/*#include <unistd.h>
 #include <stdint.h>
-
-#include<stdio.h>
 
 #define block_size 20
 struct block 
@@ -132,18 +130,18 @@ void free_unsafe(void *ptr)
 				return;
 		}
 	}
-}
+}*/
 
 static void pmm_init();
-static void* pmm_alloc(size_t size)	//TODO():thread unsafe
-{
-	return malloc_unsafe(size);
-}
+static void* pmm_alloc(size_t size)();	//TODO():thread unsafe
+//{
+	//return malloc_unsafe(size);
+//}
 //static void* pmm_free(void *ptr);
-static void pmm_free(void *ptr)	//TODO():thread unsafe
-{
-	return free_unsafe(ptr);
-}
+static void pmm_free(void *ptr)();	//TODO():thread unsafe
+//{
+	//return free_unsafe(ptr);
+//}
 
 MOD_DEF(pmm) {
 	.init = pmm_init;
