@@ -141,10 +141,10 @@ static void* pmm_alloc(size_t size)();	//TODO():thread unsafe
 static void pmm_free(void *ptr)();	//TODO():thread unsafe
 {
 	return free_unsafe(ptr);
-}
+}*/
 
 MOD_DEF(pmm) {
-	.init = pmm_init;
-	.alloc = pmm_alloc;
-	.free = pmm_free;
-};*/
+	//.init = pmm_init;
+	//.alloc = pmm_alloc;
+	//.free = pmm_free;
+};
