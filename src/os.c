@@ -12,11 +12,6 @@ MOD_DEF(os) {
   .run = os_run,
   .interrupt = os_interrupt,
 };*/
-MODULE {
-  void (*init)();
-  void (*run)();
-  _RegSet *(*interrupt)(_Event ev, _RegSet *regs);
-} MOD_NAME(os);
 
 
 static void os_init() {
@@ -44,3 +39,9 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
   //return NULL; // this is allowed by AM
   return regs;
 }
+MODULE {
+  void (*init)();
+  void (*run)();
+  _RegSet *(*interrupt)(_Event ev, _RegSet *regs);
+} MOD_NAME(os);
+
