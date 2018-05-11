@@ -20,5 +20,5 @@ void *sbrk(intptr_t increment)
 		program_break += increment;
 		return old_program_break;
 	}
-	return -1;
+	return (void*)-1;
 }
