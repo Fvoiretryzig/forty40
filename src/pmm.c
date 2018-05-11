@@ -138,12 +138,12 @@ static void pmm_init()
 {
 	program_break = _heap.start;
 }
-static void* pmm_alloc(size_t size)();	//TODO():thread unsafe
+static void* pmm_alloc(size_t size)	//TODO():thread unsafe
 {
 	return malloc_unsafe(size);
 }
 //static void* pmm_free(void *ptr);
-static void pmm_free(void *ptr)();	//TODO():thread unsafe
+static void pmm_free(void *ptr)	//TODO():thread unsafe
 {
 	return free_unsafe(ptr);
 }
