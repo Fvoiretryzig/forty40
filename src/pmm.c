@@ -17,7 +17,7 @@ struct block
 };
 static struct block *head = NULL, *tail = NULL;
 
-size_t align(size_t size)
+size_t pmm_align(size_t size)
 {
 	return ((size>>1) + 1)<<1;
 } 
@@ -55,7 +55,7 @@ void split(struct block* current, size_t size, size_t remain_size)
 void *malloc_unsafe(size_t size)
 {
 	struct block *current;
-	size_t align_size = align(size);
+	size_t align_size = pmm_align(size);
 	if(!head){	
 		current = add_block(align_size);
 		if(current){
