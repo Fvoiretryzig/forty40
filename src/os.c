@@ -3,7 +3,7 @@
 
 
 
-/*static void os_init();
+static void os_init();
 static void os_run();
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs);
 
@@ -11,8 +11,7 @@ MOD_DEF(os) {
   .init = os_init,
   .run = os_run,
   .interrupt = os_interrupt,
-};*/
-
+};
 
 static void os_init() {
   //for (const char *p = "Hello, OS World!\n"; *p; p++) {
@@ -39,9 +38,3 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
   //return NULL; // this is allowed by AM
   return regs;
 }
-MODULE {
-  void (*init)();
-  void (*run)();
-  _RegSet *(*interrupt)(_Event ev, _RegSet *regs);
-} MOD_NAME(os);
-
