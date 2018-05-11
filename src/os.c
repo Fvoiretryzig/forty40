@@ -18,7 +18,7 @@ static void os_init() {
   //  _putc(*p);
   //}
   printf("Hello, OS World!\n");
-  printf("heap:0x%08x\n", _heap.start);
+  printf("heap start:0x%08x heap end:0x%08x\n", _heap.start, _heap.end);
 }
 
 static void os_run() {
@@ -28,7 +28,7 @@ static void os_run() {
 
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
   if (ev.event == _EVENT_IRQ_TIMER){
-	printf("this is irq_timer\n");
+	//printf("this is irq_timer\n");
   }
   if (ev.event == _EVENT_IRQ_IODEV) _putc('I');
   if (ev.event == _EVENT_ERROR) {
