@@ -1,6 +1,7 @@
 #include<unistd.h>
 #include<os.h>
 
+int* program_break;
 //应该无关物理地址虚拟地址的转换……吧
 int brk(void *addr)
 {

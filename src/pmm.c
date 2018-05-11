@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 #define block_size 20
-intptr_t program_break;
+int* program_break;
 
 struct block 
 {
