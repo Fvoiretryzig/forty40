@@ -15,7 +15,7 @@ void *sbrk(intptr_t increment)
 {
 	if(!increment)
 		return program_break;
-	intptr_t old_program_break = program_break;
+	int* old_program_break = program_break;
 	if((uint32_t)(increment + old_program_break) < (uint32_t)_heap.end){
 		program_break += increment;
 		return old_program_break;
