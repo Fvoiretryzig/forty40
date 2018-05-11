@@ -3,7 +3,9 @@
 #include <unistd.h>
 #include <stdint.h>
 
-/*#define block_size 20
+#define block_size 20
+intptr_t program_break;
+
 struct block 
 {
     size_t size;
@@ -132,7 +134,10 @@ void free_unsafe(void *ptr)
 	}
 }
 
-static void pmm_init();
+static void pmm_init()
+{
+	program_break = _heap.start;
+}
 static void* pmm_alloc(size_t size)();	//TODO():thread unsafe
 {
 	return malloc_unsafe(size);
@@ -141,10 +146,10 @@ static void* pmm_alloc(size_t size)();	//TODO():thread unsafe
 static void pmm_free(void *ptr)();	//TODO():thread unsafe
 {
 	return free_unsafe(ptr);
-}*/
+}
 
 MOD_DEF(pmm) {
-	//.init = pmm_init;
-	//.alloc = pmm_alloc;
-//	.free = pmm_free;
+	.init = pmm_init;
+	.alloc = pmm_alloc;
+	.free = pmm_free;
 };
