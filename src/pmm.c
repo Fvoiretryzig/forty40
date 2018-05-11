@@ -1,9 +1,9 @@
 #include <os.h>
 
-/*#include <unistd.h>
+#include <unistd.h>
 #include <stdint.h>
 
-#define block_size 20
+/*#define block_size 20
 struct block 
 {
     size_t size;
@@ -146,5 +146,5 @@ static void pmm_free(void *ptr)();	//TODO():thread unsafe
 MOD_DEF(pmm) {
 	//.init = pmm_init;
 	//.alloc = pmm_alloc;
-	//.free = pmm_free;
+//	.free = pmm_free;
 };
