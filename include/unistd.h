@@ -2,6 +2,7 @@
 #define __UNISTD_H__
 
 #include <os.h>
+typedef int *intptr_t;
 
 extern intptr_t program_break;
 
