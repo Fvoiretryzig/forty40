@@ -69,7 +69,7 @@ static void kmt_init()
 static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 {
 	size_t size = 0x10000;
-	void *addr = pmm.alloc(size);
+	void *addr = pmm->alloc(size);
 	if(addr == NULL)
 		return -1;
 	else{
@@ -100,7 +100,7 @@ static void teardown(thread_t *thread)
 		current->prev->next = current->next; current->next->prev = current->prev;
 		current->next = NULL; current->prev = NULL;
 		
-		pmm.free(addr);
+		pmm->free(addr);
 		thread->stackaddr = NULL;
 		thread->stacksize = 0;
 		thread->thread_reg = NULL;
