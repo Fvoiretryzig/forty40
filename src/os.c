@@ -2,7 +2,7 @@
 #include <libc.h>
 
 sem_t *empty; sem_t* fill;
-thread_t* t1; thread_t* t2;
+thread_t t1; thread_t t2;
 
 #define BUF_SIZE 3
 
@@ -25,8 +25,8 @@ static void consumer() {
 static void test_run() {
 	kmt->sem_init(empty, "empty", BUF_SIZE);
 	kmt->sem_init(fill, "fill", 0);
-  	kmt->create(t1, &producer, NULL);
-  	kmt->create(t2, &consumer, NULL);
+  	kmt->create(&t1, &producer, NULL);
+  	kmt->create(&t2, &consumer, NULL);
   	printf("t1:0x%08x t2:0x%08x\n", &t1->stack, &t2->stack);
   // create producers and consumers
 }
