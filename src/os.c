@@ -3,7 +3,6 @@
 
 sem_t empty, fill;
 thread_t t1, t2;
-_RegSet r;
 #define BUF_SIZE 3
 
 static void producer() {

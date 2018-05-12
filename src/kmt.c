@@ -1,5 +1,6 @@
 #include <os.h>
 #include<libc.h>
+#include<stdint.h>
 
 #define STK_SZ 0x10000
 #define FC_SZ 32
