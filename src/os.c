@@ -1,30 +1,30 @@
 #include <os.h>
 #include <libc.h>
 
-sem_t *empty; sem_t* fill;
-thread_t t1; thread_t t2;
+sem_t empty, fill;
+thread_t t1, t2;
 
 #define BUF_SIZE 3
 
 static void producer() {
 	while (1) {
 		//printf("this is producer before sem_wait\n");
-		kmt->sem_wait(empty);
+		kmt->sem_wait(&empty);
 		//printf("(");
-		kmt->sem_signal(fill);
+		kmt->sem_signal(&fill);
 	}
 }
 static void consumer() {
 	while (1) {
-		kmt->sem_wait(fill);
+		kmt->sem_wait(&fill);
 		//printf(")");
-		kmt->sem_signal(empty);
+		kmt->sem_signal(&empty);
 	}
 }
 //thread_t t1; thread_t t2;
 static void test_run() {
-	kmt->sem_init(empty, "empty", BUF_SIZE);
-	kmt->sem_init(fill, "fill", 0);
+	kmt->sem_init(&empty, "empty", BUF_SIZE);
+	kmt->sem_init(&fill, "fill", 0);
   	kmt->create(&t1, &producer, NULL);
   	kmt->create(&t2, &consumer, NULL);
   	printf("t1:0x%08x t2:0x%08x\n", t1.stack, t2.stack);
