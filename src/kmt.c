@@ -65,6 +65,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		current->t = thread;
 		current->next = work_head; work_head->prev = current; current->prev = NULL;
 		work_head = current;
+		printf("heiheihei\n");
 		return 0;
 	}
 	return -1;
