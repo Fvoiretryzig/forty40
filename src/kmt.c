@@ -65,7 +65,6 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		current->t = thread;
 		current->next = work_head; work_head->prev = current; current->prev = NULL;
 		work_head = current;
-		printf("heiheihei\n");
 		return 0;
 	}
 	return -1;
@@ -101,6 +100,7 @@ static thread_t* schedule()
 	current->prev->next = NULL;
 	current->prev = NULL; current->next = work_head;
 	work_head = current;	//把处理了的任务放置最前
+	printf("this is schedule\n");
 	return current->t;
 }
 static void spin_init(spinlock_t *lk, const char *name)
