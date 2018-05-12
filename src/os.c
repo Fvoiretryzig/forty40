@@ -30,7 +30,7 @@ static void os_run() {
 
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	if(ev.event == _EVENT_IRQ_TIMER){
-		printf("this is irq_timer\n");
+		//printf("this is irq_timer\n");
 		//regs = schedule();
 	}//时钟中断???????????；
 	if(ev.event == _EVENT_IRQ_IODEV){
@@ -41,7 +41,6 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 		_halt(1);
 	}//其他异常；
 	if(ev.event == _EVENT_PAGEFAULT){
-	
 		printf("this is pagefault...\n");
 	}
 		
@@ -49,8 +48,10 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 		printf("request trap into kernal...\n");
 	}
 		
-	if(ev.event == _EVENT_SYSCALL)
+	if(ev.event == _EVENT_SYSCALL){
 		printf("call system???????\n");
+	}
+		
 	
 /*_EVENT_PAGEFAULT: 缺页异常，其中ev.cause存放异常发生的原因(_PROT_NONE: 页未被映射;_PROT_READ: 读取时出错; _PROT_WRITE: 写入时出错; _PROT_EXEC: 执行时出错)，ev.ref存放访问的地址。*/
 
