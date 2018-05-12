@@ -1,4 +1,4 @@
-#include <os.h>
+/*#include <os.h>
 #include<libc.h>
 
 extern int id;
@@ -171,9 +171,9 @@ static void sem_signal(sem_t *sem)
 		sem->queue[i] = 0;
 	}
 	return;
-}
-/*#include <os.h>
+}*/
+#include <os.h>
 
 MOD_DEF(kmt) 
 {
-};*/
+};
