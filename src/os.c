@@ -1,5 +1,5 @@
 #include <os.h>
-#include <libc.h>
+//#include <libc.h>
 
 sem_t empty, fill;
 thread_t t1, t2;

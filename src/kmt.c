@@ -1,11 +1,8 @@
 #include <os.h>
-#include<libc.h>
+//#include<libc.h>
 
 #define STK_SZ 0x10000
 #define FC_SZ 32
-typedef struct thread thread_t;
-typedef struct spinlock spinlock_t;
-typedef struct semaphore sem_t;
 struct thread	
 {
 	int id;
@@ -36,7 +33,9 @@ struct semaphore
 	char name[64];
 };
 
-
+typedef struct thread thread_t;
+typedef struct spinlock spinlock_t;
+typedef struct semaphore sem_t;
 static void kmt_init();
 static int create(thread_t *thread, void (*entry)(void *arg), void *arg);
 static void teardown(thread_t *thread);
