@@ -109,9 +109,9 @@ static void teardown(thread_t *thread)
 		current->prev->next = current->next; current->next->prev = current->prev;
 		current->next = NULL; current->prev = NULL;
 		
-		pmm->free(fence2);
+		pmm->free(fence2_addr);
 		pmm->free(addr);
-		pmm->free(fence1);
+		pmm->free(fence1_addr);
 		thread->stack = NULL; thread->fence1 = NULL; thread->fence2 = NULL;
 		thread->thread_reg = NULL;
 		return;
