@@ -1,7 +1,7 @@
 #include <os.h>
 #include <libc.h>
 
-sem_t *empty; sem* fill;
+sem_t *empty; sem_t* fill;
 thread_t* t1; thread_t* t2;
 
 #define BUF_SIZE 3
