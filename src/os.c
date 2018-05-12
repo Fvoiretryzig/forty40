@@ -7,15 +7,15 @@ sem_t empty, fill;
 static void producer() {
 	while (1) {
 		kmt->sem_wait(&empty);
-		printf("(")
-		kmt->sem_post(&fill);
+		printf("(");
+		kmt->sem_signal(&fill);
 	}
 }
 static void consumer() {
 	while (1) {
 		kmt->sem_wait(&fill);
 		printf(")");
-		kmt->sem_post(&empty);
+		kmt->sem_signal(&empty);
 	}
 }
 
