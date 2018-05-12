@@ -98,18 +98,20 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 }
 static void teardown(thread_t *thread)
 {
-	void* addr = thread->stackaddr;
-	if(addr){
-
+	void* addr = thread->stack;
+	void* fence1_addr = thread->fence1;
+	void* fence2_addr = thread->fence2;
+	if(addr && fence1_addr && fence2_addr){
 		struct thread_node* current = work_head;
 		while(current->t->id != thread->id)
 			current = current->next;
 		current->prev->next = current->next; current->next->prev = current->prev;
 		current->next = NULL; current->prev = NULL;
 		
+		pmm->free(fence2);
 		pmm->free(addr);
-		thread->stackaddr = NULL;
-		thread->stacksize = 0;
+		pmm->free(fence1);
+		thread->stack = NULL; thread->fence1 = NULL; thread->fence2 = NULL;
 		thread->thread_reg = NULL;
 		return;
 	}
