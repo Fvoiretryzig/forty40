@@ -47,7 +47,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 	void *addr = pmm->alloc(STK_SZ);
 	void *fence2_addr = pmm->alloc(FC_SZ);
 	if(addr && fence1_addr && fence2_addr){
-		//printf("fence1:0x%08x addr:0x%08x fence2:0x%08x\n", fence1_addr, addr, fence2_addr);
+		printf("fence1:0x%08x addr:0x%08x fence2:0x%08x\n", fence1_addr, addr, fence2_addr);
 		struct thread_node* current = pmm->alloc(12);
 		if(current){
 			thread->id = ++current->t->id;
@@ -104,7 +104,8 @@ static thread_t* schedule()
 	current->prev->next = NULL;
 	current->prev = NULL; current->next = work_head;
 	work_head = current;	//把处理了的任务放置最前
-	printf("this is schedule\n");
+	printf("this is schedule ");
+	printf("current->t:0x%08x\n", current->t);
 	return current->t;
 }
 static void spin_init(spinlock_t *lk, const char *name)
