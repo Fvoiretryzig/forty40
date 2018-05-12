@@ -56,7 +56,7 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	if(ev.event == _EVENT_IRQ_TIMER){
 		//printf("this is irq_timer\n");
 		thread_t* t = kmt->schedule();
-		printf("haha\n");
+		printf("t:%d\n", t->id);
 		regs = t->thread_reg;
 	}//时钟中断???????????；
 	if(ev.event == _EVENT_IRQ_IODEV){
