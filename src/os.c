@@ -3,24 +3,28 @@
 
 sem_t empty, fill;
 
-static void producer(void *arg) {
-  while (1) {
-    kmt->sem_wait(&empty);
-    	printf("(")
-    kmt->sem_post(&fill);
-  }
+static void producer() {
+	while (1) {
+		kmt->sem_wait(&empty);
+		printf("(")
+		kmt->sem_post(&fill);
+	}
 }
-static void consumer(void *arg) {
-  while (1) {
-    kmt->sem_wait(&fill);
-    printf(")");
-    kmt->sem_post(&empty);
-  }
+static void consumer() {
+	while (1) {
+		kmt->sem_wait(&fill);
+		printf(")");
+		kmt->sem_post(&empty);
+	}
 }
 
 static void test_run() {
-  kmt->sem_init(&empty, "empty", BUF_SIZE);
-  kmt->sem_init(&fill, "fill", 0);
+	kmt->sem_init(&empty, "empty", BUF_SIZE);
+	kmt->sem_init(&fill, "fill", 0);
+  	thread_t t1; thread_t t2;
+  	void* arg = NULL;
+  	kmt->create(&t1, &producer, arg);
+  	kmt->create(&t2, &consumer, arg);
   // create producers and consumers
 }
 
@@ -47,7 +51,7 @@ static void os_init()
 
 static void os_run() {
   _intr_write(1); // enable interrupt
-  
+  test_run();
   while (1) ; // should never return
 }
 
