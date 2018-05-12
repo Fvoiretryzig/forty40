@@ -86,7 +86,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 			thread->fence2[i] = id;
 		}
 		_Area stack;
-		stack.start = stack; stack.end = stack + STK_SZ;
+		stack.start = thread->stack; stack.end = thread->stack + STK_SZ;
 		thread->thread_reg = _make(stack, entry, arg);
 		
 		
