@@ -104,6 +104,7 @@ static thread_t* schedule()
 	current->prev->next = NULL;
 	current->prev = NULL; current->next = work_head;
 	work_head = current;	//把处理了的任务放置最前
+	printf("this is schedule\n");
 	return current->t;
 }
 static void spin_init(spinlock_t *lk, const char *name)
