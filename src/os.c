@@ -28,6 +28,7 @@ static void test_run() {
 	kmt->sem_init(fill, "fill", 0);
   	kmt->create(t1, &producer, NULL);
   	kmt->create(t2, &consumer, NULL);
+  	printf("t1:0x%08x t2:0x%08x\n", t1, t2);
   // create producers and consumers
 }
 
