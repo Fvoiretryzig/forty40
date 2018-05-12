@@ -2,6 +2,7 @@
 #include <libc.h>
 
 sem_t empty, fill;
+thread_t t1, t2;
 #define BUF_SIZE 3
 
 static void producer() {
@@ -23,8 +24,8 @@ static void test_run() {
 	kmt->sem_init(&empty, "empty", BUF_SIZE);
 	kmt->sem_init(&fill, "fill", 0);
   	
-  	kmt->create(thread_t* t1, &producer(), NULL);
-  	kmt->create(thread_t*t2, &consumer(), NULL);
+  	kmt->create(t1, &producer, NULL);
+  	kmt->create(t2, &consumer, NULL);
   // create producers and consumers
 }
 
