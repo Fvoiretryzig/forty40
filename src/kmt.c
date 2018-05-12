@@ -76,9 +76,9 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		if(current)
 			thread->id = ++current->t->id;
 		else thread->id = 1;
-		thread->fence1 = fence1_addr;
-		thread->stack = addr;
-		thread->fence2 = fence2_addr;
+		thread->&fence1[0] = fence1_addr;
+		thread->&stack[0] = addr;
+		thread->&fence2[0] = fence2_addr;
 		int id = thread->id;
 		for(int i = 0; i<32; i++){
 			thread->fence1[i] = id;
