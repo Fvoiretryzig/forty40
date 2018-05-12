@@ -118,7 +118,7 @@ static thread_t* schedule()
 	current->prev->next = NULL;
 	current->prev = NULL; current->next = work_head;
 	work_head = current;	//把处理了的任务放置最前
-	return current->t->thread_reg;
+	return current->t;
 }
 static void spin_init(spinlock_t *lk, const char *name)
 {
@@ -131,11 +131,11 @@ static void spin_lock(spinlock_t *lk)
 {
 	if(_intr_read())
 		_intr_write(0);		//关中断
-	while(_atomic_xchg(&lk->flag, 1) != 0);
+	while(_atomic_xchg(&lk->locked, 1) != 0);
 }
 static void spin_unlock(spinlock_t *lk)
 {
-	_atomic_xchg(&lk->flag, 0);
+	_atomic_xchg(&lk->locked, 0);
 	_intr_write(1);
 }
 static void sem_init(sem_t *sem, const char *name, int value)
