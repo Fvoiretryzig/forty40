@@ -50,7 +50,6 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		struct thread_node* current = pmm->alloc(12);
 		if(current){
 			thread->id = ++current->t->id;
-
 		}
 		else thread->id = 1;
 		thread->fence1 = fence1_addr;
@@ -84,6 +83,7 @@ static void teardown(thread_t *thread)
 			current = current->next;
 		current->prev->next = current->next; current->next->prev = current->prev;
 		current->next = NULL; current->prev = NULL;
+		pmm->free(current);
 		pmm->free(fence2_addr);
 		pmm->free(addr);
 		pmm->free(fence1_addr);

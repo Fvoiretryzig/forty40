@@ -1,13 +1,14 @@
 #include <os.h>
 #include <libc.h>
 
-/*sem_t *empty; sem_t* fill;
+sem_t *empty; sem_t* fill;
 thread_t* t1; thread_t* t2;
 
 #define BUF_SIZE 3
 
 static void producer() {
 	while (1) {
+		printf("this is producer before sem_wait\n");
 		kmt->sem_wait(empty);
 		printf("(");
 		kmt->sem_signal(fill);
@@ -15,6 +16,7 @@ static void producer() {
 }
 static void consumer() {
 	while (1) {
+	printf("this is producer before sem_wait\n");
 		kmt->sem_wait(fill);
 		printf(")");
 		kmt->sem_signal(empty);
@@ -27,7 +29,7 @@ static void test_run() {
   	kmt->create(t1, &producer, NULL);
   	kmt->create(t2, &consumer, NULL);
   // create producers and consumers
-}*/
+}
 
 static void os_init();
 static void os_run();
@@ -48,8 +50,7 @@ static void os_init()
 
 static void os_run() {
   _intr_write(1); // enable interrupt
-  //test_run();
-  _yield();
+  test_run();
   while (1) ; // should never return
 }
 
@@ -77,7 +78,8 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	}
 		
 	if(ev.event == _EVENT_SYSCALL){
-		printf("call system???????\n");
+		printf("call system...\n");
+		__asm__ __volatile__("int $0x80"); 
 	}
 		
 	
