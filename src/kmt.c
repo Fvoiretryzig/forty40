@@ -99,7 +99,7 @@ static void teardown(thread_t *thread)
 static thread_t* schedule()
 {
 	struct thread_node* current = work_head;
-	printf("current:0x%08x", current);
+	printf("current:0x%08x\n", current);
 	if(current == NULL)
 		return NULL;
 	while(current->next){
