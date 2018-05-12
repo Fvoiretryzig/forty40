@@ -1,6 +1,29 @@
 #include <os.h>
 #include <libc.h>
 
+sem_t empty, fill;
+
+static void producer(void *arg) {
+  while (1) {
+    kmt->sem_wait(&empty);
+    	printf("(")
+    kmt->sem_post(&fill);
+  }
+}
+static void consumer(void *arg) {
+  while (1) {
+    kmt->sem_wait(&fill);
+    printf(")");
+    kmt->sem_post(&empty);
+  }
+}
+
+static void test_run() {
+  kmt->sem_init(&empty, "empty", BUF_SIZE);
+  kmt->sem_init(&fill, "fill", 0);
+  // create producers and consumers
+}
+
 static void os_init();
 static void os_run();
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs);
