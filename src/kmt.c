@@ -65,12 +65,11 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		_Area stack;
 		stack.start = thread->stack; stack.end = thread->stack + STK_SZ;
 		thread->thread_reg = _make(stack, entry, arg);
-		
-		
 		current->t = thread;
 		current->next = work_head; work_head->prev = current; current->prev = NULL;
 		work_head = current;
-		
+		printf("work_head:0x%08x\n", work_head);
+		printf("current:0x%08x\n", current);
 		return 0;
 	}
 	return -1;
