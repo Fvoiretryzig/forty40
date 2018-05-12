@@ -16,7 +16,6 @@ static void producer() {
 }
 static void consumer() {
 	while (1) {
-	printf("this is producer before sem_wait\n");
 		kmt->sem_wait(fill);
 		//printf(")");
 		kmt->sem_signal(empty);
@@ -28,7 +27,7 @@ static void test_run() {
 	kmt->sem_init(fill, "fill", 0);
   	kmt->create(t1, &producer, NULL);
   	kmt->create(t2, &consumer, NULL);
-  	printf("t1:0x%08x t2:0x%08x\n", &t1, &t2);
+  	printf("t1:0x%08x t2:0x%08x\n", t1->stack, t2->stack);
   // create producers and consumers
 }
 
