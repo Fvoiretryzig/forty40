@@ -29,7 +29,7 @@ static void os_run() {
 }
 
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
-	_asye_init((&handler)(ev, regs));
+	_asye_init((ev.handler)(ev, regs));
 	if(ev.event == _EVENT_IRQ_TIMER){
 		//printf("this is irq_timer\n");
 	}//时钟中断；
