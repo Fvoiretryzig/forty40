@@ -16,7 +16,7 @@ struct thread_node
 	struct thread_node* next;
 	struct thread_node* prev;
 };
-struct thread_node work_head;
+struct thread_node* work_head;
 
 struct spinlock
 {
