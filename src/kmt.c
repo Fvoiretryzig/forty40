@@ -3,35 +3,8 @@
 
 #define STK_SZ 0x10000
 #define FC_SZ 32
-struct thread	
-{
-	int id;
-	uint8_t* fence1;
-	uint8_t* stack;
-	uint8_t* fence2;	
-	_RegSet *thread_reg;
-};
-struct thread_node
-{
-	struct thread* t;
-	struct thread_node* next;
-	struct thread_node* prev;
-};
+
 struct thread_node* work_head;
-
-struct spinlock
-{
-	int locked;	//判断锁是否被占用了
-	char name[64];
-};
-
-struct semaphore
-{
-	int count;
-	int if_sleep;
-	int queue[20];
-	char name[64];
-};
 
 typedef struct thread thread_t;
 typedef struct spinlock spinlock_t;
