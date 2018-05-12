@@ -2,7 +2,7 @@
 #include <libc.h>
 
 sem_t empty, fill;
-thread_t* t1, t2;
+thread_t* t1; thread_t* t2;
 
 #define BUF_SIZE 3
 
