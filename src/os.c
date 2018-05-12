@@ -1,7 +1,7 @@
 #include <os.h>
 #include <libc.h>
 
-sem_t *empty; sem_t* fill;
+/*sem_t *empty; sem_t* fill;
 thread_t* t1; thread_t* t2;
 
 #define BUF_SIZE 3
@@ -27,7 +27,7 @@ static void test_run() {
   	kmt->create(t1, &producer, NULL);
   	kmt->create(t2, &consumer, NULL);
   // create producers and consumers
-}
+}*/
 
 static void os_init();
 static void os_run();
@@ -48,7 +48,8 @@ static void os_init()
 
 static void os_run() {
   _intr_write(1); // enable interrupt
-  test_run();
+  //test_run();
+  _yield();
   while (1) ; // should never return
 }
 
