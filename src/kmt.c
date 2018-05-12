@@ -60,7 +60,6 @@ MOD_DEF(kmt)
 
 static void kmt_init()
 {
-	id = 0;
 	work_head = NULL;
 	//TODO();
 }
