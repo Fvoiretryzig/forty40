@@ -46,13 +46,13 @@ static void os_init()
   //for (const char *p = "Hello, OS World!\n"; *p; p++) {
   //  _putc(*p);
   //}
-  
   printf("Hello, OS World!\n");
   printf("heap start:0x%08x heap end:0x%08x\n", _heap.start, _heap.end);
 }
 
 static void os_run() {
   _intr_write(1); // enable interrupt
+  printf("this is os_run\n");
   test_run();
   while (1) ; // should never return
 }
