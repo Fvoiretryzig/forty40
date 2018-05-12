@@ -17,19 +17,21 @@ static void os_init()
   //for (const char *p = "Hello, OS World!\n"; *p; p++) {
   //  _putc(*p);
   //}
+  
   printf("Hello, OS World!\n");
   printf("heap start:0x%08x heap end:0x%08x\n", _heap.start, _heap.end);
 }
 
 static void os_run() {
   _intr_write(1); // enable interrupt
+  
   while (1) ; // should never return
 }
 
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
+	_asye_init((*handler)( ev, regs));
 	if(ev.event == _EVENT_IRQ_TIMER){
 		//printf("this is irq_timer\n");
-		 _asye_init((ev, regs));
 	}//时钟中断；
 	if(ev.event == _EVENT_IRQ_IODEV) 
 		_putc('I');	//设备中断；
