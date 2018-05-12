@@ -1,6 +1,6 @@
 #include <os.h>
 #include <libc.h>
-spinlock_t l;
+
 sem_t empty, fill;
 thread_t t1, t2;
 
