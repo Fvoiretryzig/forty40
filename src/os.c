@@ -18,14 +18,14 @@ static void consumer() {
 		kmt->sem_signal(&empty);
 	}
 }
-thread_t t1; thread_t t2;
+//thread_t t1; thread_t t2;
 static void test_run() {
 	kmt->sem_init(&empty, "empty", BUF_SIZE);
 	kmt->sem_init(&fill, "fill", 0);
   	
   	void* arg = NULL;
-  	kmt->create(&t1, &producer, arg);
-  	kmt->create(&t2, &consumer, arg);
+  	kmt->create(thread_t* t1, &producer, arg);
+  	kmt->create(thread_t*t2, &consumer, arg);
   // create producers and consumers
 }
 
