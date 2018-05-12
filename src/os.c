@@ -22,7 +22,7 @@ static void consumer() {
 static void test_run() {
 	kmt->sem_init(&empty, "empty", BUF_SIZE);
 	kmt->sem_init(&fill, "fill", 0);
-  	struct thread t1; struct thread t2;
+  	thread_t t1; thread_t t2;
   	void* arg = NULL;
   	kmt->create(&t1, &producer, arg);
   	kmt->create(&t2, &consumer, arg);
