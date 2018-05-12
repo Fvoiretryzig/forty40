@@ -1,6 +1,6 @@
 #include <os.h>
 #include <libc.h>
-
+#include<stdint.h>
 sem_t empty, fill;
 thread_t t1, t2;
 #define BUF_SIZE 3
