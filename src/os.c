@@ -23,8 +23,8 @@ static void test_run() {
 	kmt->sem_init(&empty, "empty", BUF_SIZE);
 	kmt->sem_init(&fill, "fill", 0);
   	
-  	kmt->create(thread_t* t1, &producer, NULL);
-  	kmt->create(thread_t*t2, &consumer, NULL);
+  	kmt->create(thread_t* t1, &producer(), NULL);
+  	kmt->create(thread_t*t2, &consumer(), NULL);
   // create producers and consumers
 }
 
