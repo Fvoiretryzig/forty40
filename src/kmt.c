@@ -1,4 +1,4 @@
-/*#include <os.h>
+#include <os.h>
 #include<libc.h>
 
 extern int id;
@@ -115,8 +115,9 @@ static thread_t* schedule()
 		return NULL;
 	while(current->next)
 		current = current->next;
-	current->prev->next = current->next; current->next->prev = current->prev;
-	current->next = NULL; current->prev = NULL;
+	current->prev->next = NULL;
+	current->prev = NULL; current->next = work_head;
+	work_head = current;	//把处理了的任务放置最前
 	return current->t->thread_reg;
 }
 static void spin_init(spinlock_t *lk, const char *name)
@@ -170,9 +171,9 @@ static void sem_signal(sem_t *sem)
 		sem->queue[i] = 0;
 	}
 	return;
-}*/
-#include <os.h>
+}
+/*#include <os.h>
 
 MOD_DEF(kmt) 
 {
-};
+};*/

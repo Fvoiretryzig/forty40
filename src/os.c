@@ -30,21 +30,25 @@ static void os_run() {
 
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	if(ev.event == _EVENT_IRQ_TIMER){
-		//printf("this is irq_timer\n");
-	}//时钟中断；
+		printf("this is irq_timer\n");
+		//regs = schedule();
+	}//时钟中断???????????；
 	if(ev.event == _EVENT_IRQ_IODEV){
-		printf("40404040404040\n");
-		_putc('I');	//设备中断；
-	}
-		
+		printf("this is _EVENT_IRQ_IODEV\n");
+	}//设备中断；
 	if(ev.event == _EVENT_ERROR) {
-		_putc('x');
+		printf("this is _EVENT_ERROR\n");
 		_halt(1);
 	}//其他异常；
-	if(ev.event == _EVENT_PAGEFAULT)
+	if(ev.event == _EVENT_PAGEFAULT){
+	
 		printf("this is pagefault...\n");
-	if(ev.event == _EVENT_YIELD)
+	}
+		
+	if(ev.event == _EVENT_YIELD){
 		printf("request trap into kernal...\n");
+	}
+		
 	if(ev.event == _EVENT_SYSCALL)
 		printf("call system???????\n");
 	
