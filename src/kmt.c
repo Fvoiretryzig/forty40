@@ -1,7 +1,6 @@
 #include <os.h>
 #include<libc.h>
 
-extern int id;
 
 struct thread	
 {
@@ -73,16 +72,18 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 	if(addr == NULL)
 		return -1;
 	else{
-		thread->id = id++;
+		struct thread_node* current = work_head;
+		if(current)
+			thread->id = current->t->id++;
+		else thread->id = 1;
 		thread->stackaddr = addr;
 		thread->stacksize = size;
 		_Area stack;
 		stack.start = addr; stack.end = addr + size;
 		thread->thread_reg = _make(stack, entry, arg);
 		
-		struct thread_node* current = NULL;
-		current->t->id = thread->id; current->t->stackaddr = addr; current->t->stacksize = size;
-		current->t->thread_reg = thread->thread_reg; 
+		
+		current->t = thread;
 		current->next = work_head; work_head->prev = current; current->prev = NULL;
 		work_head = current;
 		return 0;
