@@ -31,9 +31,14 @@ struct semaphore
 	int if_sleep;
 	int queue[20];
 	char name[64];
-	_RegSet *thread_reg;
 };
-
+struct sem_node
+{
+	struct semaphore* t;
+	struct sem_node* next;
+	struct sem_node* prev;
+};
+struct sem_node* sem_head;
 typedef struct thread thread_t;
 typedef struct spinlock spinlock_t;
 typedef struct semaphore sem_t;
