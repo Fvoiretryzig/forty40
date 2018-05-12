@@ -8,7 +8,7 @@ thread_t t1, t2;
 
 static void producer() {
 	while (1) {
-		//printf("this is producer before sem_wait\n");
+		printf("this is producer before sem_wait\n");
 		kmt->sem_wait(&empty);
 		printf("(");
 		kmt->sem_signal(&fill);
