@@ -2,6 +2,7 @@
 #include <libc.h>
 
 sem_t empty, fill;
+#define BUF_SIZE 3
 
 static void producer() {
 	while (1) {
