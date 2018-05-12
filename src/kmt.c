@@ -1,10 +1,9 @@
 #include <os.h>
 #include<libc.h>
-#include<stdint.h>
 
 #define STK_SZ 0x10000
 #define FC_SZ 32
-struct thread_t	
+struct thread	
 {
 	int id;
 	uint8_t* fence1;
@@ -14,7 +13,7 @@ struct thread_t
 };
 struct thread_node
 {
-	struct thread_t* t;
+	struct thread* t;
 	struct thread_node* next;
 	struct thread_node* prev;
 };
@@ -34,7 +33,7 @@ struct semaphore
 	char name[64];
 };
 
-//typedef struct thread thread_t;
+typedef struct thread thread_t;
 typedef struct spinlock spinlock_t;
 typedef struct semaphore sem_t;
 static void kmt_init();
