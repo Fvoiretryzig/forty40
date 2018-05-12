@@ -47,6 +47,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 	void *addr = pmm->alloc(STK_SZ);
 	void *fence2_addr = pmm->alloc(FC_SZ);
 	if(addr && fence1_addr && fence2_addr){
+		printf("fence1:0x%08x addr:0x%08x fence2:0x%08x", fence1_addr, addr, fence2_addr);
 		struct thread_node* current = pmm->alloc(12);
 		if(current){
 			thread->id = ++current->t->id;
