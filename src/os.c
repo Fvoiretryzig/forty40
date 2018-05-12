@@ -24,9 +24,9 @@ static void consumer() {
 static void test_run() {
 	kmt->sem_init(empty, "empty", BUF_SIZE);
 	kmt->sem_init(fill, "fill", 0);
-	printf("haha\n");
   	kmt->create(t1, &producer, NULL);
   	kmt->create(t2, &consumer, NULL);
+  	printf("haha\n");
   // create producers and consumers
 }
 
@@ -55,7 +55,7 @@ static void os_run() {
 
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	if(ev.event == _EVENT_IRQ_TIMER){
-		printf("this is irq_timer\n");
+		//printf("this is irq_timer\n");
 		thread_t* t = kmt->schedule();
 		regs = t->thread_reg;
 	}//时钟中断???????????；
