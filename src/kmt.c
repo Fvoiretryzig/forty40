@@ -4,7 +4,7 @@
 #define STK_SZ 0x10000
 #define FC_SZ 32
 
-struct thread_node* work_head;
+static struct thread_node* work_head;
 
 typedef struct thread thread_t;
 typedef struct spinlock spinlock_t;
@@ -69,6 +69,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		current->t = thread;
 		current->next = work_head; work_head->prev = current; current->prev = NULL;
 		work_head = current;
+		printf("work_head:0x%08x\n", work_head);
 		return 0;
 	}
 	return -1;
