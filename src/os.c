@@ -52,7 +52,6 @@ static void os_init()
 
 static void os_run() {
   _intr_write(1); // enable interrupt
-  printf("this is os_run\n");
   test_run();
   while (1) ; // should never return
 }
@@ -60,7 +59,7 @@ static void os_run() {
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	if(ev.event == _EVENT_IRQ_TIMER){
 		//printf("this is irq_timer\n");
-		//regs = schedule();
+		regs = schedule();
 	}//时钟中断???????????；
 	if(ev.event == _EVENT_IRQ_IODEV){
 		printf("this is _EVENT_IRQ_IODEV\n");
