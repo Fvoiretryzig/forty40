@@ -46,13 +46,15 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 	void *fence2_addr = pmm->alloc(FC_SZ);
 	if(addr && fence1_addr && fence2_addr){
 		struct thread_node* current = work_head;
+		printf("fence1 addr:0x%08x ", fence1_addr);
+		printf("addr:0x%08x ", addr);
+		printf("fence1 addr:0x%08x\n", fence1_addr);
 		if(current){
 			thread->id = ++current->t->id;
 
 		}
 			
 		else thread->id = 1;
-		printf("in kmt.c 51:%d\n", thread->id);
 		thread->fence1 = fence1_addr;
 		thread->stack = addr;
 		thread->fence2 = fence2_addr;
@@ -69,7 +71,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		current->t = thread;
 		current->next = work_head; work_head->prev = current; current->prev = NULL;
 		work_head = current;
-		printf("work_head:0x%08x\n", work_head);
+		
 		return 0;
 	}
 	return -1;
