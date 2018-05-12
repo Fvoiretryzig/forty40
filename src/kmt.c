@@ -65,6 +65,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		stack.start = thread->stack; stack.end = thread->stack + STK_SZ;
 		thread->thread_reg = _make(stack, entry, arg);
 		current->t = thread;
+		printf("thread:0x%08x\n");
 		current->next = work_head; work_head->prev = current; current->prev = NULL;
 		work_head = current;
 		//printf("work_head:0x%08x\n", work_head);
@@ -99,8 +100,10 @@ static thread_t* schedule()
 	struct thread_node* current = work_head;
 	if(current == NULL)
 		return NULL;
-	while(current->next)
+	while(current->next){
 		current = current->next;
+	}
+		
 	current->prev->next = NULL;
 	current->prev = NULL; current->next = work_head;
 	work_head = current;	//把处理了的任务放置最前
