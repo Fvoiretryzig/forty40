@@ -68,9 +68,9 @@ static void kmt_init()
 
 static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 {
-	void fence1_addr = pmm->alloc(32);
+	void *fence1_addr = pmm->alloc(32);
 	void *addr = pmm->alloc(STK_SZ);
-	void fence2_addr = pmm->alloc(32);
+	void *fence2_addr = pmm->alloc(32);
 	if(addr && fence1_addr && fence2_addr){
 		struct thread_node* current = work_head;
 		if(current)
