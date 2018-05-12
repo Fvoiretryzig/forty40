@@ -1,12 +1,14 @@
 #include <os.h>
 #include<libc.h>
 
-
+#define STK_SZ 0x10000
 struct thread	
 {
 	int id;
 	void*  stackaddr;
-	size_t  stacksize;
+	uint8_t fence1[32];
+	uint8_t stack[STK_SZ];
+	uint8_t fence2[32];	
 	_RegSet *thread_reg;
 };
 struct thread_node
@@ -66,19 +68,24 @@ static void kmt_init()
 
 static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 {
-	size_t size = 0x10000;
-	void *addr = pmm->alloc(size);
-	if(addr == NULL)
-		return -1;
-	else{
+	void fence1_addr = pmm->alloc(32);
+	void *addr = pmm->alloc(STK_SZ);
+	void fence2_addr = pmm->alloc(32);
+	if(addr && fence1_addr && fence2_addr){
 		struct thread_node* current = work_head;
 		if(current)
-			thread->id = current->t->id++;
+			thread->id = ++current->t->id;
 		else thread->id = 1;
-		thread->stackaddr = addr;
-		thread->stacksize = size;
+		thread->fence1 = fence1_addr;
+		thread->stack = addr;
+		thread->fence2 = fence2_addr;
+		int id = thread->id;
+		for(int i = 0; i<32; i++){
+			thread->fence1[i] = id;
+			thread->fence2[i] = id;
+		}
 		_Area stack;
-		stack.start = addr; stack.end = addr + size;
+		stack.start = stack; stack.end = stack + STK_SZ;
 		thread->thread_reg = _make(stack, entry, arg);
 		
 		
