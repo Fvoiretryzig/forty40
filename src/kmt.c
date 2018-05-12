@@ -47,12 +47,11 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 	void *addr = pmm->alloc(STK_SZ);
 	void *fence2_addr = pmm->alloc(FC_SZ);
 	if(addr && fence1_addr && fence2_addr){
-		struct thread_node* current = work_head;
+		struct thread_node* current = pmm->alloc(12);
 		if(current){
 			thread->id = ++current->t->id;
 
 		}
-			
 		else thread->id = 1;
 		thread->fence1 = fence1_addr;
 		thread->stack = addr;
@@ -85,7 +84,6 @@ static void teardown(thread_t *thread)
 			current = current->next;
 		current->prev->next = current->next; current->next->prev = current->prev;
 		current->next = NULL; current->prev = NULL;
-		
 		pmm->free(fence2_addr);
 		pmm->free(addr);
 		pmm->free(fence1_addr);
