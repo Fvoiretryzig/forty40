@@ -2,7 +2,7 @@
 #define __OS_H__
 
 #include <kernel.h>
-#include<libc.h>
+
 static inline void puts(const char *p) {
   for (; *p; p++) {
     _putc(*p);

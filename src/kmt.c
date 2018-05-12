@@ -1,5 +1,5 @@
 #include <os.h>
-//#include<libc.h>
+#include<libc.h>
 
 #define STK_SZ 0x10000
 #define FC_SZ 32
@@ -31,6 +31,7 @@ struct semaphore
 	int if_sleep;
 	int queue[20];
 	char name[64];
+	_RegSet *thread_reg;
 };
 
 typedef struct thread thread_t;
