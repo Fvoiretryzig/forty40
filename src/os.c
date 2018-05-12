@@ -24,7 +24,7 @@ static void consumer() {
 static void test_run() {
 	kmt->sem_init(empty, "empty", BUF_SIZE);
 	kmt->sem_init(fill, "fill", 0);
-
+	printf("haha\n");
   	kmt->create(t1, &producer, NULL);
   	kmt->create(t2, &consumer, NULL);
   // create producers and consumers
@@ -43,9 +43,6 @@ MOD_DEF(os)
 
 static void os_init() 
 {
-  //for (const char *p = "Hello, OS World!\n"; *p; p++) {
-  //  _putc(*p);
-  //}
   printf("Hello, OS World!\n");
   printf("heap start:0x%08x heap end:0x%08x\n", _heap.start, _heap.end);
 }
