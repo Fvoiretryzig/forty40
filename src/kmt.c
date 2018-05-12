@@ -48,7 +48,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		struct thread_node* current = work_head;
 		printf("fence1 addr:0x%08x ", fence1_addr);
 		printf("addr:0x%08x ", addr);
-		printf("fence1 addr:0x%08x\n", fence1_addr);
+		printf("fence2 addr:0x%08x\n", fence2_addr);
 		if(current){
 			thread->id = ++current->t->id;
 
