@@ -35,7 +35,9 @@ MOD_DEF(kmt)
 
 static void kmt_init()
 {
-	work_head = NULL;
+	work_head = pmm->alloc(12);
+	if(work_head == NULL)
+		_halt(1);
 	//TODO();
 }
 
@@ -46,9 +48,6 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 	void *fence2_addr = pmm->alloc(FC_SZ);
 	if(addr && fence1_addr && fence2_addr){
 		struct thread_node* current = work_head;
-		printf("fence1 addr:0x%08x ", fence1_addr);
-		printf("addr:0x%08x ", addr);
-		printf("fence2 addr:0x%08x\n", fence2_addr);
 		if(current){
 			thread->id = ++current->t->id;
 
