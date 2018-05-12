@@ -10,14 +10,14 @@ static void producer() {
 	while (1) {
 		//printf("this is producer before sem_wait\n");
 		kmt->sem_wait(&empty);
-		//printf("(");
+		printf("(");
 		kmt->sem_signal(&fill);
 	}
 }
 static void consumer() {
 	while (1) {
 		kmt->sem_wait(&fill);
-		//printf(")");
+		printf(")");
 		kmt->sem_signal(&empty);
 	}
 }
