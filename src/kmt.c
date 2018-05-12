@@ -80,7 +80,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		stack.start = addr; stack.end = addr + size;
 		thread->thread_reg = _make(stack, entry, arg);
 		
-		struct thread_node* current;
+		struct thread_node* current = NULL;
 		current->t->id = thread->id; current->t->stackaddr = addr; current->t->stacksize = size;
 		current->t->thread_reg = thread->thread_reg; 
 		current->next = work_head; work_head->prev = current; current->prev = NULL;
@@ -94,7 +94,7 @@ static void teardown(thread_t *thread)
 	void* addr = thread->stackaddr;
 	if(addr){
 
-		struct thread_node* current;
+		struct thread_node* current = work_head;
 		while(current->t->id != thread->id)
 			current = current->next;
 		current->prev->next = current->next; current->next->prev = current->prev;
