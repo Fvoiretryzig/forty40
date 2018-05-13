@@ -68,11 +68,11 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		stack.start = thread->stack; stack.end = thread->stack + STK_SZ;
 		thread->thread_reg = _make(stack, entry, arg);
 		current->t = thread;
-		//printf("current:0x%08x thread in create: 0x%08x\n",current, current->t);
+		printf("kmt.c 71lines: current:0x%08x thread in create: 0x%08x\n",current, current->t);
 		//printf("thread:0x%08x current->t:0x%08x\n", thread, current->t);
 		current->next = work_head; work_head->prev = current; current->prev = NULL;
 		work_head = current;
-		printf("in kmt.c 75lines: work_head:0x%08x\n", work_head);
+		//printf("in kmt.c 75lines: work_head:0x%08x\n", work_head);
 		//printf("current:0x%08x\n", current);
 		return 0;
 	}
@@ -108,9 +108,8 @@ static thread_t* schedule()
 		return NULL;
 	int i = 0;
 	while(current->next){
-		
 		current = current->next;
-		printf("current->t:0x%08x i:%d\n", (struct thread_t*)current->t, i);
+		printf("current->t:0x%08x i:%d\n", current->t, i);
 		i++;
 	}
 	printf("i:%d\n", i);
