@@ -49,8 +49,8 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 {
 	if(_intr_read())
 		_intr_write(0);
-	printf("/*=====in kmt.c 51line create()====*/\nwork_head:0x%08x work_head->next:0x%08x\n",
-			work_head, work_head->next);
+	//printf("/*=====in kmt.c 51line create()====*/\nwork_head:0x%08x work_head->next:0x%08x\n",
+			//work_head, work_head->next);
 	void *fence1_addr = pmm->alloc(FC_SZ);
 	void *addr = pmm->alloc(STK_SZ);
 	void *fence2_addr = pmm->alloc(FC_SZ);
@@ -59,15 +59,14 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 				fence1_addr, addr, fence2_addr);
 		struct thread_node* current = pmm->alloc(sizeof(struct thread_node));
 		if(!work_head){
-			//work_head = current;
 			thread->id = 1;
 		}
 		else{
 			thread->id = ++work_head->t->id;
 		}
-		printf("/*=====in kmt.c 68line create()====*/\nwork_head:0x%08x work_head->next:0x%08x ",
-			work_head, work_head->next);
-		printf("current:0x%08x current->t:0x%08x\n",current, current->t);
+		//printf("/*=====in kmt.c 68line create()====*/\nwork_head:0x%08x work_head->next:0x%08x ",
+		//	work_head, work_head->next);
+		//printf("current:0x%08x current->t:0x%08x\n",current, current->t);
 		thread->fence1 = fence1_addr;
 		thread->stack = addr;
 		thread->fence2 = fence2_addr;
@@ -83,10 +82,10 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		current->next = work_head; work_head->prev = current; current->prev = NULL;
 		work_head = current;
 		
-		printf("/*=====in kmt.c 78line create()====*/\ntid:%d current:0x%08x current->t:0x%08x\n",
-				thread->id, current, current->t);
-		printf("/*=====in kmt.c 80line create()====*/\nwork_head:0x%08x work_head->next:0x%08x\n",
-			work_head, work_head->next);		
+		printf("/*=====in kmt.c 78line create()====*/\ntid:%d current:0x%08x current->next:0x%08x current->t:0x%08x\n",
+				thread->id, current, current->next, current->t);
+		//printf("/*=====in kmt.c 80line create()====*/\nwork_head:0x%08x work_head->next:0x%08x\n",
+		//	work_head, work_head->next);		
 		_intr_write(1);		
 		return 0;
 	}
