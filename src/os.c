@@ -21,11 +21,11 @@ static void consumer() {
 	while (1) {
 		printf("point c1\n");
 		kmt->sem_wait(&fill);
-		printf("point c1\n");
+		printf("point c2\n");
 		printf(")");
-		printf("point c1\n");
+		printf("point c3\n");
 		kmt->sem_signal(&empty);
-		printf("point c1\n");
+		printf("point c4\n");
 	}
 }
 //thread_t t1; thread_t t2;
