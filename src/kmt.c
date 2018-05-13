@@ -185,6 +185,7 @@ static void sem_wait(sem_t *sem)
 		sem->queue[i] = 1;
 		while(sem->queue[i]);
 	}
+	printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
 	return;
 }
 static void sem_signal(sem_t *sem)
@@ -200,6 +201,7 @@ static void sem_signal(sem_t *sem)
 		}
 		sem->queue[i] = 0;
 	}
+	printf("/*=====in kmt.c 203line sem_signal()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
 	return;
 }
 /*#include <os.h>
