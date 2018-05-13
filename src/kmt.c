@@ -122,11 +122,11 @@ static thread_t* schedule()
 	current = work_head;
 	if(current == NULL)
 		return NULL;
-	int i = 0;
+	//int i = 0;
 	while(current->next){
 		current = current->next;
-		printf("/*=====in kmt.c 121line schedule()====*/\ncurrent:0x%08x current->next:0x%08x current->t:0x%08x i:%d\n", current, current->next, current->t, i);
-		i++;
+		//printf("/*=====in kmt.c 121line schedule()====*/\ncurrent:0x%08x current->next:0x%08x current->t:0x%08x i:%d\n", current, current->next, current->t, i);
+		//i++;
 	}
 		
 	current->prev->next = NULL;
