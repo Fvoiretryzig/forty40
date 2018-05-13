@@ -173,7 +173,7 @@ static void sem_wait(sem_t *sem)
 		int i = 0;
 		while(sem->queue[i]){
 			i++;
-			//printf("sem->name:%s i:%d\n", sem->name, i);
+			printf("in the sem_wait while\nsem->name:%s i:%d\n", sem->name, i);
 		}	
 		sem->queue[i] = 1;
 		while(sem->queue[i]);
@@ -190,7 +190,7 @@ static void sem_signal(sem_t *sem)
 		int i = 0;
 		while(sem->queue[i+1]){
 			i++;
-			//printf("sem->name:%s i:%d\n", sem->name, i);
+			printf("in the sem_signal while\nsem->name:%s i:%d\n", sem->name, i);
 		}
 		sem->queue[i] = 0;
 	}
