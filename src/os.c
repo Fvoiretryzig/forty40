@@ -16,6 +16,7 @@ static void producer() {
 }
 static void consumer() {
 	while (1) {
+		printf("this is consumer before sem_wait\n");
 		kmt->sem_wait(&fill);
 		printf(")");
 		kmt->sem_signal(&empty);
