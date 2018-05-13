@@ -115,9 +115,8 @@ static thread_t* schedule()
 		return NULL;
 	int i = 0;
 	while(current->next){
-		printf("i:%d\n", i);
 		current = current->next;
-		printf("!!!!in kmt.c 110line schedule()!!!!\ncurrent:0x%08x current->t:0x%08x i:%d\n", current->t, i);
+		printf("!!!!in kmt.c 110line schedule()!!!!\ncurrent:0x%08x current->t:0x%08x i:%d\n", current, current->t, i);
 		i++;
 	}
 		
