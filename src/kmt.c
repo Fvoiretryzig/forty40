@@ -68,7 +68,6 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		printf("/*=====in kmt.c 51line create()====*/\nwork_head:0x%08x work_head->next:0x%08x ",
 			work_head, work_head->next);
 		printf("current:0x%08x current->t:0x%08x\n");
-		else thread->id = 1;
 		thread->fence1 = fence1_addr;
 		thread->stack = addr;
 		thread->fence2 = fence2_addr;
