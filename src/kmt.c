@@ -108,7 +108,9 @@ static thread_t* schedule()
 		return NULL;
 	int i = 0;
 	while(current->next){
+		
 		current = current->next;
+		printf("current->t:0x%08x i:%d\n", (struct thread_t*)current->t, i);
 		i++;
 	}
 	printf("i:%d\n", i);
