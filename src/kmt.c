@@ -35,10 +35,11 @@ MOD_DEF(kmt)
 
 static void kmt_init()
 {
-	work_head = pmm->alloc(12);
+	/*work_head = pmm->alloc(12);
 	if(work_head == NULL)
 		_halt(1);
-	work_head->t = NULL; work_head->next = NULL; work_head->prev = NULL;
+	work_head->t = NULL; work_head->next = NULL; work_head->prev = NULL;*/
+	work_head = NULL;
 	//TODO();
 }
   /*===================================*/
@@ -57,9 +58,16 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		printf("/*=====in kmt.c 56line create()====*/\nfence1:0x%08x addr:0x%08x fence2:0x%08x\n", 
 				fence1_addr, addr, fence2_addr);
 		struct thread_node* current = pmm->alloc(sizeof(struct thread_node));
-		if(work_head->t){
+		if(!work_head){
+			work_head = current;
+			thread->id = 1;
+		}
+		else{
 			thread->id = ++work_head->t->id;
 		}
+		printf("/*=====in kmt.c 51line create()====*/\nwork_head:0x%08x work_head->next:0x%08x ",
+			work_head, work_head->next);
+		printf("current:0x%08x current->t:0x%08x\n");
 		else thread->id = 1;
 		thread->fence1 = fence1_addr;
 		thread->stack = addr;
