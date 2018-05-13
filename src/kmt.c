@@ -74,9 +74,11 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		current->t = thread;
 		current->next = work_head; work_head->prev = current; current->prev = NULL;
 		work_head = current;
-		printf("!!!!in kmt.c 72line create()!!!!\ntid:%d current:0x%08x current->t:0x%08x\n",
+		
+		printf("/*=====in kmt.c 78line create()====*/\ntid:%d current:0x%08x current->t:0x%08x\n",
 				thread->id, current, current->t);
-				
+		printf("/*=====in kmt.c 80line create()====*/\nwork_head:0x%08x work_head->next:0x%08x\n",
+			work_head, work_head->next);		
 		_intr_write(1);		
 		return 0;
 	}
@@ -116,14 +118,14 @@ static thread_t* schedule()
 	int i = 0;
 	while(current->next){
 		current = current->next;
-		printf("!!!!in kmt.c 110line schedule()!!!!\ncurrent:0x%08x current->t:0x%08x i:%d\n", current, current->t, i);
+		printf("/*=====in kmt.c 121line schedule()====*/\ncurrent:0x%08x current->t:0x%08x i:%d\n", current, current->t, i);
 		i++;
 	}
 		
 	current->prev->next = NULL;
 	current->prev = NULL; current->next = work_head;
 	work_head = current;	//把处理了的任务放置最前
-	printf("!!!!in kmt.c 117line schedule()!!!!\ncurrent:0x%08x current->t:0x%08x\n", current, current->t);
+	printf("/*=====in kmt.c 128line schedule()====*/\ncurrent:0x%08x current->t:0x%08x\n", current, current->t);
 	
 //	_intr_write(1);		
 	return current->t;
