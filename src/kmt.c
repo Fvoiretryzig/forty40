@@ -47,8 +47,6 @@ static void kmt_init()
 /*===================================*/
 static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 {
-	if(_intr_read())
-		_intr_write(0);
 	//printf("/*=====in kmt.c 51line create()====*/\nwork_head:0x%08x work_head->next:0x%08x\n",
 			//work_head, work_head->next);
 	void *fence1_addr = pmm->alloc(FC_SZ);
@@ -85,8 +83,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		printf("/*=====in kmt.c 78line create()====*/\ntid:%d current:0x%08x current->next:0x%08x current->t:0x%08x\n",
 				thread->id, current, current->next, current->t);
 		//printf("/*=====in kmt.c 80line create()====*/\nwork_head:0x%08x work_head->next:0x%08x\n",
-		//	work_head, work_head->next);		
-		_intr_write(1);		
+		//	work_head, work_head->next);			
 		return 0;
 	}
 	return -1;
