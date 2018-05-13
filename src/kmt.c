@@ -45,12 +45,12 @@ static void kmt_init()
 /*===================================*/
 static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 {
-	//printf("thread:0x%08x\n", thread);
 	void *fence1_addr = pmm->alloc(FC_SZ);
 	void *addr = pmm->alloc(STK_SZ);
 	void *fence2_addr = pmm->alloc(FC_SZ);
 	if(addr && fence1_addr && fence2_addr){
-		printf("fence1:0x%08x addr:0x%08x fence2:0x%08x\n", fence1_addr, addr, fence2_addr);
+		printf("in kmt.c 52line create()\nfence1:0x%08x addr:0x%08x fence2:0x%08x\n", 
+				fence1_addr, addr, fence2_addr);
 		struct thread_node* current = pmm->alloc(sizeof(struct thread_node));
 		if(current){
 			thread->id = ++current->t->id;
@@ -68,12 +68,10 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		stack.start = thread->stack; stack.end = thread->stack + STK_SZ;
 		thread->thread_reg = _make(stack, entry, arg);
 		current->t = thread;
-		printf("kmt.c 71lines: current:0x%08x thread in create: 0x%08x\n",current, current->t);
-		//printf("thread:0x%08x current->t:0x%08x\n", thread, current->t);
 		current->next = work_head; work_head->prev = current; current->prev = NULL;
+		printf("in kmt.c 72line create()\ntid:%d current:0x%08x current->t:0x%08x\n",
+				thread->id, current, current->t);
 		work_head = current;
-		//printf("in kmt.c 75lines: work_head:0x%08x\n", work_head);
-		//printf("current:0x%08x\n", current);
 		return 0;
 	}
 	return -1;
@@ -109,21 +107,15 @@ static thread_t* schedule()
 	int i = 0;
 	while(current->next){
 		current = current->next;
-		printf("current->t:0x%08x i:%d\n", current->t, i);
+		printf("in kmt.c 110line schedule()\ncurrent:0x%08x current->t:0x%08x i:%d\n", current->t, i);
 		i++;
 	}
-	printf("i:%d\n", i);
+	printf("in kmt.c 113line create()\ni:%d\n", i);
 		
 	current->prev->next = NULL;
 	current->prev = NULL; current->next = work_head;
 	work_head = current;	//把处理了的任务放置最前
-	printf("this is schedule ");
-	printf("current->t:0x%08x work_head:0x%08x\n", current->t,work_head->t);
-	struct thead_t* temp;
-	temp = (struct thead_t*)work_head->t;
-	printf("temp:0x%08x\n", temp);
-	pmm->free(current->t);
-	printf("temp after free:0x%08x\n", temp);
+	printf("in kmt.c 117line schedule()\ncurrent:0x%08x current->t:0x%08x\n", current, current->t);
 	return current->t;
 }
   /*===================================*/
