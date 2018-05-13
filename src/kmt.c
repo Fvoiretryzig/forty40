@@ -117,8 +117,8 @@ static thread_t* schedule()
 	current->prev = NULL; current->next = work_head;
 	work_head = current;	//把处理了的任务放置最前
 	printf("this is schedule ");
-	printf("current->t:0x%08x\n", current->t);
-	struct thead_t* temp = current->t;
+	printf("current->t:0x%08x work_head:0x%08x\n", current->t,work_head->t);
+	struct thead_t* temp = work_head->t;
 	printf("temp:0x%08x\n", temp);
 	pmm->free(current->t);
 	printf("temp after free:0x%08x\n", temp);
