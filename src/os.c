@@ -76,7 +76,7 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 		
 	if(ev.event == _EVENT_YIELD){
 		printf("request trap into kernal...\n");
-		__asm__ __volatile__("int $0x81"); 
+		//__asm__ __volatile__("int $0x81"); 
 	}
 		
 	if(ev.event == _EVENT_SYSCALL){
