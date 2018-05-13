@@ -3,7 +3,7 @@
 
 sem_t empty, fill;
 thread_t t1, t2;
-
+extern spinlock_t lk;
 #define BUF_SIZE 5
 
 static void producer() {
@@ -30,6 +30,7 @@ static void consumer() {
 }
 //thread_t t1; thread_t t2;
 static void test_run() {
+	kmt->spin_init(&lk, "sem_lk");
 	kmt->sem_init(&empty, "empty", BUF_SIZE);
 	kmt->sem_init(&fill, "fill", 0);
   	kmt->create(&t1, &producer, NULL);
