@@ -110,11 +110,7 @@ static void teardown(thread_t *thread)
 	return;
 }
 static thread_t* schedule()
-{
-//	if(_intr_read())
-//		_intr_write(0);
-		
-			
+{		
 	struct thread_node* current = pmm->alloc(sizeof(struct thread_node));
 	current = work_head;
 	if(current == NULL)
@@ -129,9 +125,7 @@ static thread_t* schedule()
 	current->prev->next = NULL;
 	current->prev = NULL; current->next = work_head;
 	work_head = current;	//把处理了的任务放置最前
-	//printf("/*=====in kmt.c 128line schedule()====*/\ncurrent:0x%08x current->t:0x%08x\n", current, current->t);
-	
-//	_intr_write(1);		
+	//printf("/*=====in kmt.c 128line schedule()====*/\ncurrent:0x%08x current->t:0x%08x\n", current, current->t);	
 	return current->t;
 }
   /*===================================*/
@@ -174,18 +168,17 @@ static void sem_wait(sem_t *sem)
 	sem->count--;
 	//printf("/*=====in kmt.c 128line sem_wait()====*/sem->name:%s\n", sem->name);
 	if(sem->count < 0){
-		//printf("/*=====in kmt.c 128line sem_wait() in if_sleep====*/sem->name:%s\n", sem->name);
+		printf("/*=====in kmt.c 128line sem_wait() in if_sleep====*/\nsem->name:%s\n", sem->name);
 		sem->if_sleep = 1;
 		int i = 0;
 		while(sem->queue[i]){
 			i++;
 			//printf("sem->name:%s i:%d\n", sem->name, i);
-		}
-			
+		}	
 		sem->queue[i] = 1;
 		while(sem->queue[i]);
 	}
-	printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
+	//printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
 	return;
 }
 static void sem_signal(sem_t *sem)
@@ -193,7 +186,7 @@ static void sem_signal(sem_t *sem)
 	sem->count++;
 	//printf("/*=====in kmt.c 128line sem_signal()====*/sem->name:%s\n", sem->name);
 	if(sem->if_sleep){
-		//printf("/*=====in kmt.c 128line sem_signal() in if_sleep====*/sem->name:%s\n", sem->name);
+		printf("/*=====in kmt.c 128line sem_signal() in if_sleep====*/\nsem->name:%s\n", sem->name);
 		int i = 0;
 		while(sem->queue[i+1]){
 			i++;
@@ -201,7 +194,7 @@ static void sem_signal(sem_t *sem)
 		}
 		sem->queue[i] = 0;
 	}
-	printf("/*=====in kmt.c 203line sem_signal()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
+	//printf("/*=====in kmt.c 203line sem_signal()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
 	return;
 }
 /*#include <os.h>
