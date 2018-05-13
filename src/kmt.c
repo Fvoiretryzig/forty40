@@ -100,6 +100,7 @@ static thread_t* schedule()
 {
 	struct thread_node* current = work_head;
 	printf("current:0x%08x\n", current);
+	printf("current->t:0x%08x\n", current->t);
 	if(current == NULL)
 		return NULL;
 	while(current->next){
