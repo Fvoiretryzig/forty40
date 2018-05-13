@@ -152,7 +152,7 @@ static void spin_unlock(spinlock_t *lk)
   /*===================================*/
  /*========deal with semaphore========*/
 /*===================================*/
-spinlock_t lk;
+//spinlock_t lk;
 static void sem_init(sem_t *sem, const char *name, int value)
 {
 	sem->count = value;
@@ -166,7 +166,7 @@ static void sem_init(sem_t *sem, const char *name, int value)
 }
 static void sem_wait(sem_t *sem)
 {
-	spin_lock(&lk);
+	//spin_lock(&lk);
 	sem->count--;
 	//printf("/*=====in kmt.c 128line sem_wait()====*/sem->name:%s\n", sem->name);
 	if(sem->count < 0){
@@ -180,13 +180,13 @@ static void sem_wait(sem_t *sem)
 		sem->queue[i] = 1;
 		while(sem->queue[i]);
 	}
-	spin_unlock(&lk);
+	//spin_unlock(&lk);
 	//printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
 	return;
 }
 static void sem_signal(sem_t *sem)
 {
-	spin_lock(&lk);
+	//spin_lock(&lk);
 	sem->count++;
 	//printf("/*=====in kmt.c 128line sem_signal()====*/sem->name:%s\n", sem->name);
 	if(sem->if_sleep){
@@ -198,7 +198,7 @@ static void sem_signal(sem_t *sem)
 		}
 		sem->queue[i] = 0;
 	}
-	spin_unlock(&lk);
+	//spin_unlock(&lk);
 	//printf("/*=====in kmt.c 203line sem_signal()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
 	return;
 }
