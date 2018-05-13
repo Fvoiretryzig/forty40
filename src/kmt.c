@@ -38,6 +38,7 @@ static void kmt_init()
 	work_head = pmm->alloc(12);
 	if(work_head == NULL)
 		_halt(1);
+	work_head->t = NULL; work_head->next = NULL; work_head->prev = NULL;
 	//TODO();
 }
   /*===================================*/
@@ -52,8 +53,8 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		printf("in kmt.c 52line create()\nfence1:0x%08x addr:0x%08x fence2:0x%08x\n", 
 				fence1_addr, addr, fence2_addr);
 		struct thread_node* current = pmm->alloc(sizeof(struct thread_node));
-		if(current){
-			thread->id = ++current->t->id;
+		if(work_head->t){
+			thread->id = ++work_head->t->id;
 		}
 		else thread->id = 1;
 		thread->fence1 = fence1_addr;
@@ -69,9 +70,9 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		thread->thread_reg = _make(stack, entry, arg);
 		current->t = thread;
 		current->next = work_head; work_head->prev = current; current->prev = NULL;
-		printf("in kmt.c 72line create()\ntid:%d current:0x%08x current->t:0x%08x\n",
-				thread->id, current, current->t);
 		work_head = current;
+		printf("in kmt.c 72line create()\ntid:%d current:0x%08x current->t:0x%08x\n",
+				thread->id, current, current->t);		
 		return 0;
 	}
 	return -1;
