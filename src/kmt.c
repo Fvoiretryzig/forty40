@@ -40,7 +40,9 @@ static void kmt_init()
 		_halt(1);
 	//TODO();
 }
-
+  /*===================================*/
+ /*==========deal with thread=========*/
+/*===================================*/
 static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 {
 	//printf("thread:0x%08x\n", thread);
@@ -66,11 +68,11 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		stack.start = thread->stack; stack.end = thread->stack + STK_SZ;
 		thread->thread_reg = _make(stack, entry, arg);
 		current->t = thread;
-		printf("current:0x%08x thread in create: 0x%08x\n",current, current->t);
+		//printf("current:0x%08x thread in create: 0x%08x\n",current, current->t);
 		//printf("thread:0x%08x current->t:0x%08x\n", thread, current->t);
 		current->next = work_head; work_head->prev = current; current->prev = NULL;
 		work_head = current;
-		printf("work_head:0x%08x\n", work_head);
+		printf("in kmt.c 75lines: work_head:0x%08x\n", work_head);
 		//printf("current:0x%08x\n", current);
 		return 0;
 	}
@@ -99,7 +101,10 @@ static void teardown(thread_t *thread)
 }
 static thread_t* schedule()
 {
-	struct thread_node* current = work_head;
+	struct thread_node* current = pmm->alloc(sizeof(struct thread_node));
+	printf("in kmt.c 105lines: current:0x%08x current->t:0x%08x\n", current, current->t);
+	current = work_head;
+	printf("in kmt.c 107lines: current:0x%08x current->t:0x%08x\n", current, current->t);
 	printf("current:0x%08x\n", current);
 	printf("current->t:0x%08x\n", current->t);
 	if(current == NULL)
@@ -113,8 +118,15 @@ static thread_t* schedule()
 	work_head = current;	//把处理了的任务放置最前
 	printf("this is schedule ");
 	printf("current->t:0x%08x\n", current->t);
+	thead_t* temp = current->t;
+	printf("temp:0x%08x\n", temp);
+	pmm->free(current->t);
+	printf("temp after free:0x%08x\n", temp);
 	return current->t;
 }
+  /*===================================*/
+ /*=========deal with spinlock========*/
+/*===================================*/
 static void spin_init(spinlock_t *lk, const char *name)
 {
 	lk->locked = 0;	//未被占用的锁
@@ -133,6 +145,9 @@ static void spin_unlock(spinlock_t *lk)
 	_atomic_xchg(&lk->locked, 0);
 	_intr_write(1);
 }
+  /*===================================*/
+ /*========deal with semaphore========*/
+/*===================================*/
 static void sem_init(sem_t *sem, const char *name, int value)
 {
 	sem->count = value;
