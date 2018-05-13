@@ -163,7 +163,7 @@ static void sem_init(sem_t *sem, const char *name, int value)
 	sem->count = value;
 	int len = strlen(sem->name);
 	strncpy(sem->name, name ,len);
-	printf("name:%s\n", name);
+	printf("name:%s\n", sem->name);
 	for(int i = 0; i<20; i++)
 		sem->queue[i] = 0;
 	sem->if_sleep = 0;
