@@ -161,7 +161,7 @@ static void spin_unlock(spinlock_t *lk)
 static void sem_init(sem_t *sem, const char *name, int value)
 {
 	sem->count = value;
-	int len = strlen(sem->name);
+	int len = strlen(name);
 	strncpy(sem->name, name ,len);
 	printf("name:%s\n", sem->name);
 	for(int i = 0; i<20; i++)
