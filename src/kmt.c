@@ -123,19 +123,19 @@ static thread_t* schedule()
 	while(current->next){
 		current = current->next;
 		//printf("kmt126\n");
-		printf("/*=====in kmt.c 121line schedule()====*/\ncurrent:0x%08x current->next:0x%08x current->t:0x%08x\n", current, current->next, current->t);
+		//printf("/*=====in kmt.c 121line schedule()====*/\ncurrent:0x%08x current->next:0x%08x current->t:0x%08x\n", current, current->next, current->t);
 	}
 	printf("ktm130: work_head:0x%08x current:0x%08x\n", work_head, current);
 	if(current->prev){
-		printf("kmt132 current->t:0x%08x current->prev->t:0x%08x\n",current->t, current->prev->t);
-		current->prev->next = NULL;
+		//printf("kmt132 current->t:0x%08x current->prev->t:0x%08x\n",current->t, current->prev->t);
+		current->prev->next = NULL; work_head->prev = current;
 		current->prev = NULL; current->next = work_head;
 		work_head = current;	//把处理了的任务放置最前
-		printf("work_head:0x%08x work_head->next:0x%08x\n", work_head, work_head->next);
+		//printf("work_head:0x%08x work_head->next:0x%08x\n", work_head, work_head->next);
 	
 	}
 	//printf("/*=====in kmt.c 128line schedule()====*/\ncurrent:0x%08x current->t:0x%08x\n", current, current->t);	
-	printf("ktm141: current->t:0x%08x\n", current->t);
+	//printf("ktm141: current->t:0x%08x\n", current->t);
 	return current->t;
 }
   /*===================================*/
