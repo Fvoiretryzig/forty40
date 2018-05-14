@@ -4,7 +4,7 @@
 sem_t empty, fill;
 thread_t t1, t2;
 extern spinlock_t lk;
-#define BUF_SIZE 1
+#define BUF_SIZE 3
 
 static void producer() {
 	while (1) {
@@ -86,7 +86,7 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 		
 	if(ev.event == _EVENT_YIELD){
 	kmt->spin_lock(&lk);
-		//printf("request trap into kernal...\n");
+		//	printf("request trap into kernal...\n");
 		thread_t* t = kmt->schedule();
 		//printf("hahaha\n");
 		//printf("t:%d\n", t->id);
