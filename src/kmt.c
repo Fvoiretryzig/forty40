@@ -182,6 +182,7 @@ static void sem_wait(sem_t *sem)
 		//printf("sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
 		while(sem->queue[i]){
 			printf("name:%s this in while queue[%d]:%d\n", sem->name, i, sem->queue[i]);
+			_yield();
 		}
 		printf("name:%s while(sem->queue[i])\n", sem->name);
 	}
