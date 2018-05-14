@@ -180,10 +180,9 @@ static void sem_wait(sem_t *sem)
 		sem->queue[i] = 1;
 		printf("name:%s sem->queue[i] = 1 i:%d\n", sem->name,i);
 		//printf("sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
-		while(sem->queue[i]){
-			printf("name:%s this in while queue[%d]:%d\n", sem->name, i, sem->queue[i]);
-			__asm__ __volatile__("int $0x80"); 
-		}
+		//while(sem->queue[i]){
+		//	printf("name:%s this in while queue[%d]:%d\n", sem->name, i, sem->queue[i]);
+		//}
 		printf("name:%s while(sem->queue[i])\n", sem->name);
 	}
 	//spin_unlock(&lk);

@@ -71,6 +71,9 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	}//时钟中断???????????；
 	if(ev.event == _EVENT_IRQ_IODEV){
 		printf("this is _EVENT_IRQ_IODEV\n");
+		thread_t* t = kmt->schedule();
+		//printf("t:%d\n", t->id);
+		regs = t->thread_reg;		
 	}//设备中断；
 	if(ev.event == _EVENT_ERROR) {
 		printf("this is _EVENT_ERROR\n");
