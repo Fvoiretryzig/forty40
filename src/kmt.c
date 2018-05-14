@@ -126,6 +126,7 @@ static thread_t* schedule()
 		//printf("/*=====in kmt.c 121line schedule()====*/\ncurrent:0x%08x current->next:0x%08x current->t:0x%08x\n", current, current->next, current->t);
 	}
 	//printf("ktm130: work_head:0x%08x current:0x%08x\n", work_head, current);
+	struct thread_t* ret = current->t;
 	if(current->prev){
 		//printf("kmt132 current->t:0x%08x current->prev->t:0x%08x\n",current->t, current->prev->t);
 		current->prev->next = NULL; work_head->prev = current;
@@ -136,7 +137,7 @@ static thread_t* schedule()
 	}
 	//printf("/*=====in kmt.c 128line schedule()====*/\ncurrent:0x%08x current->t:0x%08x\n", current, current->t);	
 	//printf("ktm141: current->t:0x%08x\n", current->t);
-	return current->t;
+	return ret;
 }
   /*===================================*/
  /*=========deal with spinlock========*/
