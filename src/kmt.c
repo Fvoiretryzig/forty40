@@ -188,7 +188,10 @@ static void sem_wait(sem_t *sem)
 static void sem_signal(sem_t *sem)
 {
 	//spin_lock(&lk);
-	sem->count++;
+	//sem->count++;
+	if(sem->count<0)
+		sem->count+=2;
+	else sem->count++;
 	//printf("/*=====in kmt.c 128line sem_signal()====*/sem->name:%s\n", sem->name);
 	if(sem->if_sleep){
 		//printf("/*=====in kmt.c 128line sem_signal() in if_sleep====*/\nsem->name:%s\n", sem->name);
