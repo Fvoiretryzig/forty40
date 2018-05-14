@@ -2,7 +2,7 @@
 #include <libc.h>
 
 sem_t empty, fill;
-thread_t t1, t2, t3;
+thread_t t1, t2, t3, t4;
 extern spinlock_t lk;
 #define BUF_SIZE 5
 
@@ -36,6 +36,7 @@ static void test_run() {
   	kmt->create(&t1, &producer, NULL);
   	kmt->create(&t2, &consumer, NULL);
   	kmt->create(&t3, &consumer, NULL);
+  	kmt->create(&t4, &consumer, NULL);
   	//printf("t1:0x%08x t2:0x%08x\n", t1.stack, t2.stack);
   // create producers and consumers
 }
