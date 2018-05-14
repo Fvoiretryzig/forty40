@@ -160,7 +160,6 @@ static void sem_init(sem_t *sem, const char *name, int value)
 	printf("name:%s\n", sem->name);
 	for(int i = 0; i<20; i++)
 		sem->queue[i] = 0;
-	sem->if_sleep = 0;
 	return;
 }
 static void sem_wait(sem_t *sem)
