@@ -4,7 +4,7 @@
 sem_t empty, fill;
 thread_t t1, t2;
 //extern spinlock_t lk;
-#define BUF_SIZE 5
+#define BUF_SIZE 1
 
 static void producer() {
 	while (1) {
