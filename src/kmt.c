@@ -124,7 +124,7 @@ static thread_t* schedule()
 	current->prev->next = NULL;
 	current->prev = NULL; current->next = work_head;
 	work_head = current;	//把处理了的任务放置最前
-	//printf("/*=====in kmt.c 128line schedule()====*/\ncurrent:0x%08x current->t:0x%08x\n", current, current->t);	
+	printf("/*=====in kmt.c 128line schedule()====*/\ncurrent:0x%08x current->t:0x%08x\n", current, current->t);	
 	return current->t;
 }
   /*===================================*/
@@ -181,7 +181,7 @@ static void sem_wait(sem_t *sem)
 		printf("name:%s sem->queue[i] = 1 i:%d\n", sem->name,i);
 		//printf("sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
 		while(sem->queue[i]){
-			printf("name:%s this in while queue[%d]:%d\n", sem->name, i, sem->queue[i]);
+			//printf("name:%s this in while queue[%d]:%d\n", sem->name, i, sem->queue[i]);
 			_yield();
 		}
 		printf("name:%s while(sem->queue[i])\n", sem->name);
