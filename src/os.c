@@ -87,6 +87,7 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	if(ev.event == _EVENT_YIELD){
 		printf("request trap into kernal...\n");
 		thread_t* t = kmt->schedule();
+		printf("hahaha\n");
 		//printf("t:%d\n", t->id);
 		regs = t->thread_reg;		
 		//__asm__ __volatile__("int $0x81"); 
