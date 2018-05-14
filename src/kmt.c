@@ -121,7 +121,7 @@ static thread_t* schedule()
 		//printf("/*=====in kmt.c 121line schedule()====*/\ncurrent:0x%08x current->next:0x%08x current->t:0x%08x i:%d\n", current, current->next, current->t, i);
 		//i++;
 	}
-		pritnf("this is in schedule124\n");
+		printf("this is in schedule124\n");
 	current->prev->next = NULL;
 	current->prev = NULL; current->next = work_head;
 	work_head = current;	//把处理了的任务放置最前
