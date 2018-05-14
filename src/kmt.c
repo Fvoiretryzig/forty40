@@ -188,7 +188,7 @@ static void sem_wait(sem_t *sem)
 static void sem_signal(sem_t *sem)
 {
 	//spin_lock(&lk);
-	//sem->count++;
+	sem->count++;
 	printf("name:%s sem->count--;\n", sem->name);
 	//printf("/*=====in kmt.c 128line sem_signal()====*/sem->name:%s\n", sem->name);
 	if(sem->queue[0]){
