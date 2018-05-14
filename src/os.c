@@ -86,7 +86,7 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 		
 	if(ev.event == _EVENT_YIELD){
 	kmt->spin_lock(&lk);
-		printf("request trap into kernal...\n");
+		//printf("request trap into kernal...\n");
 		thread_t* t = kmt->schedule();
 		//printf("hahaha\n");
 		//printf("t:%d\n", t->id);
