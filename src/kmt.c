@@ -170,6 +170,7 @@ static void sem_wait(sem_t *sem)
 	//printf("/*=====in kmt.c 128line sem_wait()====*/sem->name:%s\n", sem->name);
 	if(sem->count < 0){
 		//printf("/*=====in kmt.c 128line sem_wait() in if_sleep====*/\nsem->name:%s\n", sem->name);
+		sem->count++;
 		int i = 0;
 		while(sem->queue[i]){
 			i++;
