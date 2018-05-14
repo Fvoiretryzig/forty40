@@ -2,9 +2,9 @@
 #include <libc.h>
 
 sem_t empty, fill;
-thread_t t1, t2, t3, t4;
+thread_t t1, t2, t3, t4,t5;
 extern spinlock_t lk;
-#define BUF_SIZE 6
+#define BUF_SIZE 4
 
 static void producer() {
 	while (1) {
@@ -37,6 +37,7 @@ static void test_run() {
   	kmt->create(&t2, &consumer, NULL);
   	kmt->create(&t3, &consumer, NULL);
   	kmt->create(&t4, &consumer, NULL);
+  	kmt->create(&t5, &producer, NULL);
   	//printf("t1:0x%08x t2:0x%08x\n", t1.stack, t2.stack);
   // create producers and consumers
 }
