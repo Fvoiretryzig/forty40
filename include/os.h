@@ -26,7 +26,6 @@ struct spinlock
 struct semaphore
 {
 	int count;
-	int if_sleep;
 	int queue[20];
 	char name[64];
 };

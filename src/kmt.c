@@ -170,7 +170,6 @@ static void sem_wait(sem_t *sem)
 	//printf("/*=====in kmt.c 128line sem_wait()====*/sem->name:%s\n", sem->name);
 	if(sem->count < 0){
 		//printf("/*=====in kmt.c 128line sem_wait() in if_sleep====*/\nsem->name:%s\n", sem->name);
-		sem->if_sleep = 1;
 		int i = 0;
 		while(sem->queue[i]){
 			i++;
@@ -193,7 +192,7 @@ static void sem_signal(sem_t *sem)
 		sem->count+=2;
 	else sem->count++;
 	//printf("/*=====in kmt.c 128line sem_signal()====*/sem->name:%s\n", sem->name);
-	if(sem->if_sleep){
+	if(sem->queue[0]){
 		//printf("/*=====in kmt.c 128line sem_signal() in if_sleep====*/\nsem->name:%s\n", sem->name);
 		int i = 0;
 		while(sem->queue[i+1]){
