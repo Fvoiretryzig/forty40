@@ -61,7 +61,7 @@ static void os_run() {
   test_run();
   while (1) ; // should never return
 }
-spinlock_t lk;
+//spinlock_t lk;
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	if(ev.event == _EVENT_IRQ_TIMER){
 		//printf("this is irq_timer\n");

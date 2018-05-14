@@ -174,6 +174,7 @@ static void sem_init(sem_t *sem, const char *name, int value)
 		sem->queue[i] = 0;
 	return;
 }
+spinlock_t lk;
 static void sem_wait(sem_t *sem)
 {
 	spin_lock(&lk);
