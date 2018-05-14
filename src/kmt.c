@@ -110,7 +110,7 @@ static void teardown(thread_t *thread)
 }
 static thread_t* schedule()
 {		
-	printf("this is schedule\n");
+	//printf("this is schedule\n");
 	struct thread_node* current = pmm->alloc(sizeof(struct thread_node));
 	current = work_head;
 	if(current == NULL)
@@ -118,7 +118,7 @@ static thread_t* schedule()
 	//int i = 0;
 	while(current->next){
 		current = current->next;
-		//printf("/*=====in kmt.c 121line schedule()====*/\ncurrent:0x%08x current->next:0x%08x current->t:0x%08x i:%d\n", current, current->next, current->t, i);
+		printf("/*=====in kmt.c 121line schedule()====*/\ncurrent:0x%08x current->next:0x%08x current->t:0x%08x i:%d\n", current, current->next, current->t, i);
 		//i++;
 	}
 		
