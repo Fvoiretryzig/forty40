@@ -112,12 +112,12 @@ static thread_t* schedule()
 {		
 	//printf("kmt113\n");
 	struct thread_node* current = pmm->alloc(sizeof(struct thread_node));
-	printf("kmt115\n");
+	//printf("kmt115\n");
 	current = work_head;
-	printf("kmt117\n");
+	//printf("kmt117\n");
 	if(current == NULL){
 		return NULL;
-		printf("kmt120\n");
+		//printf("kmt120\n");
 	}
 		
 	//int i = 0;
@@ -129,13 +129,14 @@ static thread_t* schedule()
 	}
 	
 	if(current->prev){
-		printf("kmt132 current->t:0x%08x current->prev->t:0x%08x\n",current->t, current->prev->t);
+		//printf("kmt132 current->t:0x%08x current->prev->t:0x%08x\n",current->t, current->prev->t);
 		current->prev->next = NULL;
 		current->prev = NULL; current->next = work_head;
 		work_head = current;	//把处理了的任务放置最前
 	
 	}
 	//printf("/*=====in kmt.c 128line schedule()====*/\ncurrent:0x%08x current->t:0x%08x\n", current, current->t);	
+	//printf("ktm139: current->t:0x%08x\n", current->t);
 	return current->t;
 }
   /*===================================*/
@@ -193,7 +194,8 @@ static void sem_wait(sem_t *sem)
 		//printf("sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
 		while(sem->queue[i]){
 			//printf("name:%s this in while queue[%d]:%d\n", sem->name, i, sem->queue[i]);
-			_yield();
+			if(work_head->next)
+				_yield();
 		}
 		//printf("name:%s while(sem->queue[i])\n", sem->name);
 	}
