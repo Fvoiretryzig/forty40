@@ -176,25 +176,25 @@ static void sem_wait(sem_t *sem)
 {
 	//spin_lock(&lk);
 	sem->count--;
-	printf("name:%s sem->count--;\ncount:%d\n", sem->name, sem->count);
+	//printf("name:%s sem->count--;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_wait()====*/sem->name:%s\n", sem->name);
 	if(sem->count < 0){
 		//printf("/*=====in kmt.c 128line sem_wait() in if_sleep====*/\nsem->name:%s\n", sem->name);
 		sem->count++;
-		printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
+		//printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
 		int i = 0;
 		while(sem->queue[i]){
 			i++;
 			printf("in the sem_wait while sem->name:%s i:%d\n", sem->name, i);
 		}	
 		sem->queue[i] = 1;
-		printf("name:%s sem->queue[i] = 1 i:%d\n", sem->name,i);
+		//printf("name:%s sem->queue[i] = 1 i:%d\n", sem->name,i);
 		//printf("sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
 		while(sem->queue[i]){
 			//printf("name:%s this in while queue[%d]:%d\n", sem->name, i, sem->queue[i]);
 			_yield();
 		}
-		printf("name:%s while(sem->queue[i])\n", sem->name);
+		//printf("name:%s while(sem->queue[i])\n", sem->name);
 	}
 	//spin_unlock(&lk);
 	//printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
@@ -204,19 +204,19 @@ static void sem_signal(sem_t *sem)
 {
 	//spin_lock(&lk);
 	sem->count++;
-	printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
+	//printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_signal()====*/sem->name:%s\n", sem->name);
 	if(sem->queue[0]){
 		//printf("/*=====in kmt.c 128line sem_signal() in if_sleep====*/\nsem->name:%s\n", sem->name);
 		int i = 0;
 		while(sem->queue[i+1]){
 			i++;
-			printf("in the sem_signal while\nsem->name:%s i:%d\n", sem->name, i);
+			//printf("in the sem_signal while\nsem->name:%s i:%d\n", sem->name, i);
 		}
 		//printf("in signal 200 sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
 		sem->queue[i] = 0;
 		//printf("in signal 202 sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
-		printf("name:%s sem->queue[i] = 0 i:%d\n", sem->name,i);
+		//printf("name:%s sem->queue[i] = 0 i:%d\n", sem->name,i);
 	}
 	//spin_unlock(&lk);
 	//printf("/*=====in kmt.c 203line sem_signal()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
