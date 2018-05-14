@@ -180,6 +180,7 @@ static void sem_wait(sem_t *sem)
 		sem->queue[i] = 1;
 		printf("sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
 		while(sem->queue[i]);
+		printf("beforewhile\n");
 	}
 	//spin_unlock(&lk);
 	//printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
