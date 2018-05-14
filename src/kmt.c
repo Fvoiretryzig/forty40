@@ -129,7 +129,7 @@ static thread_t* schedule()
 	}
 	
 	if(current->prev){
-		//printf("kmt132 current->t:0x%08x current->prev->t:0x%08x\n",current->t, current->prev->t);
+		printf("kmt132 current->t:0x%08x current->prev->t:0x%08x\n",current->t, current->prev->t);
 		current->prev->next = NULL;
 		current->prev = NULL; current->next = work_head;
 		work_head = current;	//把处理了的任务放置最前
@@ -174,10 +174,9 @@ static void sem_init(sem_t *sem, const char *name, int value)
 		sem->queue[i] = 0;
 	return;
 }
-spinlock_t lk;
 static void sem_wait(sem_t *sem)
 {
-	spin_lock(&lk);
+	//spin_lock(&lk);
 	sem->count--;
 	//printf("name:%s sem->count--;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_wait()====*/sem->name:%s\n", sem->name);
@@ -200,13 +199,13 @@ static void sem_wait(sem_t *sem)
 		}
 		//printf("name:%s while(sem->queue[i])\n", sem->name);
 	}
-	spin_unlock(&lk);
+	//spin_unlock(&lk);
 	//printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
 	return;
 }
 static void sem_signal(sem_t *sem)
 {
-	spin_lock(&lk);
+	//spin_lock(&lk);
 	sem->count++;
 	//printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_signal()====*/sem->name:%s\n", sem->name);
@@ -222,7 +221,7 @@ static void sem_signal(sem_t *sem)
 		//printf("in signal 202 sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
 		//printf("name:%s sem->queue[i] = 0 i:%d\n", sem->name,i);
 	}
-	spin_unlock(&lk);
+	//spin_unlock(&lk);
 	//printf("/*=====in kmt.c 203line sem_signal()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
 	return;
 }

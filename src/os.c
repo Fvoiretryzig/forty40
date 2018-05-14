@@ -61,7 +61,7 @@ static void os_run() {
   test_run();
   while (1) ; // should never return
 }
-//spinlock_t lk;
+spinlock_t lk;
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	if(ev.event == _EVENT_IRQ_TIMER){
 		//printf("this is irq_timer\n");
@@ -85,14 +85,14 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	}
 		
 	if(ev.event == _EVENT_YIELD){
-	//kmt->spin_lock(&lk);
+	kmt->spin_lock(&lk);
 		printf("request trap into kernal...\n");
 		thread_t* t = kmt->schedule();
 		//printf("hahaha\n");
 		//printf("t:%d\n", t->id);
 		regs = t->thread_reg;		
 		//__asm__ __volatile__("int $0x81"); 
-	//kmt->spin_unlock(&lk);
+	kmt->spin_unlock(&lk);
 	}
 		
 	if(ev.event == _EVENT_SYSCALL){
