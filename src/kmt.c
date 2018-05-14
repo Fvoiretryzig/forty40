@@ -178,7 +178,7 @@ static void sem_wait(sem_t *sem)
 			printf("in the sem_wait while sem->name:%s i:%d\n", sem->name, i);
 		}	
 		sem->queue[i] = 1;
-		printf("name:%s sem->queue[i] = 1\n", sem->name);
+		printf("name:%s sem->queue[i] = 1 i:%d\n", sem->name,i);
 		//printf("sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
 		while(sem->queue[i]);
 		printf("name:%s while(sem->queue[i])\n", sem->name);
@@ -203,7 +203,7 @@ static void sem_signal(sem_t *sem)
 		//printf("in signal 200 sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
 		sem->queue[i] = 0;
 		//printf("in signal 202 sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
-		printf("name:%s sem->queue[i] = 0\n", sem->name);
+		printf("name:%s sem->queue[i] = 0 i:%d\n", sem->name,i);
 	}
 	//spin_unlock(&lk);
 	//printf("/*=====in kmt.c 203line sem_signal()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
