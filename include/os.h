@@ -25,8 +25,8 @@ struct spinlock
 
 struct semaphore
 {
-	int count;
-	int queue[20];
+	int volatile count;
+	int volatile queue[20];
 	char name[64];
 };
 
