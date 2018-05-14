@@ -185,7 +185,7 @@ static void sem_wait(sem_t *sem)
 		int i = 0;
 		while(sem->queue[i]){
 			i++;
-			printf("in the sem_wait while sem->name:%s i:%d\n", sem->name, i);
+			//printf("in the sem_wait while sem->name:%s i:%d\n", sem->name, i);
 		}	
 		sem->queue[i] = 1;
 		//printf("name:%s sem->queue[i] = 1 i:%d\n", sem->name,i);
