@@ -178,7 +178,7 @@ static void sem_wait(sem_t *sem)
 			printf("in the sem_wait while\nsem->name:%s i:%d\n", sem->name, i);
 		}	
 		sem->queue[i] = 1;
-		printf("sem->name:%s queue: 0:%d 1:%d\n", sem->name, sem->queue[0], sem->queue[1]);
+		printf("sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
 		while(sem->queue[i]);
 	}
 	//spin_unlock(&lk);
