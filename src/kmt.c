@@ -166,12 +166,12 @@ static void sem_wait(sem_t *sem)
 {
 	//spin_lock(&lk);
 	sem->count--;
-	printf("name:%s sem->count--;\ncount:%d", sem->name, sem->count);
+	printf("name:%s sem->count--;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_wait()====*/sem->name:%s\n", sem->name);
 	if(sem->count < 0){
 		//printf("/*=====in kmt.c 128line sem_wait() in if_sleep====*/\nsem->name:%s\n", sem->name);
 		sem->count++;
-		printf("name:%s sem->count++;\ncount:%d", sem->name, sem->count);
+		printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
 		int i = 0;
 		while(sem->queue[i]){
 			i++;
@@ -191,7 +191,7 @@ static void sem_signal(sem_t *sem)
 {
 	//spin_lock(&lk);
 	sem->count++;
-	printf("name:%s sem->count++;\ncount:%d", sem->name, sem->count);
+	printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_signal()====*/sem->name:%s\n", sem->name);
 	if(sem->queue[0]){
 		//printf("/*=====in kmt.c 128line sem_signal() in if_sleep====*/\nsem->name:%s\n", sem->name);
