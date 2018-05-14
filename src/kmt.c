@@ -112,12 +112,12 @@ static thread_t* schedule()
 {		
 	//printf("kmt113\n");
 	struct thread_node* current = pmm->alloc(sizeof(struct thread_node));
-	//printf("kmt115\n");
+	printf("kmt115\n");
 	current = work_head;
-	//printf("kmt117\n");
+	printf("kmt117\n");
 	if(current == NULL){
 		return NULL;
-		//printf("kmt120\n");
+		printf("kmt120\n");
 	}
 		
 	//int i = 0;
