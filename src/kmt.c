@@ -123,8 +123,8 @@ static thread_t* schedule()
 	//int i = 0;
 	while(current->next){
 		current = current->next;
-		printf("kmt126\n");
-		//printf("/*=====in kmt.c 121line schedule()====*/\ncurrent:0x%08x current->next:0x%08x current->t:0x%08x i:%d\n", current, current->next, current->t, i);
+		//printf("kmt126\n");
+		printf("/*=====in kmt.c 121line schedule()====*/\ncurrent:0x%08x current->next:0x%08x current->t:0x%08x i:%d\n", current, current->next, current->t, i);
 		//i++;
 	}
 	printf("kmt130\n");
