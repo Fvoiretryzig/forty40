@@ -5,6 +5,7 @@
 
 #define block_size 20
 int* program_break;
+spinlock_t lk;
 
 struct block 
 {
@@ -147,12 +148,18 @@ static void pmm_init()
 }
 static void* pmm_alloc(size_t size)	//TODO():thread unsafe
 {
-	return malloc_unsafe(size);
+	kmt->spin_lock(&lk);
+	void* ret = malloc_unsafe(size);
+	kmt->spin_unlock(&lk);
+	return  ret;
 }
 //static void* pmm_free(void *ptr);
 static void pmm_free(void *ptr)	//TODO():thread unsafe
-{
-	return free_unsafe(ptr);
+{	
+	kmt->spin_lock(&lk);
+	free_unsafe(ptr);
+	kmt->spin_unlock(&lk);
+	return; 
 }
 
 
