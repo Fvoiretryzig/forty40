@@ -206,10 +206,10 @@ static void sem_wait(sem_t *sem)
 		//printf("sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
 		spin_unlock(&sem_lk);
 		while(sem->queue[i]){
-			//printf("name:%s this in while queue[%d]:%d\n", sem->name, i, sem->queue[i]);
+			printf("name:%s this in while queue[%d]:%d\n", sem->name, i, sem->queue[i]);
 			//if(work_head->next)
 			//	_yield();
-			printf("hhhhhhhhhh\n");
+			printf("hhhhhhh\n");
 		}
 		spin_lock(&sem_lk);
 		//printf("name:%s while(sem->queue[i])\n", sem->name);
