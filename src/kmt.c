@@ -202,6 +202,7 @@ static void sem_wait(sem_t *sem)
 		sem->queue[i] = 1;
 		//printf("name:%s sem->queue[i] = 1 i:%d\n", sem->name,i);
 		//printf("sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
+		spin_unlock(&create_lk);
 		while(sem->queue[i]){
 			//printf("name:%s this in while queue[%d]:%d\n", sem->name, i, sem->queue[i]);
 			//if(work_head->next)
@@ -209,7 +210,7 @@ static void sem_wait(sem_t *sem)
 		}
 		//printf("name:%s while(sem->queue[i])\n", sem->name);
 	}
-	spin_unlock(&create_lk);
+	
 	printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
 	return;
 }
