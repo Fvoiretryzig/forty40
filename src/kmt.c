@@ -219,7 +219,7 @@ static void sem_wait(sem_t *sem)
 static void sem_signal(sem_t *sem)
 {
 	printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
-	printf("sem_lk->lock:%d\n", sem_lk->locked);
+	printf("sem_lk->lock:%d\n", sem_lk.locked);
 	spin_lock(&sem_lk);
 	sem->count++;
 	printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
