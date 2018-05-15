@@ -50,7 +50,7 @@ static void kmt_init()
 /*===================================*/
 static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 {
-	printf("/*=====in kmt.c 51line create()====*/\nwork_head:0x%08x work_head->next:0x%08x\n",
+	//printf("/*=====in kmt.c 51line create()====*/\nwork_head:0x%08x work_head->next:0x%08x\n",
 			work_head, work_head->next);
 	spin_lock(&create_lk);
 	void *fence1_addr = pmm->alloc(FC_SZ);
@@ -206,7 +206,7 @@ static void sem_wait(sem_t *sem)
 		//printf("sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
 		spin_unlock(&sem_lk);
 		while(sem->queue[i]){
-			printf("name:%s this in while queue[%d]:%d\n", sem->name, i, sem->queue[i]);
+			//printf("name:%s this in while queue[%d]:%d\n", sem->name, i, sem->queue[i]);
 			//if(work_head->next)
 			//	_yield();
 		}
