@@ -218,7 +218,7 @@ static void sem_signal(sem_t *sem)
 {
 	spin_lock(&create_lk);
 	sem->count++;
-	//printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
+	printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_signal()====*/sem->name:%s\n", sem->name);
 	if(sem->queue[0]){
 		//printf("/*=====in kmt.c 128line sem_signal() in if_sleep====*/\nsem->name:%s\n", sem->name);
@@ -227,12 +227,12 @@ static void sem_signal(sem_t *sem)
 			i++;
 			//printf("in the sem_signal while\nsem->name:%s i:%d\n", sem->name, i);
 		}
-		printf("in signal 200 sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
+		//printf("in signal 200 sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
 		sem->queue[i] = 0;
 		//if(work_head->next)
 		//	_yield();
 		printf("in signal 202 sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
-		printf("name:%s sem->queue[i] = 0 i:%d\n", sem->name,i);
+		//printf("name:%s sem->queue[i] = 0 i:%d\n", sem->name,i);
 	}
 	spin_unlock(&create_lk);
 	//printf("/*=====in kmt.c 203line sem_signal()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
