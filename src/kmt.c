@@ -62,7 +62,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 			thread->id = 1;
 		}
 		else{
-			thread->id = ++work_head->t->id;
+			thread->id = work_head->t->id+1;
 		}
 		//printf("/*=====in kmt.c 68line create()====*/\nwork_head:0x%08x work_head->next:0x%08x ",
 		//	work_head, work_head->next);
