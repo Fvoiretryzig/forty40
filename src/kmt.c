@@ -82,14 +82,11 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		current->next = work_head; work_head->prev = current; current->prev = NULL;
 		work_head = current;
 		
-		printf("/*=====in kmt.c 78line create()====*/\ntid:%d current:0x%08x current->next:0x%08x current->t->id:%d\n\n", thread->id, current, current->next, current->t->id);
-		printf("/*=====in kmt.c 80line create()====*/\nwork_head:0x%08x work_head->next:0x%08x work_head->next id:%d\n",
-			work_head, work_head->next,work_head->next->t->id);		
+		printf("/*=====in kmt.c 78line create()====*/\ntid:%d current:0x%08x current->next:0x%08x current->t->id:%d current->t:0x%08x\n", thread->id, current, current->next, current->t->id,current->t);
+		printf("/*=====in kmt.c 80line create()====*/\nwork_head:0x%08x work_head->next:0x%08x work_head->next id:%d work_head->next->t:0x%08x\n", work_head, work_head->next,work_head->next->t->id, work_head->next->t);		
 		current = work_head;
 		//if(current->next)
 		//	printf("current->next->t->id:%d\n",current->next->t->id);
-		if(current == (struct thread_node*)0x002804ac)
-			printf("current->next:0x%08x current->next->t->id\n", current->next, current->next->t->id);
 		spin_unlock(&create_lk);
 		return 0;
 	}
