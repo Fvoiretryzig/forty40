@@ -64,15 +64,16 @@ static void os_init()
 {
   printf("Hello, OS World!\n");
   printf("heap start:0x%08x heap end:0x%08x\n", _heap.start, _heap.end);
-}
-
-static void os_run() {
-	printf("before create t1\n");
+  	printf("before create t1\n");
   	kmt->create(&t1, &producer, NULL);
   	printf("before create t2\n");
   	kmt->create(&t2, &producer, NULL);
   	printf("before create t3\n");
   	kmt->create(&t3, &consumer, NULL);
+}
+
+static void os_run() {
+
   _intr_write(1); // enable interrupt
   test_run();
   while (1) ; // should never return
