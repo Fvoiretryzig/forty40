@@ -33,6 +33,7 @@ MOD_DEF(kmt)
 	.sem_signal = sem_signal,
 };
 spinlock_t create_lk;
+spinlock_t sem_lk;
 static void kmt_init()
 {
 	/*work_head = pmm->alloc(12);
@@ -174,7 +175,7 @@ static void spin_unlock(spinlock_t *lk)
   /*===================================*/
  /*========deal with semaphore========*/
 /*===================================*/
-spinlock_t sem_lk;
+
 static void sem_init(sem_t *sem, const char *name, int value)
 {
 	sem->count = value;
