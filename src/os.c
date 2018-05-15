@@ -67,12 +67,12 @@ static void os_init()
 }
 
 static void os_run() {
-/*	printf("before create t1\n");
+	printf("before create t1\n");
   	kmt->create(&t1, &producer, NULL);
   	printf("before create t2\n");
   	kmt->create(&t2, &producer, NULL);
   	printf("before create t3\n");
-  	kmt->create(&t3, &consumer, NULL);*/
+  	kmt->create(&t3, &consumer, NULL);
   _intr_write(1); // enable interrupt
   test_run();
   while (1) ; // should never return
