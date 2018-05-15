@@ -28,6 +28,7 @@ static void consumer() {
 	}
 }
 //thread_t t1; thread_t t2;
+
 static void test_run() {
 	kmt->sem_init(&empty, "empty", BUF_SIZE);
 	kmt->sem_init(&fill, "fill", 0);

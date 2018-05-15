@@ -182,7 +182,7 @@ static void sem_init(sem_t *sem, const char *name, int value)
 	int len = strlen(name);
 	strncpy(sem->name, name ,len);
 	printf("name:%s\n", sem->name);
-	for(int i = 0; i<1024; i++)
+	for(int i = 0; i<100; i++)
 		sem->queue[i] = 0;
 	return;
 }
@@ -209,7 +209,6 @@ static void sem_wait(sem_t *sem)
 			printf("name:%s this in while queue[%d]:%d\n", sem->name, i, sem->queue[i]);
 			//if(work_head->next)
 			//	_yield();
-			//printf("hhhhhhh\n");
 		}
 		spin_lock(&sem_lk);
 		//printf("name:%s while(sem->queue[i])\n", sem->name);
