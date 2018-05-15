@@ -32,7 +32,7 @@ static void test_run() {
 	kmt->sem_init(&empty, "empty", BUF_SIZE);
 	kmt->sem_init(&fill, "fill", 0);
   	kmt->create(&t1, &producer, NULL);
-  	kmt->create(&t2, &consumer, NULL);
+  	kmt->create(&t2, &producer, NULL);
   	kmt->create(&t3, &consumer, NULL);
 //  	kmt->create(&t4, &consumer, NULL);
 //  	kmt->create(&t5, &producer, NULL);
