@@ -83,8 +83,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		work_head = current;
 		
 		printf("/*=====in kmt.c 78line create()====*/\ntid:%d current:0x%08x current->next:0x%08x current->t->id:%d current->t:0x%08x\n", thread->id, current, current->next, current->t->id,current->t);
-		printf("/*=====in kmt.c 80line create()====*/\nwork_head:0x%08x work_head->next:0x%08x work_head->next id:%d work_head->next->t:0x%08x\n", work_head, work_head->next,work_head->next->t->id, work_head->next->t);		
-		current = work_head;
+		//printf("/*=====in kmt.c 80line create()====*/\nwork_head:0x%08x work_head->next:0x%08x work_head->next id:%d work_head->next->t:0x%08x\n", work_head, work_head->next,work_head->next->t->id, work_head->next->t);		
 		//if(current->next)
 		//	printf("current->next->t->id:%d\n",current->next->t->id);
 		spin_unlock(&create_lk);
@@ -187,7 +186,7 @@ static void sem_init(sem_t *sem, const char *name, int value)
 }
 static void sem_wait(sem_t *sem)
 {
-	spin_lock(&create_lk);
+	//spin_lock(&create_lk);
 	sem->count--;
 	//printf("name:%s sem->count--;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_wait()====*/sem->name:%s\n", sem->name);
@@ -210,13 +209,13 @@ static void sem_wait(sem_t *sem)
 		}
 		//printf("name:%s while(sem->queue[i])\n", sem->name);
 	}
-	spin_unlock(&create_lk);
+	//spin_unlock(&create_lk);
 	printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
 	return;
 }
 static void sem_signal(sem_t *sem)
 {
-	spin_lock(&create_lk);
+	//spin_lock(&create_lk);
 	sem->count++;
 	//printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_signal()====*/sem->name:%s\n", sem->name);
@@ -234,7 +233,7 @@ static void sem_signal(sem_t *sem)
 		//printf("in signal 202 sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
 		//printf("name:%s sem->queue[i] = 0 i:%d\n", sem->name,i);
 	}
-	spin_unlock(&create_lk);
+	//spin_unlock(&create_lk);
 	//printf("/*=====in kmt.c 203line sem_signal()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
 	return;
 }
