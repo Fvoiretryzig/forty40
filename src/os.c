@@ -2,30 +2,30 @@
 #include <libc.h>
 
 sem_t empty, fill;
-thread_t t1, t2, t3,t4,t5, t6, t7, t8, t9, t10;
+thread_t t1, t2, t3;//,t4,t5, t6, t7, t8, t9, t10;
 extern spinlock_t lk;
 #define BUF_SIZE 4
 
 static void producer() {
 	while (1) {
-		//printf("point p1\n");
+		printf("point p1\n");
 		kmt->sem_wait(&empty);
-		//printf("point p2\n");
+		printf("point p2\n");
 		printf("(");
-		//printf("point p3\n");
+		printf("point p3\n");
 		kmt->sem_signal(&fill);
-		//printf("point p4\n");
+		printf("point p4\n");
 	}
 }
 static void consumer() {
 	while (1) {
-		//printf("point c1\n");
+		printf("point c1\n");
 		kmt->sem_wait(&fill);
-		//printf("point c2\n");
+		printf("point c2\n");
 		printf(")");
-		//printf("point c3\n");
+		printf("point c3\n");
 		kmt->sem_signal(&empty);
-		//printf("point c4\n");
+		printf("point c4\n");
 	}
 }
 //thread_t t1; thread_t t2;
@@ -36,13 +36,13 @@ static void test_run() {
   	kmt->create(&t1, &producer, NULL);
   	kmt->create(&t2, &consumer, NULL);
   	kmt->create(&t3, &consumer, NULL);
-  	kmt->create(&t4, &consumer, NULL);
-  	kmt->create(&t5, &producer, NULL);
-  	kmt->create(&t6, &producer, NULL);
-  	kmt->create(&t7, &producer, NULL);
-  	kmt->create(&t8, &consumer, NULL);
-  	kmt->create(&t9, &consumer, NULL);
-  	kmt->create(&t10, &consumer, NULL);
+//  	kmt->create(&t4, &consumer, NULL);
+//  	kmt->create(&t5, &producer, NULL);
+//  	kmt->create(&t6, &producer, NULL);
+//  	kmt->create(&t7, &producer, NULL);
+//  	kmt->create(&t8, &consumer, NULL);
+//  	kmt->create(&t9, &consumer, NULL);
+//  	kmt->create(&t10, &consumer, NULL);
   	//printf("t1:0x%08x t2:0x%08x\n", t1.stack, t2.stack);
   // create producers and consumers
 }
