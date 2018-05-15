@@ -3,7 +3,6 @@
 
 sem_t empty, fill;
 thread_t t1, t2, t3;//,t4,t5, t6, t7, t8, t9, t10;
-extern spinlock_t lk;
 #define BUF_SIZE 4
 
 static void producer() {
@@ -30,7 +29,6 @@ static void consumer() {
 }
 //thread_t t1; thread_t t2;
 static void test_run() {
-	kmt->spin_init(&lk, "sem_lk");
 	kmt->sem_init(&empty, "empty", BUF_SIZE);
 	kmt->sem_init(&fill, "fill", 0);
   	kmt->create(&t1, &producer, NULL);
@@ -69,7 +67,6 @@ static void os_run() {
   test_run();
   while (1) ; // should never return
 }
-spinlock_t lk;
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	if(ev.event == _EVENT_IRQ_TIMER){
 		//printf("this is irq_timer\n");
@@ -93,14 +90,12 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	}
 		
 	if(ev.event == _EVENT_YIELD){
-	//kmt->spin_lock(&lk);
 		//	printf("request trap into kernal...\n");
 		thread_t* t = kmt->schedule();
 		//printf("hahaha\n");
 		//printf("t:%d\n", t->id);
 		regs = t->thread_reg;		
 		//__asm__ __volatile__("int $0x81"); 
-	//kmt->spin_unlock(&lk);
 	}
 		
 	if(ev.event == _EVENT_SYSCALL){

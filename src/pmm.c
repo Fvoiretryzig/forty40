@@ -134,6 +134,7 @@ void free_unsafe(void *ptr)
 		}
 	}
 }
+spinlock_t pmm_lk;
 static void pmm_init();
 static void* pmm_alloc(size_t size);
 static void pmm_free(void *ptr); 
@@ -145,20 +146,21 @@ MOD_DEF(pmm){
 static void pmm_init()
 {
 	program_break = _heap.start;
+	kmt->spin_init(&pmm_lk, "pmmlock");
 }
 static void* pmm_alloc(size_t size)	//TODO():thread unsafe
 {
-	kmt->spin_lock(&lk);
+	kmt->spin_lock(&pmm_lk);
 	void* ret = malloc_unsafe(size);
-	kmt->spin_unlock(&lk);
-	return  ret;
+	kmt->spin_unlock(&pmm_lk);
+	return ret;
 }
 //static void* pmm_free(void *ptr);
 static void pmm_free(void *ptr)	//TODO():thread unsafe
 {	
-	kmt->spin_lock(&lk);
+	kmt->spin_lock(&pmm_lk);
 	free_unsafe(ptr);
-	kmt->spin_unlock(&lk);
+	kmt->spin_unlock(&pmm_lk);
 	return; 
 }
 
