@@ -32,13 +32,14 @@ MOD_DEF(kmt)
 	.sem_wait = sem_wait,
 	.sem_signal = sem_signal,
 };
-
+spinlock_t lk_create;
 static void kmt_init()
 {
 	/*work_head = pmm->alloc(12);
 	if(work_head == NULL)
 		_halt(1);
 	work_head->t = NULL; work_head->next = NULL; work_head->prev = NULL;*/
+	spin_init(&lk_create, "th_lk");
 	work_head = NULL;
 	//TODO();
 }
@@ -49,6 +50,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 {
 	//printf("/*=====in kmt.c 51line create()====*/\nwork_head:0x%08x work_head->next:0x%08x\n",
 			//work_head, work_head->next);
+	spin_lock(&lk_create);
 	void *fence1_addr = pmm->alloc(FC_SZ);
 	void *addr = pmm->alloc(STK_SZ);
 	void *fence2_addr = pmm->alloc(FC_SZ);
@@ -82,7 +84,8 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		
 		printf("/*=====in kmt.c 78line create()====*/\ntid:%d current:0x%08x current->next:0x%08x current->t:0x%08x\n\n", thread->id, current, current->next, current->t);
 		//printf("/*=====in kmt.c 80line create()====*/\nwork_head:0x%08x work_head->next:0x%08x\n",
-		//	work_head, work_head->next);			
+		//	work_head, work_head->next);		
+		spin_unlock(&lk_create);
 		return 0;
 	}
 	return -1;
