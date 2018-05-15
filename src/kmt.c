@@ -52,7 +52,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 {
 	//printf("/*=====in kmt.c 51line create()====*/\nwork_head:0x%08x work_head->next:0x%08x\n",
 			//work_head, work_head->next);
-	spin_lock(&create_lk);
+	//spin_lock(&create_lk);
 	void *fence1_addr = pmm->alloc(FC_SZ);
 	void *addr = pmm->alloc(STK_SZ);
 	void *fence2_addr = pmm->alloc(FC_SZ);
@@ -88,7 +88,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		//printf("/*=====in kmt.c 80line create()====*/\nwork_head:0x%08x work_head->next:0x%08x work_head->next id:%d work_head->next->t:0x%08x\n", work_head, work_head->next,work_head->next->t->id, work_head->next->t);		
 		//if(current->next)
 		//	printf("current->next->t->id:%d\n",current->next->t->id);
-		spin_unlock(&create_lk);
+		//spin_unlock(&create_lk);
 		return 0;
 	}
 	return -1;
