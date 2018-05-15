@@ -138,7 +138,7 @@ static thread_t* schedule()
 		//printf("work_head:0x%08x work_head->next:0x%08x\n", work_head, work_head->next);
 	
 	}
-	pritnf("current:0x%08x current->t->id:%d\n", current, current->t->id);
+	printf("current:0x%08x current->t->id:%d\n", current, current->t->id);
 	/*if(current->prev){
 		current->prev->next = NULL;
 		current->prev = NULL;
