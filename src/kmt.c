@@ -83,7 +83,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		work_head = current;
 		
 		printf("/*=====in kmt.c 78line create()====*/\ntid:%d current:0x%08x current->next:0x%08x current->t->id:%d\n\n", thread->id, current, current->next, current->t->id);
-		//printf("/*=====in kmt.c 80line create()====*/\nwork_head:0x%08x work_head->next:0x%08x\n",
+		printf("/*=====in kmt.c 80line create()====*/\nwork_head:0x%08x work_head->next:0x%08x\n",
 		//	work_head, work_head->next);		
 		spin_unlock(&create_lk);
 		return 0;
