@@ -122,7 +122,7 @@ static thread_t* schedule()
 		return NULL;
 		//printf("kmt120\n");
 	}
-		
+	printf("current:0x%08x\n", current);	
 	while(current->next){
 		current = current->next;
 		//printf("kmt126\n");
