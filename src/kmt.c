@@ -88,7 +88,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		current = work_head;
 		//if(current->next)
 		//	printf("current->next->t->id:%d\n",current->next->t->id);
-		if(current == 0x002804ac)
+		if(&current == 0x002804ac)
 			printf("current->next:0x%08x current->next->t->id\n", current->next, current->next->t->id);
 		spin_unlock(&create_lk);
 		return 0;
