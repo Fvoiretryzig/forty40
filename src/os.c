@@ -2,7 +2,7 @@
 #include <libc.h>
 
 sem_t empty, fill;
-//,t4,t5, t6, t7, t8, t9, t10;
+thread_t t1, t2, t3;//,t4,t5, t6, t7, t8, t9, t10;
 #define BUF_SIZE 4
 
 static void producer() {
