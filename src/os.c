@@ -28,19 +28,15 @@ static void consumer() {
 	}
 }
 //thread_t t1; thread_t t2;
-spinlock_t lk;
 static void test_run() {
 	kmt->sem_init(&empty, "empty", BUF_SIZE);
 	kmt->sem_init(&fill, "fill", 0);
-	kmt->spin_init(&lk, "lk");
-	//printf("before create t1\n");
-	kmt->spin_lock(&lk);
+	printf("before create t1\n");
   	kmt->create(&t1, &producer, NULL);
-  	//printf("before create t2\n");
+  	printf("before create t2\n");
   	kmt->create(&t2, &producer, NULL);
-  	//printf("before create t3\n");
+  	printf("before create t3\n");
   	kmt->create(&t3, &consumer, NULL);
-  	kmt->spin_unlock(&lk);
 //  	kmt->create(&t4, &consumer, NULL);
 //  	kmt->create(&t5, &producer, NULL);
 //  	kmt->create(&t6, &producer, NULL);
@@ -77,11 +73,9 @@ static void os_run() {
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	if(ev.event == _EVENT_IRQ_TIMER){
 		//printf("this is irq_timer\n");
-		kmt->spin_lock(&lk);
 		thread_t* t = kmt->schedule();
 		//printf("t:%d\n", t->id);
 		regs = t->thread_reg;
-		kmt->spin_unlock(&lk);
 	}//时钟中断???????????；
 	if(ev.event == _EVENT_IRQ_IODEV){
 		printf("this is _EVENT_IRQ_IODEV\n");

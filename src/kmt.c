@@ -209,6 +209,7 @@ static void sem_wait(sem_t *sem)
 			//printf("name:%s this in while queue[%d]:%d\n", sem->name, i, sem->queue[i]);
 			//if(work_head->next)
 			//	_yield();
+			printf("hhhhhhhhhh\n");
 		}
 		spin_lock(&sem_lk);
 		//printf("name:%s while(sem->queue[i])\n", sem->name);
