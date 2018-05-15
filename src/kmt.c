@@ -227,11 +227,11 @@ static void sem_signal(sem_t *sem)
 			i++;
 			//printf("in the sem_signal while\nsem->name:%s i:%d\n", sem->name, i);
 		}
-		//printf("in signal 200 sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
+		printf("in signal 200 sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
 		sem->queue[i] = 0;
 		//if(work_head->next)
 		//	_yield();
-		//printf("in signal 202 sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
+		printf("in signal 202 sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
 		printf("name:%s sem->queue[i] = 0 i:%d\n", sem->name,i);
 	}
 	spin_unlock(&create_lk);
