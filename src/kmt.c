@@ -86,8 +86,10 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		printf("/*=====in kmt.c 80line create()====*/\nwork_head:0x%08x work_head->next:0x%08x\n",
 			work_head, work_head->next);		
 		current = work_head;
-		if(current->next)
-			printf("current->next->t->id:%d\n",current->next->t->id);
+		//if(current->next)
+		//	printf("current->next->t->id:%d\n",current->next->t->id);
+		if(current == 0x002804ac)
+			printf("current->next:0x%08x current->next->t->id\n", current->next, current->next->t->id);
 		spin_unlock(&create_lk);
 		return 0;
 	}
@@ -125,11 +127,6 @@ static thread_t* schedule()
 		return NULL;
 		//printf("kmt120\n");
 	}
-	while(current){
-		printf("kmt129 current->t->id:%d\n", current->t->id);
-		current = current->next;
-	}
-	current = work_head;
 	printf("current:0x%08x current->t->id:%d\n", current, current->t->id);	
 	while(current->next){
 		current = current->next;
