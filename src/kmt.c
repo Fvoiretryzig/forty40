@@ -212,7 +212,7 @@ static void sem_wait(sem_t *sem)
 		}
 		//printf("name:%s while(sem->queue[i])\n", sem->name);
 	}
-	
+	spin_unlock(&sem_lk);
 	printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
 	return;
 }
