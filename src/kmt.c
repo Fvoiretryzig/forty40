@@ -162,7 +162,7 @@ static void spin_lock(spinlock_t *lk)
 	//printf("%s in lock intr:%d\n", lk->name, _intr_read());
 	if(_intr_read())
 		_intr_write(0);		//关中断
-	//printf("intr_read:%d\n", _intr_read());
+	printf("%s in lock intr:%d\n",lk->name,  _intr_read());
 	while(_atomic_xchg(&lk->locked, 1) != 0);
 }
 static void spin_unlock(spinlock_t *lk)
