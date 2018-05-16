@@ -28,16 +28,19 @@ static void consumer() {
 	}
 }
 //thread_t t1; thread_t t2;
-
+spinlock_t lk;
 static void test_run() {
+	kmt->spin_init(&lk,"intestrun");
 	kmt->sem_init(&empty, "empty", BUF_SIZE);
 	kmt->sem_init(&fill, "fill", 0);
+	spin_lock(&lk);
   	printf("before create t1\n");
   	kmt->create(&t1, &producer, NULL);
   	printf("before create t2\n");
   	kmt->create(&t2, &producer, NULL);
   	printf("before create t3\n");
   	kmt->create(&t3, &consumer, NULL);	
+  	spin_unlock(&lk);
 /*	printf("before create t1\n");
   	kmt->create(&t1, &producer, NULL);
   	printf("before create t2\n");
