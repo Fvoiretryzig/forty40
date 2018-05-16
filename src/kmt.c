@@ -36,10 +36,6 @@ spinlock_t create_lk;
 spinlock_t sem_lk;
 static void kmt_init()
 {
-	/*work_head = pmm->alloc(12);
-	if(work_head == NULL)
-		_halt(1);
-	work_head->t = NULL; work_head->next = NULL; work_head->prev = NULL;*/
 	spin_init(&create_lk, "create_lk");
 	spin_init(&sem_lk, "sem_lk");
 	work_head = NULL;
