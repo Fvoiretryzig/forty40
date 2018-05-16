@@ -189,7 +189,7 @@ static void sem_init(sem_t *sem, const char *name, int value)
 static void sem_wait(sem_t *sem)
 {
 	spin_lock(&sem_lk);
-	printf("\nthis is in sem_wait!!!!\n");
+	printf("\nthis is in %s sem_wait!!!!\n", sem->name);
 	sem->count--;
 	//printf("name:%s sem->count--;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_wait()====*/sem->name:%s count:%d\n", sem->name,sem->count);
@@ -241,7 +241,7 @@ static void sem_wait(sem_t *sem)
 static void sem_signal(sem_t *sem)
 {
 	spin_lock(&sem_lk);
-	printf("\nthis is in sem_signal!!!!!\n");
+	printf("\nthis is in %s sem_signal!!!!!\n", sem->name);
 	sem->count++;
 	//printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_signal()====*/sem->name:%s\n", sem->name);
