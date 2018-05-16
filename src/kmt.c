@@ -253,7 +253,7 @@ static void sem_signal(sem_t *sem)
 				break;
 			last_node = last_node->next;
 		}
-		printf("kmt signal 253 last_node->if_in:%d\n", last_node->if_in);
+		printf("kmt signal 253 last_node:0x%08x last_node->if_in:%d\n",last_node, last_node->if_in);
 		last_node->if_in = 0;
 		//printf("/*=====in kmt.c 128line sem_signal() in if_sleep====*/\nsem->name:%s\n", sem->name);
 		
