@@ -16,7 +16,7 @@ struct queue_node
 	//int if_in;
 	struct queue_node* next;
 	struct queue_node* prev;
-}
+};
 struct thread_node
 {
 	struct thread* t;
