@@ -165,6 +165,7 @@ static void spin_lock(spinlock_t *lk)
 {
 	if(_intr_read())
 		_intr_write(0);		//关中断
+	printf("intr_read:%d\n", _intr_read());
 	while(_atomic_xchg(&lk->locked, 1) != 0);
 }
 static void spin_unlock(spinlock_t *lk)
