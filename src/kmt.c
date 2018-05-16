@@ -245,8 +245,16 @@ static void sem_signal(sem_t *sem)
 	sem->count++;
 	//printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_signal()====*/sem->name:%s\n", sem->name);
-	if(sem->queue->if_in){
-		struct queue_node* last_node = pmm->alloc(sizeof(struct queue_node));
+	struct queue_node* last_node = pmm->alloc(sizeof(struct queue_node));
+	int if_occupied = 0;
+	last_node = sem->queue;
+	for(;last_node; last_node = last_node->next){
+		if(last_node->if_in){
+			if_occupied = 1;
+			break;
+		}
+	}
+	if(if_occupied){
 		last_node = sem->queue;
 		while(last_node->next){
 			if(last_node->if_in)
