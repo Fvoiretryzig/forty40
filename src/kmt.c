@@ -211,7 +211,7 @@ static void sem_wait(sem_t *sem)
 		}
 		else{
 			struct queue_node* add_node = pmm->alloc(sizeof(struct queue_node));
-			add_node->prev = NULL; add_node->next = sem->queue;
+			add_node->prev = NULL; add_node->next = sem->queue; add_node->if_in = 1;
 			sem->queue->prev = add_node;
 			sem->queue = add_node;		
 			printf("add node:0x%08x\n", add_node);	
