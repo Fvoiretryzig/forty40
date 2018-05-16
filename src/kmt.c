@@ -214,11 +214,14 @@ static void sem_wait(sem_t *sem)
 		struct queue_node* last_node = pmm->alloc(sizeof(struct queue_node));
 		last_node = sem->queue;
 		while(last_node->next){
+			if(last_node->if_in)
+				break;
 			last_node = last_node->next;
 		}
 		spin_unlock(&sem_lk);
 		while(last_node->if_in);	
 		spin_lock(&sem_lk);
+		//pmm->free(last_node);
 		//printf("name:%s while(sem->queue[i])\n", sem->name);
 	}
 	spin_unlock(&sem_lk);
@@ -235,6 +238,8 @@ static void sem_signal(sem_t *sem)
 		struct queue_node* last_node = pmm->alloc(sizeof(struct queue_node));
 		last_node = sem->queue;
 		while(last_node->next){
+			if(last_node->if_in)
+				break;
 			last_node = last_node->next;
 		}
 		last_node->if_in = 0;
