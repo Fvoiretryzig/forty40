@@ -11,6 +11,12 @@ struct thread
 	uint8_t* fence2;	
 	_RegSet *thread_reg;
 };
+struct queue_node
+{
+	//int if_in;
+	struct queue_node* next;
+	struct queue_node* prev;
+}
 struct thread_node
 {
 	struct thread* t;
@@ -26,7 +32,7 @@ struct spinlock
 struct semaphore
 {
 	int volatile count;
-	int volatile queue[100];
+	struct queue_node* volatile queue;
 	char name[64];
 };
 

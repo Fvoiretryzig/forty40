@@ -181,8 +181,10 @@ static void sem_init(sem_t *sem, const char *name, int value)
 	int len = strlen(name);
 	strncpy(sem->name, name ,len);
 	printf("name:%s\n", sem->name);
-	for(int i = 0; i<100; i++)
-		sem->queue[i] = 0;
+	//for(int i = 0; i<100; i++)
+	//	sem->queue[i] = 0;
+	sem->queue = pmm->alloc(sizeof(struct queue_node));
+	sem->queue->next = NULL; sem->queue->prev = NULL;
 	return;
 }
 static void sem_wait(sem_t *sem)
@@ -194,21 +196,18 @@ static void sem_wait(sem_t *sem)
 	if(sem->count < 0){
 		//printf("/*=====in kmt.c 128line sem_wait() in if_sleep====*/\nsem->name:%s\n", sem->name);
 		sem->count++;
-		//printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
-		int i = 0;
-		while(sem->queue[i]){
-			i++;
-			//printf("in the sem_wait while sem->name:%s i:%d\n", sem->name, i);
-		}	
-		sem->queue[i] = 1;
-		printf("in wait name:%s sem->queue[%d] = %d \n", sem->name,i,sem->queue[i]);
-		//printf("sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
-		spin_unlock(&sem_lk);
-		while(sem->queue[i]){
-			//printf("name:%s this in while queue[%d]:%d\n", sem->name, i, sem->queue[i]);
-			//if(work_head->next)
-			//	_yield();
+		struct queue_node* add_node = pmm->alloc(sizeof(struct queue_node));
+		add_node->prev = NULL; add_node->next = sem->queue;
+		sem->queue->prev = add_node;
+		sem->queue = add_node;
+		
+		struct queue_node* last_node = pmm->alloc(sizeof(struct queue_node));
+		last_node = sem->queue;
+		while(last_node->next){
+			last_node = last_node->next;
 		}
+		spin_unlock(&sem_lk);
+		while(last_node);	
 		spin_lock(&sem_lk);
 		//printf("name:%s while(sem->queue[i])\n", sem->name);
 	}
@@ -222,20 +221,15 @@ static void sem_signal(sem_t *sem)
 	sem->count++;
 	//printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_signal()====*/sem->name:%s\n", sem->name);
-	if(sem->queue[0]){
-		//printf("/*=====in kmt.c 128line sem_signal() in if_sleep====*/\nsem->name:%s\n", sem->name);
-		int i = 0;
-		while(sem->queue[i+1]){
-			i++;
-			//printf("in the sem_signal while\nsem->name:%s i:%d\n", sem->name, i);
+	if(sem->queue){
+		struct queue_node* last_node = pmm->alloc(sizeof(struct queue_node));
+		last_node = sem->queue;
+		while(last_node->next){
+			last_node = last_node->next;
 		}
-		//printf("in signal 200 sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
-		sem->queue[i] = 0;
-		printf("in signal name:%s sem->queue[%d] = %d \n", sem->name,i,sem->queue[i]);
-		//if(work_head->next)
-		//	_yield();
-		//printf("in signal 202 sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
-		//printf("name:%s sem->queue[i] = 0 i:%d\n", sem->name,i);
+		pmm->free(last_node);
+		//printf("/*=====in kmt.c 128line sem_signal() in if_sleep====*/\nsem->name:%s\n", sem->name);
+		
 	}
 	spin_unlock(&sem_lk);
 	printf("/*=====in kmt.c 203line sem_signal()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
