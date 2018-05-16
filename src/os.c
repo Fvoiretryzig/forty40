@@ -7,24 +7,24 @@ thread_t t1, t2, t3;//,t4,t5, t6, t7, t8, t9, t10;
 
 static void producer() {
 	while (1) {
-		printf("point p1\n");
+//		printf("point p1\n");
 		kmt->sem_wait(&empty);
-		printf("point p2\n");
+//		printf("point p2\n");
 		printf("(");
-		printf("point p3\n");
+//		printf("point p3\n");
 		kmt->sem_signal(&fill);
-		printf("point p4\n");
+//		printf("point p4\n");
 	}
 }
 static void consumer() {
 	while (1) {
-		printf("point c1\n");
+//		printf("point c1\n");
 		kmt->sem_wait(&fill);
-		printf("point c2\n");
+//		printf("point c2\n");
 		printf(")");
-		printf("point c3\n");
+//		printf("point c3\n");
 		kmt->sem_signal(&empty);
-		printf("point c4\n");
+//		printf("point c4\n");
 	}
 }
 //thread_t t1; thread_t t2;
