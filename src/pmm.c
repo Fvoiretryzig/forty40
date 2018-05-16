@@ -150,17 +150,17 @@ static void pmm_init()
 }
 static void* pmm_alloc(size_t size)	//TODO():thread unsafe
 {
-	//kmt->spin_lock(&pmm_lk);
+	kmt->spin_lock(&pmm_lk);
 	void* ret = malloc_unsafe(size);
-	//kmt->spin_unlock(&pmm_lk);
+	kmt->spin_unlock(&pmm_lk);
 	return ret;
 }
 //static void* pmm_free(void *ptr);
 static void pmm_free(void *ptr)	//TODO():thread unsafe
 {	
-	//kmt->spin_lock(&pmm_lk);
+	kmt->spin_lock(&pmm_lk);
 	free_unsafe(ptr);
-	//kmt->spin_unlock(&pmm_lk);
+	kmt->spin_unlock(&pmm_lk);
 	return; 
 }
 
