@@ -112,7 +112,7 @@ static void teardown(thread_t *thread)
 }
 static thread_t* schedule()
 {		
-	//printf("kmt113\n");
+	printf("this is in schedule!!!!\n");
 	struct thread_node* current = pmm->alloc(sizeof(struct thread_node));
 	//printf("kmt115\n");
 	current = work_head;
@@ -145,6 +145,7 @@ static thread_t* schedule()
 	pmm->free(current);*/
 	//printf("/*=====in kmt.c 128line schedule()====*/\ncurrent:0x%08x current->t:0x%08x\n", current, current->t);	
 	//!!!!printf("ktm141: current->id:%d\n", current->t->id);
+	printf("\n");
 	return current->t;
 }
   /*===================================*/
@@ -188,6 +189,7 @@ static void sem_init(sem_t *sem, const char *name, int value)
 static void sem_wait(sem_t *sem)
 {
 	spin_lock(&sem_lk);
+	printf("this is in sem_wait!!!!\n");
 	sem->count--;
 	//printf("name:%s sem->count--;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_wait()====*/sem->name:%s count:%d\n", sem->name,sem->count);
@@ -233,12 +235,13 @@ static void sem_wait(sem_t *sem)
 		//printf("name:%s while(sem->queue[i])\n", sem->name);
 	}
 	spin_unlock(&sem_lk);
-	printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
+	printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n\n", sem->name, sem->count);
 	return;
 }
 static void sem_signal(sem_t *sem)
 {
 	spin_lock(&sem_lk);
+	printf("this is in sem_signal!!!!!\n");
 	sem->count++;
 	//printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_signal()====*/sem->name:%s\n", sem->name);
@@ -256,7 +259,7 @@ static void sem_signal(sem_t *sem)
 		
 	}
 	spin_unlock(&sem_lk);
-	printf("/*=====in kmt.c 203line sem_signal()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
+	printf("/*=====in kmt.c 203line sem_signal()====*/\nsem->name:%s sem->count:%d\n\n", sem->name, sem->count);
 	return;
 }
 
