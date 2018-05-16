@@ -196,8 +196,9 @@ static void sem_wait(sem_t *sem)
 		sem->count++;
 		struct queue_node* current_node = pmm->alloc(sizeof(struct queue_node));
 		int if_vacant = 0;
-		printf("next if for: \n");
-		for(current_node = sem->queue; current_node->next; current_node = current_node->next){
+		current_node = sem->queue;
+		printf("next if for: ");		
+		for(; current_node->next; current_node = current_node->next){
 			printf("0x%08x ", current_node);
 			if(!current_node->if_in){
 				if_vacant = 1; 
