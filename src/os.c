@@ -37,7 +37,7 @@ static void test_run() {
   	//printf("before create t1\n");
   	kmt->create(&t1, &producer, NULL);
   	//printf("before create t2\n");
-  	kmt->create(&t2, &producer, NULL);
+  	kmt->create(&t2, &consumer, NULL);
   	//printf("before create t3\n");
   	kmt->create(&t3, &consumer, NULL);	
   	//kmt->spin_unlock(&lk);
