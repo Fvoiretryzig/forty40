@@ -13,7 +13,6 @@ static void producer() {
 		printf("(");
 		printf("point p3\n");
 		kmt->sem_signal(&fill);
-		printf("point p4\n");
 	}
 }
 static void consumer() {
@@ -24,7 +23,6 @@ static void consumer() {
 		printf(")");
 		printf("point c3\n");
 		kmt->sem_signal(&empty);
-		printf("point c4\n");
 	}
 }
 //thread_t t1; thread_t t2;
