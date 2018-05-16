@@ -41,6 +41,7 @@ static void test_run() {
   	printf("before create t3\n");
   	kmt->create(&t3, &consumer, NULL);	
   	kmt->spin_unlock(&lk);
+  	printf("in test run _intr_read():%d\n",_intr_read());
 /*	printf("before create t1\n");
   	kmt->create(&t1, &producer, NULL);
   	printf("before create t2\n");
@@ -85,7 +86,7 @@ static void os_run() {
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	if(ev.event == _EVENT_IRQ_TIMER){
 		//printf("this is irq_timer\n");
-		printf("_intr_read():%d\n",_intr_read());
+		printf("in os_interrupt _intr_read():%d\n",_intr_read());
 		if(_intr_read()){
 		thread_t* t = kmt->schedule();
 		//printf("t:%d\n", t->id);
