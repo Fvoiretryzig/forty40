@@ -190,7 +190,7 @@ static void sem_wait(sem_t *sem)
 	spin_lock(&sem_lk);
 	sem->count--;
 	//printf("name:%s sem->count--;\ncount:%d\n", sem->name, sem->count);
-	//printf("/*=====in kmt.c 128line sem_wait()====*/sem->name:%s\n", sem->name);
+	printf("/*=====in kmt.c 128line sem_wait()====*/sem->name:%s count:%d\n", sem->name,sem->count);
 	if(sem->count < 0){
 		//printf("/*=====in kmt.c 128line sem_wait() in if_sleep====*/\nsem->name:%s\n", sem->name);
 		sem->count++;
@@ -218,6 +218,7 @@ static void sem_wait(sem_t *sem)
 				break;
 			last_node = last_node->next;
 		}
+		printf("kmt wait 221 last_node->if_in:%d\n", last_node->if_in);
 		spin_unlock(&sem_lk);
 		while(last_node->if_in);	
 		spin_lock(&sem_lk);
