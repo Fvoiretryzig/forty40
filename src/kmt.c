@@ -52,7 +52,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 {
 	//printf("/*=====in kmt.c 51line create()====*/\nwork_head:0x%08x work_head->next:0x%08x\n",
 			//work_head, work_head->next);
-	//spin_lock(&create_lk);
+	spin_lock(&create_lk);
 	void *fence1_addr = pmm->alloc(FC_SZ);
 	void *addr = pmm->alloc(STK_SZ);
 	void *fence2_addr = pmm->alloc(FC_SZ);
@@ -88,7 +88,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		//printf("/*=====in kmt.c 80line create()====*/\nwork_head:0x%08x work_head->next:0x%08x work_head->next id:%d work_head->next->t:0x%08x\n", work_head, work_head->next,work_head->next->t->id, work_head->next->t);		
 		//if(current->next)
 		//	printf("current->next->t->id:%d\n",current->next->t->id);
-		//spin_unlock(&create_lk);
+		spin_unlock(&create_lk);
 		return 0;
 	}
 	return -1;
@@ -206,7 +206,7 @@ static void sem_wait(sem_t *sem)
 		//printf("sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
 		spin_unlock(&sem_lk);
 		while(sem->queue[i]){
-			//printf("name:%s this in while queue[%d]:%d\n", sem->name, i, sem->queue[i]);
+			printf("name:%s this in while queue[%d]:%d\n", sem->name, i, sem->queue[i]);
 			//if(work_head->next)
 			//	_yield();
 		}
@@ -234,7 +234,7 @@ static void sem_signal(sem_t *sem)
 		sem->queue[i] = 0;
 		//if(work_head->next)
 		//	_yield();
-		//printf("in signal 202 sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
+		printf("in signal 202 sem->name:%s queue: 0:%d 1:%d count:%d\n", sem->name, sem->queue[0], sem->queue[1],sem->count);
 		//printf("name:%s sem->queue[i] = 0 i:%d\n", sem->name,i);
 	}
 	spin_unlock(&sem_lk);

@@ -32,6 +32,12 @@ static void consumer() {
 static void test_run() {
 	kmt->sem_init(&empty, "empty", BUF_SIZE);
 	kmt->sem_init(&fill, "fill", 0);
+  	printf("before create t1\n");
+  	kmt->create(&t1, &producer, NULL);
+  	printf("before create t2\n");
+  	kmt->create(&t2, &producer, NULL);
+  	printf("before create t3\n");
+  	kmt->create(&t3, &consumer, NULL);	
 /*	printf("before create t1\n");
   	kmt->create(&t1, &producer, NULL);
   	printf("before create t2\n");
@@ -68,12 +74,7 @@ static void os_init()
 }
 
 static void os_run() {
-  	printf("before create t1\n");
-  	kmt->create(&t1, &producer, NULL);
-  	printf("before create t2\n");
-  	kmt->create(&t2, &producer, NULL);
-  	printf("before create t3\n");
-  	kmt->create(&t3, &consumer, NULL);
+
   _intr_write(1); // enable interrupt
   test_run();
   while (1) ; // should never return
