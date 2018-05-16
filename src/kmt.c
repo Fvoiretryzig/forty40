@@ -208,7 +208,7 @@ static void sem_wait(sem_t *sem)
 			}
 		}
 		printf("\n");
-		if(!current->if_in){
+		if(!current_node->if_in){
 			current_node->if_in = 1;
 		}
 		else{
