@@ -31,9 +31,10 @@ static void consumer() {
 spinlock_t lk;
 static void test_run() {
 	kmt->spin_init(&lk,"intestrun");
+	kmt->spin_lock(&lk);
 	kmt->sem_init(&empty, "empty", BUF_SIZE);
 	kmt->sem_init(&fill, "fill", 0);
-	kmt->spin_lock(&lk);
+	
   	//printf("before create t1\n");
   	kmt->create(&t1, &producer, NULL);
   	//printf("before create t2\n");
@@ -86,7 +87,7 @@ static void os_run() {
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	if(ev.event == _EVENT_IRQ_TIMER){
 		//printf("this is irq_timer\n");
-		printf("in os_interrupt _intr_read():%d\n",_intr_read());
+		//printf("in os_interrupt _intr_read():%d\n",_intr_read());
 		//if(_intr_read()){
 		thread_t* t = kmt->schedule();
 		//printf("t:%d\n", t->id);
