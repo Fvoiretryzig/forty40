@@ -200,7 +200,7 @@ static void sem_wait(sem_t *sem)
 		printf("next if for: ");		
 		for(; current_node->next; current_node = current_node->next){
 			printf("0x%08x ", current_node);
-			if(!current_node->if_in){
+			if(!current_node->if_in){	//找到最前面的那个node
 				if_vacant = 1; 
 				break;
 			}
@@ -242,7 +242,7 @@ static void sem_signal(sem_t *sem)
 	sem->count++;
 	//printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_signal()====*/sem->name:%s\n", sem->name);
-	if(sem->queue){
+	if(sem->queue->if_in){
 		struct queue_node* last_node = pmm->alloc(sizeof(struct queue_node));
 		last_node = sem->queue;
 		while(last_node->next){
