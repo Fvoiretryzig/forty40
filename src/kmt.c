@@ -172,6 +172,7 @@ static void spin_unlock(spinlock_t *lk)
 {
 	_atomic_xchg(&lk->locked, 0);
 	_intr_write(1);
+	printf("intr_read:%d\n", _intr_read());
 }
   /*===================================*/
  /*========deal with semaphore========*/
