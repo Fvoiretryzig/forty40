@@ -228,6 +228,7 @@ static void sem_signal(sem_t *sem)
 			last_node = last_node->next;
 		}
 		pmm->free(last_node);
+		printf("last_node:0x%08x\n", last_node);
 		//printf("/*=====in kmt.c 128line sem_signal() in if_sleep====*/\nsem->name:%s\n", sem->name);
 		
 	}
