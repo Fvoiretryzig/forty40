@@ -86,7 +86,7 @@ static void os_run() {
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	if(ev.event == _EVENT_IRQ_TIMER){
 		//printf("this is irq_timer\n");
-		//printf("in os_interrupt _intr_read():%d\n",_intr_read());
+		printf("in os_interrupt _intr_read():%d\n",_intr_read());
 		//if(_intr_read()){
 		thread_t* t = kmt->schedule();
 		//printf("t:%d\n", t->id);
