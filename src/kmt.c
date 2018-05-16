@@ -213,7 +213,8 @@ static void sem_wait(sem_t *sem)
 			struct queue_node* add_node = pmm->alloc(sizeof(struct queue_node));
 			add_node->prev = NULL; add_node->next = sem->queue;
 			sem->queue->prev = add_node;
-			sem->queue = add_node;			
+			sem->queue = add_node;		
+			printf("add node:0x%08x\n", add_node);	
 		}	
 		struct queue_node* last_node = pmm->alloc(sizeof(struct queue_node));
 		last_node = sem->queue;
@@ -249,6 +250,7 @@ static void sem_signal(sem_t *sem)
 				break;
 			last_node = last_node->next;
 		}
+		printf("kmt signal 253 last_node->if_in:%d\n", last_node->if_in);
 		last_node->if_in = 0;
 		//printf("/*=====in kmt.c 128line sem_signal() in if_sleep====*/\nsem->name:%s\n", sem->name);
 		
