@@ -196,12 +196,15 @@ static void sem_wait(sem_t *sem)
 		sem->count++;
 		struct queue_node* current_node = pmm->alloc(sizeof(struct queue_node));
 		int if_vacant = 0;
+		printf("next if for: \n");
 		for(current_node = sem->queue; current_node->next; current_node = current_node->next){
+			printf("0x%08x ", current_node);
 			if(!current_node->if_in){
 				if_vacant = 1; 
 				break;
 			}
 		}
+		printf("\n");
 		if(if_vacant){
 			current_node->if_in = 1;
 		}
@@ -220,7 +223,9 @@ static void sem_wait(sem_t *sem)
 		}
 		printf("kmt wait 221 last_node->if_in:%d\n", last_node->if_in);
 		spin_unlock(&sem_lk);
-		while(last_node->if_in);	
+		while(last_node->if_in){
+			printf("last_node:0x%08x\n", last_node);
+		}	
 		spin_lock(&sem_lk);
 		//pmm->free(last_node);
 		//printf("name:%s while(sem->queue[i])\n", sem->name);
