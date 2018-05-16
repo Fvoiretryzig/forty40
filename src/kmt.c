@@ -197,18 +197,18 @@ static void sem_wait(sem_t *sem)
 		//printf("/*=====in kmt.c 128line sem_wait() in if_sleep====*/\nsem->name:%s\n", sem->name);
 		sem->count++;
 		struct queue_node* current_node = pmm->alloc(sizeof(struct queue_node));
-		int if_vacant = 0;
+		//int if_vacant = 0;
 		current_node = sem->queue;
-		printf("next if for: ");		
+		printf("next is for: ");		
 		for(; current_node->next; current_node = current_node->next){
 			printf("0x%08x ", current_node);
 			if(!current_node->if_in){	//找到最前面的那个node
-				if_vacant = 1; 
+				//if_vacant = 1; 
 				break;
 			}
 		}
 		printf("\n");
-		if(if_vacant){
+		if(!current->if_in){
 			current_node->if_in = 1;
 		}
 		else{
@@ -225,7 +225,7 @@ static void sem_wait(sem_t *sem)
 				break;
 			last_node = last_node->next;
 		}
-		printf("kmt wait 221 last_node->if_in:%d\n", last_node->if_in);
+		printf("kmt wait 221 last_node:0x%08x last_node->if_in:%d\n",last_node, last_node->if_in);
 		spin_unlock(&sem_lk);
 		while(last_node->if_in){
 			printf("last_node:0x%08x\n", last_node);
