@@ -231,7 +231,17 @@ static void sem_wait(sem_t *sem)
 			//!@#$printf("last_node:0x%08x\n", last_node);
 		}	
 		spin_lock(&sem_lk);
-		//pmm->free(last_node);
+		if(last_node->prev || last_node->next){
+			if(last_node->prev){
+				last_node->prev->next = last_node->next;
+				last_node->prev = NULL;
+			}
+			if(last_node->next){
+				last_node->next->prev = last_node->prev;
+				last_node->next = NULL;
+			}
+		}
+		pmm->free(last_node);
 		//printf("name:%s while(sem->queue[i])\n", sem->name);
 	}
 	spin_unlock(&sem_lk);
@@ -264,7 +274,6 @@ static void sem_signal(sem_t *sem)
 		//!@#$printf("kmt signal 253 last_node:0x%08x last_node->if_in:%d\n",last_node, last_node->if_in);
 		last_node->if_in = 0;
 		//printf("/*=====in kmt.c 128line sem_signal() in if_sleep====*/\nsem->name:%s\n", sem->name);
-		
 	}
 	spin_unlock(&sem_lk);
 	//!@#$printf("/*=====in kmt.c 203line sem_signal()====*/\nsem->name:%s sem->count:%d\n\n", sem->name, sem->count);
