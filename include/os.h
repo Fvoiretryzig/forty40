@@ -10,6 +10,7 @@ struct thread
 	uint8_t* stack;
 	uint8_t* fence2;	
 	_RegSet *thread_reg;
+	//_Area s;
 };
 struct queue_node
 {
