@@ -245,7 +245,12 @@ static void sem_wait(sem_t *sem)
 		pmm->free(last_node);
 		//printf("name:%s while(sem->queue[i])\n", sem->name);
 	}
-	printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n\n", sem->name, sem->count);
+	printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
+	struct thread_node* current = pmm->alloc(sizeof(struct thread_node));
+	current = work_head;
+	while(current->t->id !=1)
+		current = current->next;
+	printf("in wait: id:%d eip:0x%08x\n\n",current->t->id, current->t->thread_reg->eip );
 	spin_unlock(&sem_lk);
 	
 	return;
