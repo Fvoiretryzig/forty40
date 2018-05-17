@@ -244,8 +244,9 @@ static void sem_wait(sem_t *sem)
 		pmm->free(last_node);
 		//printf("name:%s while(sem->queue[i])\n", sem->name);
 	}
-	spin_unlock(&sem_lk);
 	printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n\n", sem->name, sem->count);
+	spin_unlock(&sem_lk);
+	
 	return;
 }
 static void sem_signal(sem_t *sem)
