@@ -99,7 +99,14 @@ static void os_run() {
   test_run();
   while (1) ; // should never return
 }
+int point, thread_num;
+thread_t* work[T_max];
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
+	if(point == 0){
+		work[thread_num-1]->thread_reg = regs;
+	}
+	else work[point-1]->thread_reg = regs;
+	
 	if(ev.event == _EVENT_IRQ_TIMER){
 		//printf("this is irq_timer\n");
 		//printf("in os_interrupt _intr_read():%d\n",_intr_read());

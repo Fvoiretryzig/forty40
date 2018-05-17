@@ -20,9 +20,11 @@ static void spin_unlock(spinlock_t *lk);
 static void sem_init(sem_t *sem, const char *name, int value);
 static void sem_wait(sem_t *sem);
 static void sem_signal(sem_t *sem);
+extern thread_t* work[T_max];
+extern int thread_num;
+extern int point;
 thread_t* work[T_max];
-int thread_num;
-int point;
+int point,thread_num;
 MOD_DEF(kmt) 
 {
 	.init = kmt_init,
@@ -77,8 +79,6 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		thread_num++;
 		printf("eax:0x%08x ebx:0x%08x ecx:0x%08x edx:0x%08x esi:0x%08x edi:0x%08x eip:0x%08x\n", &thread->thread_reg->eax, &thread->thread_reg->ebx, &thread->thread_reg->ecx,&thread->thread_reg->edx,&thread->thread_reg->esi,&thread->thread_reg->edi,&thread->thread_reg->eip);
 		printf("/*=====in kmt.c 80line create()====*/\n id:%d work[thread_num]:0x%08x\n", work[thread_num]->id, work[thread_num]);		
-		//if(current->next)
-		//	printf("current->next->t->id:%d\n",current->next->t->id);
 		//spin_unlock(&create_lk);
 		return 0;
 	}
