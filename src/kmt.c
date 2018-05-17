@@ -73,6 +73,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		_Area stack;
 		stack.start = thread->stack; stack.end = thread->stack + STK_SZ;
 		thread->thread_reg = _make(stack, entry, arg);
+		work[thread_num] = pmm->alloc(sizeof(thread_t));
 		work[thread_num] = thread;
 		
 		printf("eax:0x%08x ebx:0x%08x ecx:0x%08x edx:0x%08x esi:0x%08x edi:0x%08x eip:0x%08x\n", &thread->thread_reg->eax, &thread->thread_reg->ebx, &thread->thread_reg->ecx,&thread->thread_reg->edx,&thread->thread_reg->esi,&thread->thread_reg->edi,&thread->thread_reg->eip);
