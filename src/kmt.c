@@ -49,6 +49,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 	//printf("/*=====in kmt.c 51line create()====*/\nwork_head:0x%08x work_head->next:0x%08x\n",
 			//work_head, work_head->next);
 	//spin_lock(&create_lk);
+	thread = pmm->alloc(sizeof(thread_t));
 	void *fence1_addr = pmm->alloc(FC_SZ);
 	void *addr = pmm->alloc(STK_SZ);
 	void *fence2_addr = pmm->alloc(FC_SZ);
@@ -192,7 +193,7 @@ static void sem_wait(sem_t *sem)
 {
 	spin_lock(&sem_lk);
 	printf("\nthis is in %s sem_wait!!!!\n", sem->name);
-	printf("address of sem:0x%08x\n", &sem);
+	//printf("address of sem:0x%08x\n", &sem);
 	sem->count--;
 	//printf("name:%s sem->count--;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_wait()====*/sem->name:%s count:%d\n", sem->name,sem->count);
