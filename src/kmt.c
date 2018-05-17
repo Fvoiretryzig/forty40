@@ -49,7 +49,6 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 	//printf("/*=====in kmt.c 51line create()====*/\nwork_head:0x%08x work_head->next:0x%08x\n",
 			//work_head, work_head->next);
 	//spin_lock(&create_lk);
-	thread = pmm->alloc(sizeof(thread_t));
 	void *fence1_addr = pmm->alloc(FC_SZ);
 	void *addr = pmm->alloc(STK_SZ);
 	void *fence2_addr = pmm->alloc(FC_SZ);
