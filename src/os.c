@@ -2,7 +2,7 @@
 #include <libc.h>
 
 sem_t empty, fill;
-thread_t t1, t2, t3,t4,t5, t6, t7, t8 ,t9, t10,t11,t12,t13,t14,t15,t16;
+thread_t t1, t2, t3;//,t4,t5, t6, t7, t8 ,t9, t10,t11,t12,t13,t14,t15,t16;
 #define BUF_SIZE 4
 
 static void producer() {
@@ -37,21 +37,21 @@ static void test_run() {
   	kmt->create(&t1, &producer, NULL);
   	kmt->create(&t2, &consumer, NULL);
   	//printf("before create t2\n");
-  	kmt->create(&t3, &consumer, NULL);
+  	kmt->create(&t3, &producer, NULL);
   	//printf("before create t3\n");
-  	kmt->create(&t4, &producer, NULL);	
-  	kmt->create(&t5, &producer, NULL);
-  	kmt->create(&t6, &consumer, NULL);
-  	kmt->create(&t7, &consumer, NULL);
-  	kmt->create(&t8, &producer, NULL);
-  	kmt->create(&t9, &consumer, NULL);
-  	kmt->create(&t10, &consumer, NULL);
-	kmt->create(&t11, &producer, NULL);
-  	kmt->create(&t12, &consumer, NULL);
-  	kmt->create(&t13, &consumer, NULL);
-  	kmt->create(&t14, &producer, NULL);
-  	kmt->create(&t15, &consumer, NULL);
-  	kmt->create(&t16, &consumer, NULL);
+  	//kmt->create(&t4, &consumer, NULL);	
+  	//kmt->create(&t5, &producer, NULL);
+  	//kmt->create(&t6, &consumer, NULL);
+  	//kmt->create(&t7, &consumer, NULL);
+  	//kmt->create(&t8, &producer, NULL);
+  	//kmt->create(&t9, &consumer, NULL);
+  	//kmt->create(&t10, &consumer, NULL);
+	//kmt->create(&t11, &producer, NULL);
+  	//kmt->create(&t12, &consumer, NULL);
+  	//kmt->create(&t13, &consumer, NULL);
+  	//kmt->create(&t14, &producer, NULL);
+  	//kmt->create(&t15, &consumer, NULL);
+  	//kmt->create(&t16, &consumer, NULL);
   	kmt->spin_unlock(&lk);
   	//printf("in test run _intr_read():%d\n",_intr_read());
 /*	printf("before create t1\n");
