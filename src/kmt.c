@@ -1,7 +1,7 @@
 #include <os.h>
 #include<libc.h>
 
-#define STK_SZ 0x10000
+#define STK_SZ 8192
 #define FC_SZ 32
 
 static struct thread_node* work_head;
@@ -146,7 +146,7 @@ static thread_t* schedule()
 	pmm->free(current);*/
 	//printf("/*=====in kmt.c 128line schedule()====*/\ncurrent:0x%08x current->t:0x%08x\n", current, current->t);	
 	//!!!!printf("ktm141: current->id:%d\n", current->t->id);
-	//printf("eax:0x%08x ebx:0x%08x ecx:0x%08x edx:0x%08x esi:0x%08x edi:0x%08x eip:0x%08x\n", current->t->thread_reg->eax, current->t->thread_reg->ebx, current->t->thread_reg->ecx,current->t->thread_reg->edx,current->t->thread_reg->esi,current->t->thread_reg->edi,current->t->thread_reg->eip);
+	printf("eax:0x%08x ebx:0x%08x ecx:0x%08x edx:0x%08x esi:0x%08x edi:0x%08x eip:0x%08x\n", current->t->thread_reg->eax, current->t->thread_reg->ebx, current->t->thread_reg->ecx,current->t->thread_reg->edx,current->t->thread_reg->esi,current->t->thread_reg->edi,current->t->thread_reg->eip);
 	printf("\n");
 	return current->t;
 }
