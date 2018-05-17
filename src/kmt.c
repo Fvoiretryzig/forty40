@@ -3,8 +3,9 @@
 
 #define STK_SZ 8192
 #define FC_SZ 32
+#define T_max 20
 
-static struct thread_node* work_head;
+//static struct thread_node* work_head;
 
 typedef struct thread thread_t;
 typedef struct spinlock spinlock_t;
@@ -19,6 +20,9 @@ static void spin_unlock(spinlock_t *lk);
 static void sem_init(sem_t *sem, const char *name, int value);
 static void sem_wait(sem_t *sem);
 static void sem_signal(sem_t *sem);
+thread_t* work[T_max];
+extern int thread_num;
+int point;
 MOD_DEF(kmt) 
 {
 	.init = kmt_init,
@@ -38,7 +42,10 @@ static void kmt_init()
 {
 	spin_init(&create_lk, "create_lk");
 	spin_init(&sem_lk, "sem_lk");
-	work_head = NULL;
+	thread_num = 0;
+	for(int i = 0; i<T_max; i++)
+		work[i] = NULL;
+	point = 0;
 	//TODO();
 }
   /*===================================*/
@@ -46,8 +53,6 @@ static void kmt_init()
 /*===================================*/
 static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 {
-	//printf("/*=====in kmt.c 51line create()====*/\nwork_head:0x%08x work_head->next:0x%08x\n",
-			//work_head, work_head->next);
 	//spin_lock(&create_lk);
 	void *fence1_addr = pmm->alloc(FC_SZ);
 	void *addr = pmm->alloc(STK_SZ);
@@ -55,16 +60,8 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 	if(addr && fence1_addr && fence2_addr){
 		printf("/*=====in kmt.c 58line create()====*/\nfence1:0x%08x addr:0x%08x fence2:0x%08x\n", 
 				fence1_addr, addr, fence2_addr);
-		struct thread_node* current = pmm->alloc(sizeof(struct thread_node));
-		if(!work_head){
-			thread->id = 1;
-		}
-		else{
-			thread->id = work_head->t->id+1;
-		}
-		//printf("/*=====in kmt.c 68line create()====*/\nwork_head:0x%08x work_head->next:0x%08x ",
-		//	work_head, work_head->next);
-		//printf("current:0x%08x current->t:0x%08x\n",current, current->t);
+		thread_num++;
+		thread->id = thread_num;
 		thread->fence1 = fence1_addr;
 		thread->stack = addr;
 		thread->fence2 = fence2_addr;
@@ -76,11 +73,8 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		_Area stack;
 		stack.start = thread->stack; stack.end = thread->stack + STK_SZ;
 		thread->thread_reg = _make(stack, entry, arg);
-		current->t = thread;
-		current->next = work_head; work_head->prev = current; current->prev = NULL;
-		work_head = current;
+		work[thread_num] = thread;
 		
-		printf("/*=====in kmt.c 78line create()====*/\ntid:%d current:0x%08x current->next:0x%08x current->t->id:%d current->t:0x%08x\n", thread->id, current, current->next, current->t->id,current->t);
 		printf("eax:0x%08x ebx:0x%08x ecx:0x%08x edx:0x%08x esi:0x%08x edi:0x%08x eip:0x%08x\n", &thread->thread_reg->eax, &thread->thread_reg->ebx, &thread->thread_reg->ecx,&thread->thread_reg->edx,&thread->thread_reg->esi,&thread->thread_reg->edi,&thread->thread_reg->eip);
 		//printf("/*=====in kmt.c 80line create()====*/\nwork_head:0x%08x work_head->next:0x%08x work_head->next id:%d work_head->next->t:0x%08x\n", work_head, work_head->next,work_head->next->t->id, work_head->next->t);		
 		//if(current->next)
@@ -96,59 +90,24 @@ static void teardown(thread_t *thread)
 	void* fence1_addr = thread->fence1;
 	void* fence2_addr = thread->fence2;
 	if(addr && fence1_addr && fence2_addr){
-		struct thread_node* current = work_head;
-		while(current->t->id != thread->id)
-			current = current->next;
-		current->prev->next = current->next; current->next->prev = current->prev;
-		current->next = NULL; current->prev = NULL;
-		pmm->free(current);
-		pmm->free(fence2_addr);
-		pmm->free(addr);
-		pmm->free(fence1_addr);
-		thread->stack = NULL; thread->fence1 = NULL; thread->fence2 = NULL;
-		thread->thread_reg = NULL;
-		return;
+		work[thread->id] = NULL;
+		for(int i = thread->id; i<thread_num-1; i++)
+			work[i] = work[i+1];
+		work[thread_num] = NULL;
+		thread_num--;
+		pmm->free(addr); pmm->free(fence1_addr); pmm->free(fence2_addr);
 	}
 	return;
 }
 static thread_t* schedule()
 {		
 	printf("\nthis is in schedule!!!!\n");
-	struct thread_node* current = pmm->alloc(sizeof(struct thread_node));
-	//printf("kmt115\n");
-	current = work_head;
-	//printf("kmt117\n");
-	if(current == NULL){
-		return NULL;
-		//printf("kmt120\n");
-	}
-	printf("current:0x%08x current->t->id:%d\n", current, current->t->id);	
-	while(current->next){
-		current = current->next;
-		//printf("kmt126\n");
-		//printf("/*=====in kmt.c 121line schedule()====*/\ncurrent:0x%08x current->next:0x%08x current->t->id:%d\n", current, current->next, current->t->id);
-	}
-	//printf("ktm130: work_head:0x%08x current:0x%08x\n", work_head, current);
-	 //thread_t* ret = current->t;
-	if(current->prev){
-		//printf("kmt132 current->t:0x%08x current->prev->t:0x%08x\n",current->t, current->prev->t);
-		current->prev->next = NULL; work_head->prev = current;
-		current->prev = NULL; current->next = work_head;
-		work_head = current;	//把处理了的任务放置最前
-		//printf("work_head:0x%08x work_head->next:0x%08x\n", work_head, work_head->next);
-	
-	}
-	//printf("current:0x%08x current->t->id:%d\n", current, current->t->id);
-	/*if(current->prev){
-		current->prev->next = NULL;
-		current->prev = NULL;
-	}
-	pmm->free(current);*/
-	//printf("/*=====in kmt.c 128line schedule()====*/\ncurrent:0x%08x current->t:0x%08x\n", current, current->t);	
-	//!!!!printf("ktm141: current->id:%d\n", current->t->id);
+
+	thread_t* t = work[point%thread_num];
+	point++;
 	printf("eax:0x%08x ebx:0x%08x ecx:0x%08x edx:0x%08x esi:0x%08x edi:0x%08x eip:0x%08x\n", current->t->thread_reg->eax, current->t->thread_reg->ebx, current->t->thread_reg->ecx,current->t->thread_reg->edx,current->t->thread_reg->esi,current->t->thread_reg->edi,current->t->thread_reg->eip);
 	printf("\n");
-	return current->t;
+	return t;
 }
   /*===================================*/
  /*=========deal with spinlock========*/
