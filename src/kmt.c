@@ -105,7 +105,7 @@ static thread_t* schedule()
 
 	thread_t* t = work[point%thread_num];
 	point++;
-	printf("eax:0x%08x ebx:0x%08x ecx:0x%08x edx:0x%08x esi:0x%08x edi:0x%08x eip:0x%08x\n", current->t->thread_reg->eax, current->t->thread_reg->ebx, current->t->thread_reg->ecx,current->t->thread_reg->edx,current->t->thread_reg->esi,current->t->thread_reg->edi,current->t->thread_reg->eip);
+	printf("eax:0x%08x ebx:0x%08x ecx:0x%08x edx:0x%08x esi:0x%08x edi:0x%08x eip:0x%08x\n", t->thread_reg->eax, t->thread_reg->ebx, t->thread_reg->ecx,t->thread_reg->edx,t->thread_reg->esi,t->thread_reg->edi, t->thread_reg->eip);
 	printf("\n");
 	return t;
 }
@@ -207,11 +207,6 @@ static void sem_wait(sem_t *sem)
 		//printf("name:%s while(sem->queue[i])\n", sem->name);
 	}
 	printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
-	struct thread_node* current = pmm->alloc(sizeof(struct thread_node));
-	current = work_head;
-	while(current->t->id !=1)
-		current = current->next;
-	printf("in wait: id:%d eip:0x%08x\n\n",current->t->id, current->t->thread_reg->eip );
 	spin_unlock(&sem_lk);
 	
 	return;
