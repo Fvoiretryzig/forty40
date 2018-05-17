@@ -76,7 +76,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		work[thread_num] = thread;
 		
 		printf("eax:0x%08x ebx:0x%08x ecx:0x%08x edx:0x%08x esi:0x%08x edi:0x%08x eip:0x%08x\n", &thread->thread_reg->eax, &thread->thread_reg->ebx, &thread->thread_reg->ecx,&thread->thread_reg->edx,&thread->thread_reg->esi,&thread->thread_reg->edi,&thread->thread_reg->eip);
-		//printf("/*=====in kmt.c 80line create()====*/\nwork_head:0x%08x work_head->next:0x%08x work_head->next id:%d work_head->next->t:0x%08x\n", work_head, work_head->next,work_head->next->t->id, work_head->next->t);		
+		printf("/*=====in kmt.c 80line create()====*/\n id:%d work[thread_num]:0x%08x\n", work[thread_num]->id, work[thread_num]);		
 		//if(current->next)
 		//	printf("current->next->t->id:%d\n",current->next->t->id);
 		//spin_unlock(&create_lk);
