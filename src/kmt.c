@@ -81,7 +81,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		work_head = current;
 		
 		printf("/*=====in kmt.c 78line create()====*/\ntid:%d current:0x%08x current->next:0x%08x current->t->id:%d current->t:0x%08x\n", thread->id, current, current->next, current->t->id,current->t);
-		printf("eax:0x%08x ebx:0x%08x ecx:0x%08x edx:0x%08x esi:0x%08x edi:0x%08x eip:0x%08x\n", thread->thread_reg->eax, thread->thread_reg->ebx, thread->thread_reg->ecx,thread->thread_reg->edx,thread->thread_reg->esi,thread->thread_reg->edi,thread->thread_reg->eip);
+		printf("eax:0x%08x ebx:0x%08x ecx:0x%08x edx:0x%08x esi:0x%08x edi:0x%08x eip:0x%08x\n", &thread->thread_reg->eax, &thread->thread_reg->ebx, &thread->thread_reg->ecx,&thread->thread_reg->edx,&thread->thread_reg->esi,&thread->thread_reg->edi,&thread->thread_reg->eip);
 		//printf("/*=====in kmt.c 80line create()====*/\nwork_head:0x%08x work_head->next:0x%08x work_head->next id:%d work_head->next->t:0x%08x\n", work_head, work_head->next,work_head->next->t->id, work_head->next->t);		
 		//if(current->next)
 		//	printf("current->next->t->id:%d\n",current->next->t->id);
@@ -146,7 +146,7 @@ static thread_t* schedule()
 	pmm->free(current);*/
 	//printf("/*=====in kmt.c 128line schedule()====*/\ncurrent:0x%08x current->t:0x%08x\n", current, current->t);	
 	//!!!!printf("ktm141: current->id:%d\n", current->t->id);
-	printf("eax:0x%08x ebx:0x%08x ecx:0x%08x edx:0x%08x esi:0x%08x edi:0x%08x eip:0x%08x\n", current->t->thread_reg->eax, current->t->thread_reg->ebx, current->t->thread_reg->ecx,current->t->thread_reg->edx,current->t->thread_reg->esi,current->t->thread_reg->edi,current->t->thread_reg->eip);
+	//printf("eax:0x%08x ebx:0x%08x ecx:0x%08x edx:0x%08x esi:0x%08x edi:0x%08x eip:0x%08x\n", current->t->thread_reg->eax, current->t->thread_reg->ebx, current->t->thread_reg->ecx,current->t->thread_reg->edx,current->t->thread_reg->esi,current->t->thread_reg->edi,current->t->thread_reg->eip);
 	printf("\n");
 	return current->t;
 }
