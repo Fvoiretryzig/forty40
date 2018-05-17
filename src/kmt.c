@@ -45,7 +45,7 @@ static void kmt_init()
 	thread_num = 0;
 	for(int i = 0; i<T_max; i++)
 		work[i] = NULL;
-	point = 1;
+	point = 0;
 	//TODO();
 }
   /*===================================*/
@@ -60,7 +60,6 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 	if(addr && fence1_addr && fence2_addr){
 		printf("/*=====in kmt.c 58line create()====*/\nfence1:0x%08x addr:0x%08x fence2:0x%08x\n", 
 				fence1_addr, addr, fence2_addr);
-		thread_num++;
 		thread->id = thread_num;
 		thread->fence1 = fence1_addr;
 		thread->stack = addr;
@@ -73,9 +72,9 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		_Area stack;
 		stack.start = thread->stack; stack.end = thread->stack + STK_SZ;
 		thread->thread_reg = _make(stack, entry, arg);
-		work[thread_num] = pmm->alloc(sizeof(thread_t));
+		//work[thread_num] = pmm->alloc(sizeof(thread_t));
 		work[thread_num] = thread;
-		
+		thread_num++;
 		printf("eax:0x%08x ebx:0x%08x ecx:0x%08x edx:0x%08x esi:0x%08x edi:0x%08x eip:0x%08x\n", &thread->thread_reg->eax, &thread->thread_reg->ebx, &thread->thread_reg->ecx,&thread->thread_reg->edx,&thread->thread_reg->esi,&thread->thread_reg->edi,&thread->thread_reg->eip);
 		printf("/*=====in kmt.c 80line create()====*/\n id:%d work[thread_num]:0x%08x\n", work[thread_num]->id, work[thread_num]);		
 		//if(current->next)
