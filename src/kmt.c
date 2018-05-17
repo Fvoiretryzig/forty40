@@ -104,7 +104,8 @@ static thread_t* schedule()
 {		
 	printf("\nthis is in schedule!!!!\n");
 
-	thread_t* t = work[point%thread_num];
+	thread_t* t = pmm->alloc(sizeof(thread_t));
+	t = work[point%thread_num];
 	point++;
 	printf("eax0x%08x:0x%08x ebx0x%08x:0x%08x ecx0x%08x:0x%08x edx0x%08x:0x%08x esi0x%08x:0x%08x edi0x%08x:0x%08x eip0x%08x:0x%08x\n",&t->thread_reg->eax, t->thread_reg->eax,&t->thread_reg->ebx, t->thread_reg->ebx,&t->thread_reg->ecx, t->thread_reg->ecx,&t->thread_reg->edx,t->thread_reg->edx,&t->thread_reg->esi,t->thread_reg->esi,&t->thread_reg->edi,t->thread_reg->edi,&t->thread_reg->eip, t->thread_reg->eip);
 	printf("\n");
