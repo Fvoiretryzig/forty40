@@ -9,6 +9,7 @@ static void producer() {
 	while (1) {
 		printf("point p1\n");
 		kmt->sem_wait(&empty);
+		printf("t1 id:%d eip:0x%08x\n", t1.id, t1.thread_reg->eip);
 		printf("point p2\n");
 		printf("(");
 		printf("point p3\n");

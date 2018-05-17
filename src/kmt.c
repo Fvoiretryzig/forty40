@@ -145,6 +145,7 @@ static thread_t* schedule()
 	pmm->free(current);*/
 	//printf("/*=====in kmt.c 128line schedule()====*/\ncurrent:0x%08x current->t:0x%08x\n", current, current->t);	
 	//!!!!printf("ktm141: current->id:%d\n", current->t->id);
+	printf("current->t->id:%d current->t->thread_reg->eip:0x%08x\n",current->t->id, current->t->thread_reg->eip);
 	printf("\n");
 	return current->t;
 }
