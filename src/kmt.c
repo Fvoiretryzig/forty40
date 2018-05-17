@@ -282,8 +282,9 @@ static void sem_signal(sem_t *sem)
 		last_node->if_in = 0;
 		//printf("/*=====in kmt.c 128line sem_signal() in if_sleep====*/\nsem->name:%s\n", sem->name);
 	}
-	spin_unlock(&sem_lk);
+	
 	printf("/*=====in kmt.c 203line sem_signal()====*/\nsem->name:%s sem->count:%d\n\n", sem->name, sem->count);
+	spin_unlock(&sem_lk);
 	return;
 }
 
