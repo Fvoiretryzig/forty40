@@ -2,7 +2,7 @@
 #include <libc.h>
 
 sem_t empty, fill;
-thread_t t1, t2, t3;//,t4,t5, t6, t7, t8 ,t9, t10,t11,t12,t13,t14,t15,t16;
+thread_t t1, t2;//, t3,t4,t5, t6, t7, t8 ,t9, t10,t11,t12,t13,t14,t15,t16;
 #define BUF_SIZE 4
 
 static void producer() {
@@ -37,7 +37,7 @@ static void test_run() {
   	kmt->create(&t1, &producer, NULL);
   	kmt->create(&t2, &consumer, NULL);
   	//printf("before create t2\n");
-  	kmt->create(&t3, &producer, NULL);
+  	//kmt->create(&t3, &producer, NULL);
   	//printf("before create t3\n");
   	//kmt->create(&t4, &consumer, NULL);	
   	//kmt->create(&t5, &producer, NULL);
