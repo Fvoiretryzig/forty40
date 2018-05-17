@@ -45,7 +45,7 @@ static void kmt_init()
 	thread_num = 0;
 	for(int i = 0; i<T_max; i++)
 		work[i] = NULL;
-	point = 0;
+	point = 1;
 	//TODO();
 }
   /*===================================*/
