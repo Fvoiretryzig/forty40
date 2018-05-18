@@ -79,10 +79,10 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		_Area stack;
 		stack.start = thread->stack; stack.end = thread->stack + STK_SZ;
 		thread->thread_reg = _make(stack, entry, arg);
-		work[thread_num] = *thread;
-		printf("/*=====in kmt.c 80line create()====*/\n id:%d work[thread_num]:0x%08x\n", work[thread_num]->id, work[thread_num]);	
+		work[thread_cnt] = *thread;
+		printf("/*=====in kmt.c 80line create()====*/\n id:%d work[thread_cnt]:0x%08x\n", work[thread_cnt]->id, work[thread_cnt]);	
 		thread_num++;
-		printf("eax:0x%08x ebx:0x%08x ecx:0x%08x edx:0x%08x esi:0x%08x edi:0x%08x eip:0x%08x\n", &thread->thread_reg->eax, &thread->thread_reg->ebx, &thread->thread_reg->ecx,&thread->thread_reg->edx,&thread->thread_reg->esi,&thread->thread_reg->edi,&thread->thread_reg->eip);	
+		printf("eip:0x%08x\n", thread->thread_reg->eip);	
 		//spin_unlock(&create_lk);
 		return 0;
 	}
