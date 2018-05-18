@@ -24,10 +24,10 @@ static void producer() {
 }
 static void consumer() {
 	while (1) {
-		printf("before c1 t2 id:%d eip:0x%08x\n", t2.id, t2.thread_reg->eip);
+		//printf("before c1 t2 id:%d eip:0x%08x\n", t2.id, t2.thread_reg->eip);
 		printf("point c1\n");
 		kmt->sem_wait(&fill);
-		printf("before c2 t2 id:%d eip:0x%08x\n", t2.id, t2.thread_reg->eip);
+		//printf("before c2 t2 id:%d eip:0x%08x\n", t2.id, t2.thread_reg->eip);
 		printf("point c2\n");
 		printf(")");
 		printf("point c3\n");
