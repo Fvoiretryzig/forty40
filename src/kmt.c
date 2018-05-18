@@ -24,9 +24,6 @@ static void sem_signal(sem_t *sem);
 extern thread_t work[T_max];
 extern int thread_cnt;
 extern int current_id;
-thread_t work[T_max];
-int thread_cnt;
-int current_id;
 
 
 MOD_DEF(kmt) 
@@ -42,8 +39,13 @@ MOD_DEF(kmt)
 	.sem_wait = sem_wait,
 	.sem_signal = sem_signal,
 };
+
 spinlock_t create_lk;
 spinlock_t sem_lk;
+thread_t work[T_max];
+int thread_cnt;
+int current_id;
+
 static void kmt_init()
 {
 	spin_init(&create_lk, "create_lk");
