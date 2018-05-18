@@ -108,14 +108,14 @@ static void teardown(thread_t *thread)
 }
 static thread_t* schedule()
 {		
-	printf("\nthis is in schedule!!!!\n");
+	//!@#$printf("\nthis is in schedule!!!!\n");
 	int old_id = current_id;
-	printf("id:%d ", work[old_id].id);
+	//!@#$printf("id:%d ", work[old_id].id);
 	//!@#$printf("thread stack:0x%08x ", work[old_id].stack);
-	printf("eip 0x%08x:0x%08x\n",&work[old_id].thread_reg->eip, work[old_id].thread_reg->eip);
+	//!@#$printf("eip 0x%08x:0x%08x\n",&work[old_id].thread_reg->eip, work[old_id].thread_reg->eip);
 	current_id = (current_id+1)%thread_cnt;
 	
-	printf("\n");
+	//!@#$printf("\n");
 	return &work[old_id];
 }
   /*===================================*/
