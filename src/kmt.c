@@ -112,6 +112,7 @@ static thread_t* schedule()
 
 	thread_t* t = pmm->alloc(sizeof(thread_t));
 	t = &work[current_id];
+	printf("thread stack:0x%08x\n", thread.stack);
 	current_id = (current_id+1)%thread_cnt;
 	printf("eip 0x%08x:0x%08x\n",&t->thread_reg->eip, t->thread_reg->eip);
 	printf("\n");
