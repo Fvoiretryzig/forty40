@@ -81,7 +81,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		thread->thread_reg = _make(stack, entry, arg);
 		work[thread_cnt] = *thread;
 		printf("/*=====in kmt.c 80line create()====*/\n id:%d work[thread_cnt]:0x%08x\n", work[thread_cnt]->id, work[thread_cnt]);	
-		thread_num++;
+		thread_cnt++;
 		printf("eip:0x%08x\n", thread->thread_reg->eip);	
 		//spin_unlock(&create_lk);
 		return 0;
@@ -101,7 +101,7 @@ static void teardown(thread_t *thread)
 		for(int i = thread->id; i<thread_cnt-1; i++)
 			work[i] = work[i+1];
 		work[thread_cnt].id = -1;
-		thread_num--;
+		thread_cnt--;
 		pmm->free(addr); pmm->free(fence1_addr); pmm->free(fence2_addr);
 	}
 	return;
@@ -112,7 +112,7 @@ static thread_t* schedule()
 
 	thread_t* t = pmm->alloc(sizeof(thread_t));
 	t = &work[current_id];
-	current_id = (current_id+1)%thread_num;
+	current_id = (current_id+1)%thread_cnt;
 	printf("eip 0x%08x:0x%08x\n",&t->thread_reg->eip, t->thread_reg->eip);
 	printf("\n");
 	return t;
