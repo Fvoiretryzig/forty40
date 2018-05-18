@@ -200,6 +200,7 @@ static void sem_wait(sem_t *sem)
 			printf("last_node:0x%08x\n", last_node);
 		}	
 		spin_lock(&sem_lk);
+		sem->count--;
 		if(last_node->prev || last_node->next){
 			if(last_node->prev){
 				last_node->prev->next = last_node->next;
