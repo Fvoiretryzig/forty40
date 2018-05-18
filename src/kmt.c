@@ -111,7 +111,7 @@ static thread_t* schedule()
 	printf("\nthis is in schedule!!!!\n");
 	int old_id = current_id;
 	printf("id:%d ", work[old_id].id);
-	printf("thread stack:0x%08x ", work[old_id].stack);
+	//!@#$printf("thread stack:0x%08x ", work[old_id].stack);
 	printf("eip 0x%08x:0x%08x\n",&work[old_id].thread_reg->eip, work[old_id].thread_reg->eip);
 	current_id = (current_id+1)%thread_cnt;
 	
@@ -196,9 +196,8 @@ static void sem_wait(sem_t *sem)
 		}
 		//!@#$printf("kmt wait 221 last_node:0x%08x last_node->if_in:%d\n",last_node, last_node->if_in);
 		spin_unlock(&sem_lk);
-		while(last_node->if_in){
+		while(last_node->if_in);
 			//!@#$printf("last_node:0x%08x\n", last_node);
-		}	
 		spin_lock(&sem_lk);
 		sem->count--;
 		if(last_node->prev || last_node->next){
