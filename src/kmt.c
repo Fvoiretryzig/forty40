@@ -197,7 +197,7 @@ static void sem_wait(sem_t *sem)
 		//!@#$printf("kmt wait 221 last_node:0x%08x last_node->if_in:%d\n",last_node, last_node->if_in);
 		spin_unlock(&sem_lk);
 		while(last_node->if_in){
-			printf("last_node:0x%08x\n", last_node);
+			//!@#$printf("last_node:0x%08x\n", last_node);
 		}	
 		spin_lock(&sem_lk);
 		sem->count--;
@@ -214,7 +214,7 @@ static void sem_wait(sem_t *sem)
 		pmm->free(last_node);
 		//printf("name:%s while(sem->queue[i])\n", sem->name);
 	}
-	printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
+	//!@#$printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
 	spin_unlock(&sem_lk);
 	
 	return;
@@ -222,7 +222,7 @@ static void sem_wait(sem_t *sem)
 static void sem_signal(sem_t *sem)
 {
 	spin_lock(&sem_lk);
-	printf("\nthis is in %s sem_signal!!!!!\n", sem->name);
+	//!@#$printf("\nthis is in %s sem_signal!!!!!\n", sem->name);
 	sem->count++;
 	//printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_signal()====*/sem->name:%s\n", sem->name);
@@ -247,7 +247,7 @@ static void sem_signal(sem_t *sem)
 		//printf("/*=====in kmt.c 128line sem_signal() in if_sleep====*/\nsem->name:%s\n", sem->name);
 	}
 	
-	printf("/*=====in kmt.c 203line sem_signal()====*/\nsem->name:%s sem->count:%d\n\n", sem->name, sem->count);
+	//!@#$printf("/*=====in kmt.c 203line sem_signal()====*/\nsem->name:%s sem->count:%d\n\n", sem->name, sem->count);
 	spin_unlock(&sem_lk);
 	return;
 }
