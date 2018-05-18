@@ -53,7 +53,7 @@ static void kmt_init()
 	for(int i = 0; i<T_max; i++)
 		work[i].id = -1;
 	current_id = 0;
-	tread_cnt = 0;
+	thread_cnt = 0;
 }
   /*===================================*/
  /*==========deal with thread=========*/
@@ -95,12 +95,12 @@ static void teardown(thread_t *thread)
 	void* fence2_addr = thread->fence2;
 	if(addr && fence1_addr && fence2_addr){
 		if(current_id == thread->id){
-			current_id = (current+1)%thread_cnt;
+			current_id = (current_id+1)%thread_cnt;
 		}
 		work[thread->id].id = -1;
-		for(int i = thread->id; i<thread_num-1; i++)
+		for(int i = thread->id; i<thread_cnt-1; i++)
 			work[i] = work[i+1];
-		work[thread_num] = NULL;
+		work[thread_cnt].id = -1;
 		thread_num--;
 		pmm->free(addr); pmm->free(fence1_addr); pmm->free(fence2_addr);
 	}
