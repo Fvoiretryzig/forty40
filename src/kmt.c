@@ -82,7 +82,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		work[thread_cnt] = *thread;
 		printf("/*=====in kmt.c 80line create()====*/\n id:%d work[thread_cnt]:0x%08x ", work[thread_cnt].id, work[thread_cnt]);	
 		thread_cnt++;
-		printf("eip:0x%08x\n", thread->thread_reg->eip);	
+		//!@#$printf("eip:0x%08x\n", thread->thread_reg->eip);	
 		//spin_unlock(&create_lk);
 		return 0;
 	}
@@ -108,14 +108,14 @@ static void teardown(thread_t *thread)
 }
 static thread_t* schedule()
 {		
-	printf("\nthis is in schedule!!!!\n");
+	//!@#$printf("\nthis is in schedule!!!!\n");
 	int old_id = current_id;
-	printf("id:%d ", work[old_id].id);
-	printf("thread stack:0x%08x ", work[old_id].stack);
-	printf("eip 0x%08x:0x%08x\n",&work[old_id].thread_reg->eip, work[old_id].thread_reg->eip);
+	//!@#$printf("id:%d ", work[old_id].id);
+	//!@#$printf("thread stack:0x%08x ", work[old_id].stack);
+	//!@#$printf("eip 0x%08x:0x%08x\n",&work[old_id].thread_reg->eip, work[old_id].thread_reg->eip);
 	current_id = (current_id+1)%thread_cnt;
 	
-	printf("\n");
+	//!@#$printf("\n");
 	return &work[old_id];
 }
   /*===================================*/
@@ -151,7 +151,7 @@ static void sem_init(sem_t *sem, const char *name, int value)
 	sem->count = value;
 	int len = strlen(name);
 	strncpy(sem->name, name ,len);
-	printf("name:%s\n", sem->name);
+	//!@#$printf("name:%s\n", sem->name);
 	sem->queue = pmm->alloc(sizeof(struct queue_node));
 	sem->queue->if_in = 0; sem->queue->next = NULL; sem->queue->prev = NULL;
 	return;
@@ -159,7 +159,7 @@ static void sem_init(sem_t *sem, const char *name, int value)
 static void sem_wait(sem_t *sem)
 {
 	spin_lock(&sem_lk);
-	printf("\nthis is in %s sem_wait!!!!\n", sem->name);
+	//!@#$printf("\nthis is in %s sem_wait!!!!\n", sem->name);
 	sem->count--;
 	//printf("/*=====in kmt.c 128line sem_wait()====*/sem->name:%s count:%d\n", sem->name,sem->count);
 	if(sem->count < 0){
@@ -168,15 +168,15 @@ static void sem_wait(sem_t *sem)
 		struct queue_node* current_node = pmm->alloc(sizeof(struct queue_node));
 		//int if_vacant = 0;
 		current_node = sem->queue;
-		printf("next is for: ");		
+		//!@#$printf("next is for: ");		
 		for(; current_node->next; current_node = current_node->next){
-			printf("0x%08x ", current_node);
+			//!@#$printf("0x%08x ", current_node);
 			if(!current_node->if_in){	//找到最前面的那个node
 				//if_vacant = 1; 
 				break;
 			}
 		}
-		printf("\n");
+		//!@#$printf("\n");
 		if(!current_node->if_in){
 			current_node->if_in = 1;
 		}
@@ -185,7 +185,7 @@ static void sem_wait(sem_t *sem)
 			add_node->prev = NULL; add_node->next = sem->queue; add_node->if_in = 1;
 			sem->queue->prev = add_node;
 			sem->queue = add_node;		
-			printf("add node:0x%08x\n", add_node);	
+			//!@#$printf("add node:0x%08x\n", add_node);	
 		}	
 		struct queue_node* last_node = pmm->alloc(sizeof(struct queue_node));
 		last_node = sem->queue;
@@ -194,10 +194,10 @@ static void sem_wait(sem_t *sem)
 				break;
 			last_node = last_node->next;
 		}
-		printf("kmt wait 221 last_node:0x%08x last_node->if_in:%d\n",last_node, last_node->if_in);
+		//!@#$printf("kmt wait 221 last_node:0x%08x last_node->if_in:%d\n",last_node, last_node->if_in);
 		spin_unlock(&sem_lk);
 		while(last_node->if_in){
-			printf("last_node:0x%08x\n", last_node);
+			//!@#$printf("last_node:0x%08x\n", last_node);
 		}	
 		spin_lock(&sem_lk);
 		if(last_node->prev || last_node->next){
@@ -213,7 +213,7 @@ static void sem_wait(sem_t *sem)
 		pmm->free(last_node);
 		//printf("name:%s while(sem->queue[i])\n", sem->name);
 	}
-	printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
+	//!@#$printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
 	spin_unlock(&sem_lk);
 	
 	return;
@@ -221,7 +221,7 @@ static void sem_wait(sem_t *sem)
 static void sem_signal(sem_t *sem)
 {
 	spin_lock(&sem_lk);
-	printf("\nthis is in %s sem_signal!!!!!\n", sem->name);
+	//!@#$printf("\nthis is in %s sem_signal!!!!!\n", sem->name);
 	sem->count++;
 	//printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_signal()====*/sem->name:%s\n", sem->name);
@@ -241,12 +241,12 @@ static void sem_signal(sem_t *sem)
 				break;
 			last_node = last_node->next;
 		}
-		printf("kmt signal 253 last_node:0x%08x last_node->if_in:%d\n",last_node, last_node->if_in);
+		//!@#$printf("kmt signal 253 last_node:0x%08x last_node->if_in:%d\n",last_node, last_node->if_in);
 		last_node->if_in = 0;
 		//printf("/*=====in kmt.c 128line sem_signal() in if_sleep====*/\nsem->name:%s\n", sem->name);
 	}
 	
-	printf("/*=====in kmt.c 203line sem_signal()====*/\nsem->name:%s sem->count:%d\n\n", sem->name, sem->count);
+	//!@#$printf("/*=====in kmt.c 203line sem_signal()====*/\nsem->name:%s sem->count:%d\n\n", sem->name, sem->count);
 	spin_unlock(&sem_lk);
 	return;
 }
