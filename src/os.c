@@ -107,7 +107,7 @@ static void os_run() {
 }
 
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
-	if(begin_id != -1){
+	if(last_thread != -1){
 		work[last_thread].thread_reg = regs;
 	}
 	thread_t* t = kmt->schedule();
