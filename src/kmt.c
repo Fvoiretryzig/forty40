@@ -110,8 +110,8 @@ static thread_t* schedule()
 {		
 	printf("\nthis is in schedule!!!!\n");
 	int old_id = current_id;
-	printf("thread stack:0x%08x\n", thread.stack);
-	printf("eip 0x%08x:0x%08x\n",work[current_id].thread_reg->eip, work[current_id].thread_reg->eip);
+	printf("thread stack:0x%08x\n", work[old_id].stack);
+	printf("eip 0x%08x:0x%08x\n",work[old_id].thread_reg->eip, work[old_id].thread_reg->eip);
 	current_id = (current_id+1)%thread_cnt;
 	
 	printf("\n");
