@@ -13,24 +13,24 @@ int last_thread;
 static void producer() {
 	while (1) {
 		//printf("before p1 t1 id:%d eip:0x%08x\n", t1.id, t1.thread_reg->eip);
-		//!@#$printf("point p1\n");
+		printf("point p1\n");
 		kmt->sem_wait(&empty);
 		//printf("before p2 t1 id:%d eip:0x%08x\n", t1.id, t1.thread_reg->eip);
-		//!@#$printf("point p2\n");
+		printf("point p2\n");
 		printf("(");
-		//!@#$printf("point p3\n");
+		printf("point p3\n");
 		kmt->sem_signal(&fill);
 	}
 }
 static void consumer() {
 	while (1) {
 		//printf("before c1 t2 id:%d eip:0x%08x\n", t2.id, t2.thread_reg->eip);
-		//!@#$printf("point c1\n");
+		printf("point c1\n");
 		kmt->sem_wait(&fill);
 		//printf("before c2 t2 id:%d eip:0x%08x\n", t2.id, t2.thread_reg->eip);
-		//!@#$printf("point c2\n");
+		printf("point c2\n");
 		printf(")");
-		//!@#$printf("point c3\n");
+		printf("point c3\n");
 		kmt->sem_signal(&empty);
 	}
 }
