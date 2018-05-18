@@ -20,11 +20,15 @@ static void spin_unlock(spinlock_t *lk);
 static void sem_init(sem_t *sem, const char *name, int value);
 static void sem_wait(sem_t *sem);
 static void sem_signal(sem_t *sem);
-extern thread_t* work[T_max];
-extern int thread_num;
-extern int point;
-thread_t* work[T_max];
-int point,thread_num;
+
+extern thread_t work[T_max];
+extern int thread_cnt;
+extern int current_id;
+thread_t work[T_max];
+int thread_cnt;
+int current_id;
+
+
 MOD_DEF(kmt) 
 {
 	.init = kmt_init,
@@ -44,11 +48,10 @@ static void kmt_init()
 {
 	spin_init(&create_lk, "create_lk");
 	spin_init(&sem_lk, "sem_lk");
-	thread_num = 0;
 	for(int i = 0; i<T_max; i++)
-		work[i] = NULL;
-	point = 0;
-	//TODO();
+		work[i].id = -1;
+	current_id = 0;
+	tread_cnt = 0;
 }
   /*===================================*/
  /*==========deal with thread=========*/
@@ -62,7 +65,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 	if(addr && fence1_addr && fence2_addr){
 		printf("/*=====in kmt.c 58line create()====*/\nfence1:0x%08x addr:0x%08x fence2:0x%08x\n", 
 				fence1_addr, addr, fence2_addr);
-		thread->id = thread_num;
+		thread->id = thread_cnt;
 		thread->fence1 = fence1_addr;
 		thread->stack = addr;
 		thread->fence2 = fence2_addr;
@@ -74,11 +77,10 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		_Area stack;
 		stack.start = thread->stack; stack.end = thread->stack + STK_SZ;
 		thread->thread_reg = _make(stack, entry, arg);
-		//work[thread_num] = pmm->alloc(sizeof(thread_t));
-		work[thread_num] = thread;
+		work[thread_num] = *thread;
+		printf("/*=====in kmt.c 80line create()====*/\n id:%d work[thread_num]:0x%08x\n", work[thread_num]->id, work[thread_num]);	
 		thread_num++;
-		printf("eax:0x%08x ebx:0x%08x ecx:0x%08x edx:0x%08x esi:0x%08x edi:0x%08x eip:0x%08x\n", &thread->thread_reg->eax, &thread->thread_reg->ebx, &thread->thread_reg->ecx,&thread->thread_reg->edx,&thread->thread_reg->esi,&thread->thread_reg->edi,&thread->thread_reg->eip);
-		printf("/*=====in kmt.c 80line create()====*/\n id:%d work[thread_num]:0x%08x\n", work[thread_num]->id, work[thread_num]);		
+		printf("eax:0x%08x ebx:0x%08x ecx:0x%08x edx:0x%08x esi:0x%08x edi:0x%08x eip:0x%08x\n", &thread->thread_reg->eax, &thread->thread_reg->ebx, &thread->thread_reg->ecx,&thread->thread_reg->edx,&thread->thread_reg->esi,&thread->thread_reg->edi,&thread->thread_reg->eip);	
 		//spin_unlock(&create_lk);
 		return 0;
 	}
@@ -90,7 +92,10 @@ static void teardown(thread_t *thread)
 	void* fence1_addr = thread->fence1;
 	void* fence2_addr = thread->fence2;
 	if(addr && fence1_addr && fence2_addr){
-		work[thread->id] = NULL;
+		if(current_id == thread->id){
+			current_id = (current+1)%thread_cnt;
+		}
+		work[thread->id].id = -1;
 		for(int i = thread->id; i<thread_num-1; i++)
 			work[i] = work[i+1];
 		work[thread_num] = NULL;
@@ -104,9 +109,9 @@ static thread_t* schedule()
 	printf("\nthis is in schedule!!!!\n");
 
 	thread_t* t = pmm->alloc(sizeof(thread_t));
-	t = work[point%thread_num];
-	point++;
-	printf("eax0x%08x:0x%08x ebx0x%08x:0x%08x ecx0x%08x:0x%08x edx0x%08x:0x%08x esi0x%08x:0x%08x edi0x%08x:0x%08x eip0x%08x:0x%08x\n",&t->thread_reg->eax, t->thread_reg->eax,&t->thread_reg->ebx, t->thread_reg->ebx,&t->thread_reg->ecx, t->thread_reg->ecx,&t->thread_reg->edx,t->thread_reg->edx,&t->thread_reg->esi,t->thread_reg->esi,&t->thread_reg->edi,t->thread_reg->edi,&t->thread_reg->eip, t->thread_reg->eip);
+	t = &work[current_id];
+	current_id = (current_id+1)%thread_num;
+	printf("eip 0x%08x:0x%08x\n",&t->thread_reg->eip, t->thread_reg->eip);
 	printf("\n");
 	return t;
 }
@@ -152,9 +157,7 @@ static void sem_wait(sem_t *sem)
 {
 	spin_lock(&sem_lk);
 	printf("\nthis is in %s sem_wait!!!!\n", sem->name);
-	//printf("address of sem:0x%08x\n", &sem);
 	sem->count--;
-	//printf("name:%s sem->count--;\ncount:%d\n", sem->name, sem->count);
 	//printf("/*=====in kmt.c 128line sem_wait()====*/sem->name:%s count:%d\n", sem->name,sem->count);
 	if(sem->count < 0){
 		//printf("/*=====in kmt.c 128line sem_wait() in if_sleep====*/\nsem->name:%s\n", sem->name);

@@ -6,6 +6,10 @@ thread_t t1, t2;//, t3,t4,t5, t6, t7, t8 ,t9, t10,t11,t12,t13,t14,t15,t16;
 #define BUF_SIZE 4
 #define T_max 20
 
+thread_t work[T_max];
+int thread_cnt;
+int current_id;
+
 static void producer() {
 	while (1) {
 		//printf("before p1 t1 id:%d eip:0x%08x\n", t1.id, t1.thread_reg->eip);
@@ -100,29 +104,28 @@ static void os_run() {
   test_run();
   while (1) ; // should never return
 }
-int point, thread_num;
-thread_t* work[T_max];
+
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
-	if(point == 0){
-		work[thread_num-1]->thread_reg = regs;
+	if(work[current_id] != -1){
+		work[current_id].thread_reg = regs;
 	}
-	else work[point-1]->thread_reg = regs;
+	thread_t* t = kmt->schedule();
 	
 	if(ev.event == _EVENT_IRQ_TIMER){
-		//printf("this is irq_timer\n");
+		printf("this is irq_timer\n");
 		//printf("in os_interrupt _intr_read():%d\n",_intr_read());
 		//if(_intr_read()){
-		thread_t* t = kmt->schedule();
+		//thread_t* t = kmt->schedule();
 		//printf("t:%d\n", t->id);
-		regs = t->thread_reg;		
+		//regs = t->thread_reg;		
 		//}
 
 	}//时钟中断???????????；
 	if(ev.event == _EVENT_IRQ_IODEV){
 		printf("this is _EVENT_IRQ_IODEV\n");
-		thread_t* t = kmt->schedule();
+		//thread_t* t = kmt->schedule();
 		//printf("t:%d\n", t->id);
-		regs = t->thread_reg;		
+		//regs = t->thread_reg;		
 	}//设备中断；
 	if(ev.event == _EVENT_ERROR) {
 		printf("this is _EVENT_ERROR\n");
@@ -134,11 +137,11 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	}
 		
 	if(ev.event == _EVENT_YIELD){
-		//	printf("request trap into kernal...\n");
-		thread_t* t = kmt->schedule();
+		printf("request trap into kernal...\n");
+		//thread_t* t = kmt->schedule();
 		//printf("hahaha\n");
 		//printf("t:%d\n", t->id);
-		regs = t->thread_reg;		
+		//regs = t->thread_reg;		
 		//__asm__ __volatile__("int $0x81"); 
 	}
 		
@@ -151,5 +154,5 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 /*_EVENT_PAGEFAULT: 缺页异常，其中ev.cause存放异常发生的原因(_PROT_NONE: 页未被映射;_PROT_READ: 读取时出错; _PROT_WRITE: 写入时出错; _PROT_EXEC: 执行时出错)，ev.ref存放访问的地址。*/
 
   //return NULL; // this is allowed by AM
-  return regs;
+  return t->thread_reg;
 }
