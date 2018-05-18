@@ -112,7 +112,7 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	}
 	thread_t* t = kmt->schedule();
 	last_thread = t->id;
-	printf("last_thread:%d\n", last_thread);
+	//printf("last_thread:%d\n", last_thread);
 	if(ev.event == _EVENT_IRQ_TIMER){
 		printf("this is irq_timer\n");
 		//printf("in os_interrupt _intr_read():%d\n",_intr_read());
