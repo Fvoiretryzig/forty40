@@ -197,7 +197,8 @@ static void sem_wait(sem_t *sem)
 		//!@#$printf("kmt wait 221 last_node:0x%08x last_node->if_in:%d\n",last_node, last_node->if_in);
 		spin_unlock(&sem_lk);
 		while(last_node->if_in){
-			printf("last_node:0x%08x\n", last_node);
+			//printf("last_node:0x%08x\n", last_node);
+			printf("");
 		}
 		spin_lock(&sem_lk);
 		sem->count--;
