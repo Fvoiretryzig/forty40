@@ -9,7 +9,7 @@ thread_t t1, t2;//, t3,t4,t5, t6, t7, t8 ,t9, t10,t11,t12,t13,t14,t15,t16;
 thread_t work[T_max];
 int thread_cnt;
 int current_id;
-int begin_id;
+int last_thread;
 static void producer() {
 	while (1) {
 		//printf("before p1 t1 id:%d eip:0x%08x\n", t1.id, t1.thread_reg->eip);
@@ -95,7 +95,7 @@ static void os_init()
 {
   printf("Hello, OS World!\n");
   printf("heap start:0x%08x heap end:0x%08x\n", _heap.start, _heap.end);
-  begin_id = -1;
+  last_thread = -1;
 
 }
 
@@ -108,11 +108,10 @@ static void os_run() {
 
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	if(begin_id != -1){
-		work[current_id].thread_reg = regs;
+		work[last_thread].thread_reg = regs;
 	}
-	else begin_id = 0;
 	thread_t* t = kmt->schedule();
-	
+	last_thread = t->id;
 	if(ev.event == _EVENT_IRQ_TIMER){
 		printf("this is irq_timer\n");
 		//printf("in os_interrupt _intr_read():%d\n",_intr_read());
