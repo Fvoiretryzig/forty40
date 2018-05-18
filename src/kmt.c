@@ -199,9 +199,10 @@ static void sem_wait(sem_t *sem)
 		int hold_on = 0;
 		while(last_node->if_in){
 			//!@#$printf("last_node:0x%08x\n", last_node);
-			hold_on = 1;
+			if(!hold_on)
+				hold_on = 1;
 		}
-		hold_on = 1;
+		hold_on = 0;
 		spin_lock(&sem_lk);
 		sem->count--;
 		if(last_node->prev || last_node->next){
