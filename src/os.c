@@ -1,16 +1,16 @@
 #include <os.h>
 #include <libc.h>
-
-sem_t empty, fill;
-thread_t t1, t2,t3,t4,t5,t6,t7, t8 ,t9, t10,t11,t12,t13,t14,t15,t16;
-#define BUF_SIZE 4
+#include <test.h>
+//sem_t empty, fill;
+//thread_t t1, t2,t3,t4,t5,t6,t7, t8 ,t9, t10,t11,t12,t13,t14,t15,t16;
+//#define BUF_SIZE 4
 #define T_max 20
 
 thread_t work[T_max];
 int thread_cnt;
 int current_id;
 int last_thread;
-static void producer() {
+/*static void producer() {
 	while (1) {
 		kmt->sem_wait(&empty);
 		printf("(");
@@ -48,7 +48,7 @@ static void test_run() {
   	kmt->create(&t15, &consumer, NULL);
   	kmt->create(&t16, &consumer, NULL);
   	kmt->spin_unlock(&lk);
-}
+}*/
 
 static void os_init();
 static void os_run();
