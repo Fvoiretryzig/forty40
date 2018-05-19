@@ -102,7 +102,7 @@ static void os_init()
 static void os_run() {
 
   _intr_write(1); // enable interrupt
-  test_run();
+  //test_run();
   while (1) ; // should never return
 }
 
