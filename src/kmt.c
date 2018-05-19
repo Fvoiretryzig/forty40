@@ -139,6 +139,10 @@ static void sem_init(sem_t *sem, const char *name, int value)
 	int len = strlen(name);
 	strncpy(sem->name, name ,len);
 	sem->queue = pmm->alloc(sizeof(struct queue_node));
+	if(sem->queue == NULL){
+		printf("error while alloc for sem->queue\n");
+		_halt(1);
+	}
 	sem->queue->if_in = 0; sem->queue->next = NULL; sem->queue->prev = NULL;
 	return;
 }
