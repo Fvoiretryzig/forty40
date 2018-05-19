@@ -30,7 +30,7 @@ static void os_init()
 thread_t t1, t2;
 static void f(void *arg){
 	while(1){
-		int temp = (int) *arg;
+		int temp = (int) arg;
 		
 		_putc((char)temp);
 	}
