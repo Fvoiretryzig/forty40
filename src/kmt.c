@@ -24,6 +24,7 @@ static void sem_signal(sem_t *sem);
 extern thread_t work[T_max];
 extern int thread_cnt;
 extern int current_id;
+int lock_cnt;
 
 
 MOD_DEF(kmt) 
@@ -40,7 +41,6 @@ MOD_DEF(kmt)
 	.sem_signal = sem_signal,
 };
 
-spinlock_t create_lk;
 spinlock_t sem_lk;
 thread_t work[T_max];
 int thread_cnt;
@@ -48,24 +48,22 @@ int current_id;
 
 static void kmt_init()
 {
-	spin_init(&create_lk, "create_lk");
 	spin_init(&sem_lk, "sem_lk");
 	for(int i = 0; i<T_max; i++)
 		work[i].id = -1;
 	current_id = 0;
 	thread_cnt = 0;
+	lock_cnt = 0;
 }
   /*===================================*/
  /*==========deal with thread=========*/
 /*===================================*/
 static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 {
-	//spin_lock(&create_lk);
 	void *fence1_addr = pmm->alloc(FC_SZ);
 	void *addr = pmm->alloc(STK_SZ);
 	void *fence2_addr = pmm->alloc(FC_SZ);
 	if(addr && fence1_addr && fence2_addr){
-		//!@#$%^printf("/*=====in kmt.c 58line create()====*/\nfence1:0x%08x addr:0x%08x fence2:0x%08x\n", fence1_addr, addr, fence2_addr);
 		thread->id = thread_cnt;
 		thread->fence1 = fence1_addr;
 		thread->stack = addr;
@@ -79,10 +77,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		stack.start = thread->stack; stack.end = thread->stack + STK_SZ;
 		thread->thread_reg = _make(stack, entry, arg);
 		work[thread_cnt] = *thread;
-		//!@#$%^printf("/*=====in kmt.c 80line create()====*/\n id:%d work[thread_cnt]:0x%08x ", work[thread_cnt].id, work[thread_cnt]);	
 		thread_cnt++;
-		//!@#$printf("eip:0x%08x\n", thread->thread_reg->eip);	
-		//spin_unlock(&create_lk);
 		return 0;
 	}
 	return -1;
@@ -107,14 +102,8 @@ static void teardown(thread_t *thread)
 }
 static thread_t* schedule()
 {		
-	//!@#$printf("\nthis is in schedule!!!!\n");
 	int old_id = current_id;
-	//!@#$printf("id:%d ", work[old_id].id);
-	//!@#$printf("thread stack:0x%08x ", work[old_id].stack);
-	//!@#$printf("eip 0x%08x:0x%08x\n",&work[old_id].thread_reg->eip, work[old_id].thread_reg->eip);
 	current_id = (current_id+1)%thread_cnt;
-	
-	//!@#$printf("\n");
 	return &work[old_id];
 }
   /*===================================*/
@@ -129,17 +118,17 @@ static void spin_init(spinlock_t *lk, const char *name)
 }
 static void spin_lock(spinlock_t *lk)
 {
-	//printf("%s in lock intr:%d\n", lk->name, _intr_read());
 	if(_intr_read())
 		_intr_write(0);		//关中断
-	//printf("%s in lock intr:%d\n",lk->name,  _intr_read());
+	lock_cnt++;
 	while(_atomic_xchg(&lk->locked, 1) != 0);
 }
 static void spin_unlock(spinlock_t *lk)
 {
 	_atomic_xchg(&lk->locked, 0);
-	_intr_write(1);
-	//printf("%s in unlock intr:%d\n", lk->name, _intr_read());
+	lock_cnt--;
+	if(lock_cnt == 0)
+		_intr_write(1);
 }
   /*===================================*/
  /*========deal with semaphore========*/
@@ -150,7 +139,6 @@ static void sem_init(sem_t *sem, const char *name, int value)
 	sem->count = value;
 	int len = strlen(name);
 	strncpy(sem->name, name ,len);
-	//!@#$printf("name:%s\n", sem->name);
 	sem->queue = pmm->alloc(sizeof(struct queue_node));
 	sem->queue->if_in = 0; sem->queue->next = NULL; sem->queue->prev = NULL;
 	return;
