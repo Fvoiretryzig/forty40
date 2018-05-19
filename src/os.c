@@ -33,14 +33,14 @@ static void f(void *arg){
 		_putc((char)arg);
 	}
 }
-static void test_run(){
+static void test(){
 	kmt->create(&t1, f, (void *)'a');
 	kmt->create(&t2, f, (void *)'b');
 }
 static void os_run() {
 
   _intr_write(1); // enable interrupt
-  test_run();
+  test();
   while (1) ; // should never return
 }
 
