@@ -1,54 +1,13 @@
 #include <os.h>
 #include <libc.h>
 #include <test.h>
-//sem_t empty, fill;
-//thread_t t1, t2,t3,t4,t5,t6,t7, t8 ,t9, t10,t11,t12,t13,t14,t15,t16;
-//#define BUF_SIZE 4
+
 #define T_max 20
 
 thread_t work[T_max];
 int thread_cnt;
 int current_id;
 int last_thread;
-/*static void producer() {
-	while (1) {
-		kmt->sem_wait(&empty);
-		printf("(");
-		kmt->sem_signal(&fill);
-	}
-}
-static void consumer() {
-	while (1) {
-		kmt->sem_wait(&fill);
-		printf(")");
-		kmt->sem_signal(&empty);
-	}
-}
-spinlock_t lk;
-static void test_run() {
-	kmt->spin_init(&lk,"intestrun");
-	kmt->spin_lock(&lk);
-	kmt->sem_init(&empty, "empty", BUF_SIZE);
-	kmt->sem_init(&fill, "fill", 0);
-	
-  	kmt->create(&t1, &producer, NULL);
-  	kmt->create(&t2, &consumer, NULL);
-  	kmt->create(&t3, &producer, NULL);
-  	kmt->create(&t4, &consumer, NULL);	
-  	kmt->create(&t5, &producer, NULL);
-  	kmt->create(&t6, &consumer, NULL);
-  	kmt->create(&t7, &consumer, NULL);
-  	kmt->create(&t8, &producer, NULL);
-  	kmt->create(&t9, &consumer, NULL);
-  	kmt->create(&t10, &consumer, NULL);
-	kmt->create(&t11, &producer, NULL);
-  	kmt->create(&t12, &consumer, NULL);
-  	kmt->create(&t13, &consumer, NULL);
-  	kmt->create(&t14, &producer, NULL);
-  	kmt->create(&t15, &consumer, NULL);
-  	kmt->create(&t16, &consumer, NULL);
-  	kmt->spin_unlock(&lk);
-}*/
 
 static void os_init();
 static void os_run();
