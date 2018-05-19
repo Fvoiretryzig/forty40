@@ -68,7 +68,7 @@ static void test_run() {
   	printf("before create t2\n");
   	kmt->create(&t2, &producer, NULL);
   	printf("before create t3\n");
-  	kmt->create(&t3, &consumer, NULL);*/
+  	kmt->create(&t3, &consumer, NULL);
 //  	kmt->create(&t4, &consumer, NULL);
 //  	kmt->create(&t5, &producer, NULL);
 //  	kmt->create(&t6, &producer, NULL);
