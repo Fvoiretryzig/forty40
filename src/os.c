@@ -1,12 +1,12 @@
 #include <os.h>
 #include <libc.h>
 
-sem_t empty, fill;
+/*sem_t empty, fill;
 thread_t t1, t2,t3,t4,t5,t6,t7, t8 ,t9, t10,t11,t12,t13,t14,t15,t16;
-#define BUF_SIZE 4
+#define BUF_SIZE 4*/
 #define T_max 20
 
-thread_t work[T_max];
+/*thread_t work[T_max];
 int thread_cnt;
 int current_id;
 int last_thread;
@@ -78,7 +78,7 @@ static void test_run() {
 //  	kmt->create(&t10, &consumer, NULL);
   	//printf("t1:0x%08x t2:0x%08x\n", t1.stack, t2.stack);
   // create producers and consumers
-}
+}*/
 
 static void os_init();
 static void os_run();
