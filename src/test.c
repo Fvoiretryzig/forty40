@@ -1,4 +1,4 @@
-#include<test.h>
+/*#include<test.h>
 
 void producer() {
 	while (1) {
@@ -37,5 +37,5 @@ void test_run() {
   	kmt->create(&t15, &consumer, NULL);
   	kmt->create(&t16, &consumer, NULL);
   	kmt->spin_unlock(&lk);
-}
+}*/
 

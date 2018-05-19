@@ -31,7 +31,7 @@ static void os_init()
 static void os_run() {
 
   _intr_write(1); // enable interrupt
-  test_run();
+  //test_run();
   while (1) ; // should never return
 }
 
@@ -61,7 +61,7 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 		
 	if(ev.event == _EVENT_SYSCALL){
 		printf("call system...\n");
-		__asm__ __volatile__("int $0x80"); 
+		//__asm__ __volatile__("int $0x80"); 
 	}
   return t->thread_reg;
 }
