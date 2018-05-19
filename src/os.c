@@ -63,7 +63,7 @@ static void test_run() {
   	kmt->create(&t16, &consumer, NULL);
   	kmt->spin_unlock(&lk);
   	//printf("in test run _intr_read():%d\n",_intr_read());
-/*	printf("before create t1\n");
+	printf("before create t1\n");
   	kmt->create(&t1, &producer, NULL);
   	printf("before create t2\n");
   	kmt->create(&t2, &producer, NULL);
