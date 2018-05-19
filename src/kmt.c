@@ -179,7 +179,7 @@ static void sem_wait(sem_t *sem)
 			//!@#$printf("add node:0x%08x\n", add_node);	
 		}	
 		struct queue_node* last_node = pmm->alloc(sizeof(struct queue_node));
-		if(add_node == NULL){
+		if(last_node == NULL){
 			printf("error while alloc for last_node in sem_wait\n");
 			_halt(1);
 		}		
@@ -216,7 +216,7 @@ static void sem_signal(sem_t *sem)
 	spin_lock(&sem_lk);
 	sem->count++;
 	struct queue_node* last_node = pmm->alloc(sizeof(struct queue_node));
-	if(add_node == NULL){
+	if(last_node == NULL){
 		printf("error while alloc for last_node in sem_signal\n");
 		_halt(1);
 	}	
