@@ -65,7 +65,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 	void *addr = pmm->alloc(STK_SZ);
 	void *fence2_addr = pmm->alloc(FC_SZ);
 	if(addr && fence1_addr && fence2_addr){
-		printf("/*=====in kmt.c 58line create()====*/\nfence1:0x%08x addr:0x%08x fence2:0x%08x\n", 
+		//!@#$%^printf("/*=====in kmt.c 58line create()====*/\nfence1:0x%08x addr:0x%08x fence2:0x%08x\n", 
 				fence1_addr, addr, fence2_addr);
 		thread->id = thread_cnt;
 		thread->fence1 = fence1_addr;
@@ -80,7 +80,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		stack.start = thread->stack; stack.end = thread->stack + STK_SZ;
 		thread->thread_reg = _make(stack, entry, arg);
 		work[thread_cnt] = *thread;
-		printf("/*=====in kmt.c 80line create()====*/\n id:%d work[thread_cnt]:0x%08x ", work[thread_cnt].id, work[thread_cnt]);	
+		//!@#$%^printf("/*=====in kmt.c 80line create()====*/\n id:%d work[thread_cnt]:0x%08x ", work[thread_cnt].id, work[thread_cnt]);	
 		thread_cnt++;
 		//!@#$printf("eip:0x%08x\n", thread->thread_reg->eip);	
 		//spin_unlock(&create_lk);
