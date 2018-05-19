@@ -5,7 +5,6 @@
 #define FC_SZ 32
 #define T_max 20
 
-//static struct thread_node* work_head;
 
 typedef struct thread thread_t;
 typedef struct spinlock spinlock_t;
@@ -146,24 +145,16 @@ static void sem_init(sem_t *sem, const char *name, int value)
 static void sem_wait(sem_t *sem)
 {
 	spin_lock(&sem_lk);
-	//!@#$printf("\nthis is in %s sem_wait!!!!\n", sem->name);
 	sem->count--;
-	//printf("/*=====in kmt.c 128line sem_wait()====*/sem->name:%s count:%d\n", sem->name,sem->count);
 	if(sem->count < 0){
-		//printf("/*=====in kmt.c 128line sem_wait() in if_sleep====*/\nsem->name:%s\n", sem->name);
 		sem->count++;
 		struct queue_node* current_node = pmm->alloc(sizeof(struct queue_node));
-		//int if_vacant = 0;
-		current_node = sem->queue;
-		//!@#$printf("next is for: ");		
+		current_node = sem->queue;	
 		for(; current_node->next; current_node = current_node->next){
-			//!@#$printf("0x%08x ", current_node);
 			if(!current_node->if_in){	//找到最前面的那个node
-				//if_vacant = 1; 
 				break;
 			}
 		}
-		//!@#$printf("\n");
 		if(!current_node->if_in){
 			current_node->if_in = 1;
 		}
@@ -181,11 +172,9 @@ static void sem_wait(sem_t *sem)
 				break;
 			last_node = last_node->next;
 		}
-		//!@#$printf("kmt wait 221 last_node:0x%08x last_node->if_in:%d\n",last_node, last_node->if_in);
 		spin_unlock(&sem_lk);
 		while(last_node->if_in){
-			//printf("last_node:0x%08x\n", last_node);
-			printf("");
+			printf("");	//我也不知道为什么要一个printf才可以……
 		}
 		spin_lock(&sem_lk);
 		sem->count--;
@@ -200,9 +189,7 @@ static void sem_wait(sem_t *sem)
 			}
 		}
 		pmm->free(last_node);
-		//printf("name:%s while(sem->queue[i])\n", sem->name);
 	}
-	//!@#$printf("/*=====in kmt.c 188line sem_wait()====*/\nsem->name:%s sem->count:%d\n", sem->name, sem->count);
 	spin_unlock(&sem_lk);
 	
 	return;
@@ -210,10 +197,7 @@ static void sem_wait(sem_t *sem)
 static void sem_signal(sem_t *sem)
 {
 	spin_lock(&sem_lk);
-	//!@#$printf("\nthis is in %s sem_signal!!!!!\n", sem->name);
 	sem->count++;
-	//printf("name:%s sem->count++;\ncount:%d\n", sem->name, sem->count);
-	//printf("/*=====in kmt.c 128line sem_signal()====*/sem->name:%s\n", sem->name);
 	struct queue_node* last_node = pmm->alloc(sizeof(struct queue_node));
 	int if_occupied = 0;
 	last_node = sem->queue;
@@ -230,12 +214,8 @@ static void sem_signal(sem_t *sem)
 				break;
 			last_node = last_node->next;
 		}
-		//!@#$printf("kmt signal 253 last_node:0x%08x last_node->if_in:%d\n",last_node, last_node->if_in);
 		last_node->if_in = 0;
-		//printf("/*=====in kmt.c 128line sem_signal() in if_sleep====*/\nsem->name:%s\n", sem->name);
 	}
-	
-	//!@#$printf("/*=====in kmt.c 203line sem_signal()====*/\nsem->name:%s sem->count:%d\n\n", sem->name, sem->count);
 	spin_unlock(&sem_lk);
 	return;
 }
