@@ -79,6 +79,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		thread_cnt++;
 		return 0;
 	}
+	printf("error while alloc for thread stack in create\n");
 	return -1;
 }
 static void teardown(thread_t *thread)
@@ -140,7 +141,7 @@ static void sem_init(sem_t *sem, const char *name, int value)
 	strncpy(sem->name, name ,len);
 	sem->queue = pmm->alloc(sizeof(struct queue_node));
 	if(sem->queue == NULL){
-		printf("error while alloc for sem->queue\n");
+		printf("error while alloc for sem->queue in sem_init\n");
 		_halt(1);
 	}
 	sem->queue->if_in = 0; sem->queue->next = NULL; sem->queue->prev = NULL;
@@ -153,6 +154,10 @@ static void sem_wait(sem_t *sem)
 	if(sem->count < 0){
 		sem->count++;
 		struct queue_node* current_node = pmm->alloc(sizeof(struct queue_node));
+		if(sem->queue == NULL){
+			printf("error while alloc for sem->queue current_node in sem_wait\n");
+			_halt(1);
+		}		
 		current_node = sem->queue;	
 		for(; current_node->next; current_node = current_node->next){
 			if(!current_node->if_in){	//找到最前面的那个node
@@ -164,12 +169,20 @@ static void sem_wait(sem_t *sem)
 		}
 		else{
 			struct queue_node* add_node = pmm->alloc(sizeof(struct queue_node));
+			if(add_node == NULL){
+				printf("error while alloc for add_node in sem_wait\n");
+				_halt(1);
+			}
 			add_node->prev = NULL; add_node->next = sem->queue; add_node->if_in = 1;
 			sem->queue->prev = add_node;
 			sem->queue = add_node;		
 			//!@#$printf("add node:0x%08x\n", add_node);	
 		}	
 		struct queue_node* last_node = pmm->alloc(sizeof(struct queue_node));
+		if(add_node == NULL){
+			printf("error while alloc for last_node in sem_wait\n");
+			_halt(1);
+		}		
 		last_node = sem->queue;
 		while(last_node->next){
 			if(last_node->if_in)
@@ -203,6 +216,10 @@ static void sem_signal(sem_t *sem)
 	spin_lock(&sem_lk);
 	sem->count++;
 	struct queue_node* last_node = pmm->alloc(sizeof(struct queue_node));
+	if(add_node == NULL){
+		printf("error while alloc for last_node in sem_signal\n");
+		_halt(1);
+	}	
 	int if_occupied = 0;
 	last_node = sem->queue;
 	for(;last_node; last_node = last_node->next){
