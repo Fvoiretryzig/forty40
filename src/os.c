@@ -6,11 +6,11 @@ thread_t t1, t2,t3,t4,t5,t6,t7, t8 ,t9, t10,t11,t12,t13,t14,t15,t16;
 #define BUF_SIZE 4*/
 #define T_max 20
 
-/*thread_t work[T_max];
+thread_t work[T_max];
 int thread_cnt;
 int current_id;
 int last_thread;
-static void producer() {
+/*static void producer() {
 	while (1) {
 		//printf("before p1 t1 id:%d eip:0x%08x\n", t1.id, t1.thread_reg->eip);
 		//!@#$printf("point p1\n");
