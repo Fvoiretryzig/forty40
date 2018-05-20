@@ -27,22 +27,11 @@ static void os_init()
   last_thread = -1;
 
 }
-thread_t t1, t2;
-static void f(void *arg){
-	while(1){
-		int temp = (int) arg;
-		
-		_putc((char)temp);
-	}
-}
-static void test(){
-	kmt->create(&t1, f, (void *)'a');
-	kmt->create(&t2, f, (void *)'b');
-}
+
 static void os_run() {
 
   _intr_write(1); // enable interrupt
-  test();
+  test_run();
   while (1) ; // should never return
 }
 
