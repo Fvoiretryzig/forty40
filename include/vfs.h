@@ -1,20 +1,25 @@
 #ifndef __VFS_H__
 #define __VFS_H__
 
+#define O_RDONLY 0
+#define O_WRONLY 1
+#define O_RDWR 2
+
 #define file_content_maxn 1024
 #define file_cnt 1024
 #define inode_cnt 1024
 #define name_len 128
+#define fd_cnt 2048
 typedef struct inode
 {
 	int inode_no;
-	int if_exist;
+	//int if_exist;
 	int if_write;
 	int if_read;	
 	char name[name_len];
-	uint32_t file_addr; //所在块的地址....暂时还不知道有什么用
+	//uint32_t file_addr; //所在块的地址....暂时还不知道有什么用
 	//int i_mode;	//在这个inode的文件类型
-	//int size;	//文件大小
+	int size;	//文件大小
 }inode_t;
 typedef struct fileops 
 {
@@ -28,7 +33,7 @@ typedef struct file
 {
 	int if_read;
 	int if_write;
-	int if_exist;
+	//int if_exist;
 	inode_t* f_inode;
 	//int flag;
 	int offset; //文件当前偏移量
