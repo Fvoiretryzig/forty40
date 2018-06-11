@@ -13,6 +13,7 @@ char *strcpy(char *dst, const char *src);
 char *strncpy(char *dst, const char *src, size_t n);
 int strcmp(const char *s1, const char *s2);
 int strncmp(const char *s1, const char *s2, size_t n);
+char * strcat(char * dst, const char * src);
 
 // stdlib.h
 char *itoa(int n);

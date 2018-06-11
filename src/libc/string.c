@@ -79,3 +79,11 @@ int strncmp(const char *s1, const char *s2, size_t n)
     	ret = -1; 
     return ret;  		
 }
+char * strcat(char * dst, const char * src)
+{
+	char *tmp = dst;
+	while(*dst)
+		dst++;
+	while ((*dst++ = *src++) != '\0');
+	return tmp;
+}
