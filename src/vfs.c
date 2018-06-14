@@ -56,7 +56,7 @@ void procfs_init(filesystem_t *fs, inode_t *dev)
 	inode_t *cpuinfo = (inode_t *)pmm->alloc(sizeof(inode_t));
 	cpuinfo->inode_no = inode_num_proc; 
 	cpuinfo->if_write = 0; cpuinfo->if_read = 1;
-	strcpy(cpuinfo->name, fs->mount_path);
+	strcpy(cpuinfo->name, fs->path->p);
 	strcat(cpuinfo->name, "/cpuinfo");
 	char* c_info = "My cpuinfo:remain to be done"
 	strcpy(cpuinfo->content, c_info);
@@ -70,7 +70,7 @@ void procfs_init(filesystem_t *fs, inode_t *dev)
 	inode_t *meminfo = (inode_t *)pmm->alloc(sizeof(inode)t));
 	meminfo->inode_no = inode_num_proc; 
 	meminfo->if_write = 0; meminfo->if_read = 1;
-	strcpy(meminfo->name, fs->mount_path);
+	strcpy(meminfo->name, fs->path->p);
 	strcat(meminfo->name, "/meminfo");
 	char* m_info = "My meminfo:remain to be done"
 	strcpy(meminfo->content, m_info);
@@ -90,7 +90,7 @@ void devfs_init(filesystem_t *fs, inode_t *dev)
 	inode_t *null = (inode_t *)pmm->alloc(sizeof(inode_t));
 	null->inode_no = inode_num_dev; 
 	null->if_write = 1; null->if_read = 1; null->size = 0;
-	strcpy(null->name, fs->mount_path);
+	strcpy(null->name, fs->path->p);
 	strcat(null->name, "/null");
 	fs->inode[inode_num_dev++] = null;
 	/*================zero================*/	
@@ -101,7 +101,7 @@ void devfs_init(filesystem_t *fs, inode_t *dev)
 	inode_t *zero = (inode_t *)pmm->alloc(sizeof(inode)t));
 	zero->inode_no = inode_num_dev; 
 	zero->if_write = 1; zero->if_read = 1; zero->size = 0;
-	strcpy(zero->name, fs->mount_path);
+	strcpy(zero->name, fs->path->p);
 	strcat(zero->name, "/zero");
 	fs->inode[inode_num_dev++] = zero;
 	/*================random================*/		
@@ -112,7 +112,7 @@ void devfs_init(filesystem_t *fs, inode_t *dev)
 	inode_t *random = (inode_t *)pmm->alloc(sizeof(inode)t));
 	random->inode_no = inode_num_dev; 
 	random->if_write = 1; random->if_read = 1; random->size = 0;	//不知道要初始成多大
-	strcpy(random->name, fs->mount_path);
+	strcpy(random->name, fs->path->p);
 	strcat(random->name, "/random");
 	fs->inode[inode_num_dev++] = random;
 	
@@ -437,6 +437,9 @@ void vfs_init()
 	for(int i = 0; i<file_cnt; i++){
 		file_table[i] = NULL;		
 	}
+	inode_num_proc = 0;
+	inode_num_dev = 0;
+	inode_num_kv = 0;
 	fsop_init();
 	procfs_p = pmm->alloc(sizeof(mountpath_t));
 	devfs_p = pmm->alloc(sizeof(mountpath_t));
@@ -446,7 +449,77 @@ void vfs_init()
 	mount("/", create_kvfs());
 	return;
 }
+inode_t* find_inode(const char *path, filesystem_t *fs)
+{
+	inode_t* ans = NULL;
+	if(!strcmp(fs->name, "procfs")){
+		for(int i = 0; i<inode_num_proc; i++){
+			if(!strcmp(path, fs->inode[i]->name)){
+				ans = fs->inode[i];
+				break;
+			}
+		}
+	}
+	else if(!strcmp(fs->name, "devfs")){
+		for(int i = 0; i<inode_num_dev; i++){
+			if(!strcmp(path, fs->inode[i]->name)){
+				ans = fs->inode[i];
+				break;
+			}
+		}
+	}
+	else if(!strcmp(fs->name, "kvfs")){
+		for(int i = 0; i<inode_num_kv; i++){
+			if(!strcmp(path, fs->inode[i]->name)){
+				ans = fs->inode[i];
+				break;
+			}
+		}
+	}
+	return ans;
+}
 int access(const char *path, int mode)
 {
-	
+	inode_t *temp;
+	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
+		temp = find_inode(path, procfs_p->fs);
+	}
+	else if(!strcmp(path, devfs_p->p, strlen(devfs_p->p))){
+		temp = find_inode(path, devfs_p->p);
+	}
+	else if(!strcmp(path, kvfs_p->p, strlen(kvfs_p->p))){
+		temp = find_inode(path, kvfs_p->p);
+	}
+	if(temp == NULL){
+		printf("The path is not an existing file when in access %s!!\n", path);
+		return -1;
+	}
+	switch(mode){
+		case F_OK:
+			break;
+		case X_OK:
+		case X_OK|W_OK:
+		case X_OK|R_OK:
+			printf("remain to be done to support executable file\n");
+			break;
+		case W_OK:
+			if(!temp->if_write){
+				printf("have no permission to write when check in access %s\n", path);
+				return -1;
+			}
+			break;
+		case R_OK:
+			if(!temp->if_read){
+				printf("have no permission to read when check in access %s\n", path);
+				return -1;
+			}
+			break;
+		case W_OK|R_OK:
+			if(!temp->if_read || !temp->if_write){
+				printf("have no permission to read or write when check in access %s\n", path);
+				return -1;
+			}
+			break;
+	}
+	return 0;
 }
