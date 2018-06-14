@@ -87,3 +87,15 @@ char * strcat(char * dst, const char * src)
 	while ((*dst++ = *src++) != '\0');
 	return tmp;
 }
+char * strncat(char * front, const char * back, size_t count)
+{
+   char *start = front;
+   while (*front++);
+   while (count--){
+       if (!(*front++ = *back++))
+           return(start);   
+   }
+    *front ='\0';
+   return(start);
+}
+

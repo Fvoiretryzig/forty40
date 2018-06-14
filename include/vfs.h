@@ -5,20 +5,23 @@
 #define O_WRONLY 1
 #define O_RDWR 2
 
+#define SEEK_SET 0
+#define SEEK_CUR 1
+#define SEEK_END 2
+
 #define file_content_maxn 1024
-#define file_cnt 1024
-#define inode_cnt 1024
+#define file_cnt 512
+#define inode_cnt 512
 #define name_len 128
 #define fd_cnt 2048
+#define file_cnt 2048
 typedef struct inode
 {
 	int inode_no;
-	//int if_exist;
 	int if_write;
 	int if_read;	
 	char name[name_len];
-	//uint32_t file_addr; //所在块的地址....暂时还不知道有什么用
-	//int i_mode;	//在这个inode的文件类型
+	char content[file_content_maxn];
 	int size;	//文件大小
 }inode_t;
 typedef struct fileops 
@@ -53,7 +56,7 @@ typedef struct filesystem
 	char name[name_len];
 	char mount_path[name_len];
 	inode_t *inode[inode_cnt];
-	file_t *file[file_cnt];
+	//file_t *file[file_cnt];
 	fsops_t ops;
 }filesystem_t;
 
