@@ -278,6 +278,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 		printf("open fd error: there isn't enough fd left!\n");
 		return -1;
 	}
+	file->fd = current_fd;
 	strcpy(file->name, inode->name);
 	strcpy(file->content, inode->content);
 	file->f_inode = inode;
@@ -294,7 +295,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 		file->if_read = 1;
 		file->if_write = 1;
 	}
-	file->fd = current_fd;
+	
 	file_table[current_fd] = file;
 	return file->fd;
 }
@@ -484,10 +485,10 @@ int access(const char *path, int mode)
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
 		temp = find_inode(path, procfs_p->fs);
 	}
-	else if(!strcmp(path, devfs_p->p, strlen(devfs_p->p))){
+	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
 		temp = find_inode(path, devfs_p->p);
 	}
-	else if(!strcmp(path, kvfs_p->p, strlen(kvfs_p->p))){
+	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
 		temp = find_inode(path, kvfs_p->p);
 	}
 	if(temp == NULL){
@@ -522,4 +523,106 @@ int access(const char *path, int mode)
 			break;
 	}
 	return 0;
+}
+
+int open(const char *path, int flags)
+{
+	inode_t* node; file_t *FILE; FILE->if_read = 0; FILE->if_write = 0;
+	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
+		node = find_inode(path, procfs_p->fs);
+		FILE->ops = procfile_op;
+		
+	}
+	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
+		node = find_inode(path, devfs_p->p);
+		FILE->ops = devfile_op;
+	}
+	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
+		node = find_inode(path, kvfs_p->p);
+		FILE->ops = kvfile_op;
+	}
+	if(temp == NULL){
+		//TODO()创建文件还要看参数
+	}
+	return FILE->open(node, FILE, flags);	//要在file_open做一些处理
+}
+ssize_t read(int fd, void *buf, size_t nbyte)
+{
+	if(fd < 0){
+		printf("invalid fd:%d in read\n", fd);
+		return -1;
+	}
+	inode_t* node; 
+	file_t *FILE = file_table[fd];	//还未实现描述符为0、1、2的操作
+	char *path = FILE->path->p;
+	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
+		node = find_inode(path, procfs_p->fs);
+	}
+	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
+		node = find_inode(path, devfs_p->p);
+	}
+	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
+		node = find_inode(path, kvfs_p->p);
+	}	
+	return FILE->read(node, FILE, buf, nbyte);
+}
+ssize_t write(int fd, void *buf, size_t nbyte)
+{
+	if(fd < 0){
+		printf("invalid fd:%d in read\n", fd);
+		return -1;
+	}
+	inode_t* node;
+	file_t *FILE = file_table[fd];
+	char *path = FILE->path->p;
+	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
+		node = find_inode(path, procfs_p->fs);
+	}
+	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
+		node = find_inode(path, devfs_p->p);
+	}
+	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
+		node = find_inode(path, kvfs_p->p);
+	}	
+	return FILE->write(node, FILE, buf, nbyte);
+}
+off_t lseek(int fd, off_t offset, int whence)
+{
+	if(fd < 0){
+		printf("invalid fd:%d in read\n", fd);
+		return -1;
+	}
+	inode_t* node;
+	file_t *FILE = file_table[fd];
+	char *path = FILE->path->p;
+	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
+		node = find_inode(path, procfs_p->fs);
+	}
+	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
+		node = find_inode(path, devfs_p->p);
+	}
+	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
+		node = find_inode(path, kvfs_p->p);
+	}	
+	return FILE->lseek(node, FILE, offset, whence);	
+}
+int close(int fd)
+{
+	if(fd < 0){
+		printf("invalid fd:%d in read\n", fd);
+		return -1;
+	}
+	inode_t* node;
+	file_t *FILE = file_table[fd];
+	char *path = FILE->path->p;
+	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
+		node = find_inode(path, procfs_p->fs);
+	}
+	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
+		node = find_inode(path, devfs_p->p);
+	}
+	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
+		node = find_inode(path, kvfs_p->p);
+	}	
+	return FILE->close(node, FILE);	
 }
