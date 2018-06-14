@@ -40,10 +40,12 @@ MOD_DEF(vfs)
 	.close = close,
 }
 
+  /*====================================================================*/
+ /*==============================vfs init==============================*/
+/*====================================================================*/
 fsops_t procfs_op;
 fsops_t devfs_op;
 fsops_t kvfs_op;
-fileops_t file_op;
 void procfs_init(filesystem_t *fs, inode_t *dev)
 {
 	/*================cpuinfo================*/
@@ -206,7 +208,6 @@ filesystem_t *create_kvfs()
 }
 int mount(const char *path, filesystem_t *fs)
 {
-	//TODO!!!!!!!???????mount原理不明觉厉
 	if(!strcmp(path, "/proc")){
 		strcpy(procfs_p->p, path);
 		procfs_p->fs = fs;
@@ -246,24 +247,12 @@ int unmount(const char *path)
 	}
 	return 0;
 }
-void vfs_init()
-{
-	fd[0] = 1; fd[1] = 1; fd[2] = 1;
-	for(int i = 3; i<fd_cnt; i++){
-		fd[i] = 0;
-	}
-	for(int i = 0; i<file_cnt; i++){
-		file_table[i] = NULL;		
-	}
-	fsop_init();
-	procfs_p = pmm->alloc(sizeof(mountpath_t));
-	devfs_p = pmm->alloc(sizeof(mountpath_t));
-	kvfs_p = pmm->alloc(sizeof(montpath_t));
-	mount("/proc", create_procfs());
-	mount("/dev", create_devfs());
-	mount("/", create_kvfs());
-	return;
-}
+  /*====================================================================*/
+ /*==============================file ops==============================*/
+/*====================================================================*/
+fileops_t procfile_op;
+fileops_t devfile_op;
+fileops_t kvfile_op;
 int file_open(inode_t *inode, file_t *file, int flags)
 {
 	if(flag == O_RDONLY && !inode->if_read){
@@ -343,6 +332,9 @@ ssize_t dev_file_read(inode_T *inode, file_t *file, char*buf, size_t size)
 		int num = rand();
 		strncpy(buf, itoa(num), size);
 	}
+	else{
+		strncpy(buf, file->content+file->offset, size);
+	}
 	return size;
 }
 ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t size)
@@ -360,7 +352,26 @@ ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t 
 	inode->size += size;
 	return size;
 }
-
+ssize_t dev_file_write(inode_t *inode, file_t *file, const char *buf, size_t size)
+{
+	if(!inode->if_write){
+		printf("write permmison error: cannot write %s\n", file->name);
+		return -1;
+	}
+	if(!strcmp(inode->name+strlen(devfs_p->p), "/zero"
+	|| !strcmp(inode->name+strlen(devfs_p->p), "/null")
+	|| !strcmp(inode->name+strlen(devfs_p->p), "/random"){
+		return size;	//这几个文件写了也没用
+	}
+	else if((file->f_inode->size + size) >= file_content_maxn){
+		size = file_content_maxn - file->f_inode->size;
+	}
+	strncpy(inode->content + file->offset, buf, size);
+	strcpy(file->content, inode->content);	//先拷贝到inode再到文件
+	//strncpy(file->content + file->offset, buf, size);
+	inode->size += size;	
+	return size;
+}
 off_t file_lseek(inode_t *inode, file_t *file, off_t offset, int whence)
 {
 	switch(whence){
@@ -395,5 +406,47 @@ int file_close(inode_t *inode, file_t *file)
 	file[current_fd] = NULL;
 	return 0;	//不知道什么时候会是-1
 }
-
-
+void fileop_init()
+{
+	procfile_op.open = &file_open;
+	procfile_op.read = &kvproc_file_read;
+	procfile_op.write = &kvproc_file_write;
+	procfile_op.lseek = &file_lseek;
+	procfile_op.close = &file_close;
+	
+	devfile_op.open = &file_open;
+	dvefile_op.read = &dev_file_read;
+	devfile_op.write = &dev_file_write;
+	devfile_op.lseek = &file_lseek;
+	devfile_op.close = &file_close;
+	
+	kvfile_op.open = &file_open;
+	kvfile_op.read = &kvproc_file_read;
+	kvfile_op.write = &kvproc_file_write;
+	procfile_op.lseek = &file_lseek;
+	procfile_op.close = &file_close;	
+	
+	return;		
+}
+void vfs_init()
+{
+	fd[0] = 1; fd[1] = 1; fd[2] = 1;
+	for(int i = 3; i<fd_cnt; i++){
+		fd[i] = 0;
+	}
+	for(int i = 0; i<file_cnt; i++){
+		file_table[i] = NULL;		
+	}
+	fsop_init();
+	procfs_p = pmm->alloc(sizeof(mountpath_t));
+	devfs_p = pmm->alloc(sizeof(mountpath_t));
+	kvfs_p = pmm->alloc(sizeof(montpath_t));
+	mount("/proc", create_procfs());
+	mount("/dev", create_devfs());
+	mount("/", create_kvfs());
+	return;
+}
+int access(const char *path, int mode)
+{
+	
+}
