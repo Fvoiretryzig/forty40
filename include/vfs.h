@@ -5,9 +5,9 @@
 #define O_WRONLY 1
 #define O_RDWR 2
 
-#define SEEK_SET 0
-#define SEEK_CUR 1
-#define SEEK_END 2
+//#define SEEK_SET 0
+//#define SEEK_CUR 1
+//#define SEEK_END 2
 
 #define file_content_maxn 1024
 #define file_cnt 512
@@ -54,10 +54,15 @@ typedef struct fsops
 typedef struct filesystem
 {
 	char name[name_len];
-	char mount_path[name_len];
+	//char mount_path[name_len];
+	mountpath_t* path;
 	inode_t *inode[inode_cnt];
 	//file_t *file[file_cnt];
 	fsops_t ops;
 }filesystem_t;
-
+typedef struct mount_path
+{
+	char p[64];
+	filesystem_t* fs;
+}mountpath_t;
 #endif

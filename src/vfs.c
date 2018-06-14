@@ -19,9 +19,9 @@ static int close(int fd);
 static int inode_num_proc;// = 0;
 static int inode_num_dev;
 static int inode_num_kv;
-/*filesystem_t* procvfs;
-filesystem_t* devfs;
-filesystem_t* kvfs;*/
+mountpath_t* procfs_p;
+mountpath_t* devfs_p;
+mountpath_t* kvfs_p;
 
 int fd[fd_cnt];
 file_t* file_table[file_cnt];
@@ -140,7 +140,7 @@ inode_t *lookup(filesystem_t *fs, const char *path, int flag)
 	inode_t *ans = NULL;	//????????????????
 	int index = 0; int if_find = 0;
 	while(fs->inode[index] && index < inode_cnt){
-		if(!strcmp(path, fs->inode[index]->inode)){
+		if(!strcmp(path, fs->inode[index]->name)){
 			if_find = 1;
 			break;
 		}
@@ -182,6 +182,7 @@ filesystem_t *create_procfs()
 	if (!fs) panic("procfs allocation failed");
 	fs->ops = &procfs_ops; // 你为procfs定义的fsops_t，包含函数的实现
 	fs->ops->init(fs, "procfs", NULL);
+	procfs_p = pmm->alloc(sizeof(mountpath_t));
 	return fs;
 }
 filesystem_t *create_devfs() 
@@ -191,6 +192,7 @@ filesystem_t *create_devfs()
 	if (!fs) panic("devfs allocation failed");
 	fs->ops = &devfs_op; // 你为procfs定义的fsops_t，包含函数的实现
 	fs->ops->init(fs, "devfs", NULL);
+	
 	return fs;
 }
 filesystem_t *create_kvfs() 
@@ -205,13 +207,43 @@ filesystem_t *create_kvfs()
 int mount(const char *path, filesystem_t *fs)
 {
 	//TODO!!!!!!!???????mount原理不明觉厉
-	strcpy(fs->mount_path, path);
+	if(!strcmp(path, "/proc")){
+		strcpy(procfs_p->p, path);
+		procfs_p->fs = fs;
+		fs->path = procfs_p;
+	}
+	else if(!strcmp(path, "/dev")){
+		strcpy(devfs_p->p, path);
+		devfs_p->fs = fs;
+		fs->path = devfs_p;
+	}
+	else if(!strcmp(path, "/")){
+		strcpy(kvfs_p->p, path);
+		kvfs_p->fs = fs;
+		fs->path = kvfs_p;
+		
+	}
+	else{
+		printf("wrong when mount %s!!!!\n", path);
+		return -1;
+	}
 	return 0;
 }
 int unmount(const char *path)
 {
 	//TODO!!!!!!!???????
-	fs->mount_path[0] = '\0';
+	if(!strcmp(path, "/proc")){
+		procfs_p->fs->path = NULL;
+	}
+	else if(!strcmp(path, "/dev")){
+		devfs_p->fs->path = NULL;
+	}
+	else if(!strcpm(path, "/")){
+		kvfs_p->fs->path = NULL;
+	}
+	else{
+		printf("error when unmount %s\n", path);
+	}
 	return 0;
 }
 void vfs_init()
@@ -224,6 +256,9 @@ void vfs_init()
 		file_table[i] = NULL;		
 	}
 	fsop_init();
+	procfs_p = pmm->alloc(sizeof(mountpath_t));
+	devfs_p = pmm->alloc(sizeof(mountpath_t));
+	kvfs_p = pmm->alloc(sizeof(montpath_t));
 	mount("/proc", create_procfs());
 	mount("/dev", create_devfs());
 	mount("/", create_kvfs());
@@ -292,7 +327,23 @@ ssize_t dev_file_read(inode_T *inode, file_t *file, char*buf, size_t size)
 		printf("read permission error: cannot read %s\n", file->name);
 		return -1;
 	}
-	if(!strcmp(inode->name+strlen()))
+	if(size > file->f_inode->size - file->offset){
+		size = inode->size - file->offset;
+	}	
+	if(!strcmp(inode->name+strlen(devfs_p->p), "/zero")){
+		for(int i = 0; i<n; i++){
+			strncpy(buf+i, '\0');
+		}
+	}
+	else if(!strcmp(inode->name+strlen(devfs_p->p), "/null")){
+		strcpy(buf, '\0');
+	}
+	else if(!strcmp(inode->name+strlen(devfs_p->p), "/random")){
+		srand(uptime.lo);	//看看能不能用 不能用用其他方法
+		int num = rand();
+		strncpy(buf, itoa(num), size);
+	}
+	return size;
 }
 ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t size)
 {
@@ -309,6 +360,7 @@ ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t 
 	inode->size += size;
 	return size;
 }
+
 off_t file_lseek(inode_t *inode, file_t *file, off_t offset, int whence)
 {
 	switch(whence){
