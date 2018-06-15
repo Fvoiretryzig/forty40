@@ -54,7 +54,8 @@ void procfs_init(filesystem_t *fs, inode_t *dev)
 		return;
 	}
 	inode_t *cpuinfo = (inode_t *)pmm->alloc(sizeof(inode_t));
-	cpuinfo->inode_no = inode_num_proc; 
+	//cpuinfo->inode_no = inode_num_proc; 
+	cpuinfo->if_exist = 1;
 	cpuinfo->if_write = 0; cpuinfo->if_read = 1;
 	strcpy(cpuinfo->name, fs->path->p);
 	strcat(cpuinfo->name, "/cpuinfo");
@@ -68,7 +69,8 @@ void procfs_init(filesystem_t *fs, inode_t *dev)
 		return;
 	}		
 	inode_t *meminfo = (inode_t *)pmm->alloc(sizeof(inode)t));
-	meminfo->inode_no = inode_num_proc; 
+	//meminfo->inode_no = inode_num_proc; 
+	meminfo->if_exist = 1;
 	meminfo->if_write = 0; meminfo->if_read = 1;
 	strcpy(meminfo->name, fs->path->p);
 	strcat(meminfo->name, "/meminfo");
@@ -88,7 +90,8 @@ void devfs_init(filesystem_t *fs, inode_t *dev)
 		return;
 	}
 	inode_t *null = (inode_t *)pmm->alloc(sizeof(inode_t));
-	null->inode_no = inode_num_dev; 
+	//null->inode_no = inode_num_dev; 
+	null->if_exist = 1;
 	null->if_write = 1; null->if_read = 1; null->size = 0;
 	strcpy(null->name, fs->path->p);
 	strcat(null->name, "/null");
@@ -99,7 +102,8 @@ void devfs_init(filesystem_t *fs, inode_t *dev)
 		return;
 	}	
 	inode_t *zero = (inode_t *)pmm->alloc(sizeof(inode)t));
-	zero->inode_no = inode_num_dev; 
+	//zero->inode_no = inode_num_dev; 
+	zero->if_exist = 1;
 	zero->if_write = 1; zero->if_read = 1; zero->size = 0;
 	strcpy(zero->name, fs->path->p);
 	strcat(zero->name, "/zero");
@@ -110,7 +114,8 @@ void devfs_init(filesystem_t *fs, inode_t *dev)
 		return;
 	}	
 	inode_t *random = (inode_t *)pmm->alloc(sizeof(inode)t));
-	random->inode_no = inode_num_dev; 
+	//random->inode_no = inode_num_dev;
+	random->if_exist = 1; 
 	random->if_write = 1; random->if_read = 1; random->size = 0;	//不知道要初始成多大
 	strcpy(random->name, fs->path->p);
 	strcat(random->name, "/random");
@@ -253,50 +258,214 @@ int unmount(const char *path)
 fileops_t procfile_op;
 fileops_t devfile_op;
 fileops_t kvfile_op;
-int file_open(inode_t *inode, file_t *file, int flags)
+int file_open(inode_t *inode, file_t *file, int flags, char* name)
 {
-	if(flag == O_RDONLY && !inode->if_read){
-		printf("open mode error: have no permission to read %s\n", inode->name);
-		return -1;
-	}
-	else if(flag == O_WRONLY && !inode->if_write){
-		printf("open mode error: have no permission to write %s\n", inode->name);
-		return -1;
-	}
-	else if(flag == O_RDWR && (!indoe->if_write || !inode->if_read)){
-		printf("open mode error: have no permission to read/write %s\n", inode->name);
-		return -1;
-	}
 	int current_fd = -1;
-	for(int i = 3; i<fd_cnt; i++){
-		if(fd[i] == 0){
-			current_fd = 1;
+	switch(flags){
+		case O_RDONLY:
+			if(inode->if_exist){
+				printf("cannot open the file which is not existing while reading!\n");
+				return -1;
+			}
+			else if(flag == O_RDONLY && !inode->if_read){
+				printf("open mode error: have no permission to read %s\n", inode->name);
+				return -1;
+			}
+			for(int i = 3; i<fd_cnt; i++){
+				if(fd[i] == 0){
+					fd[i] = 1;
+					current_fd = i;
+					break;
+				}
+			}
+			if(current_fd == -1){
+				printf("open fd error: there isn't enough fd left in read!\n");
+				return -1;
+			}
+			file->fd = current_fd;
+			strcpy(file->name, inode->name);
+			strcpy(file->content, inode->content);
+			file->f_inode = inode;
+			file->offset = 0;	
+			file->if_read = 1;
+			file->if_write = 0;									
+			file_table[current_fd] = file;
 			break;
-		}
+		case O_WRONLY:
+			if(inode->if_exist){
+				printf("cannot open the file which is not existing while writing!\n");
+				return -1;
+			}
+			else if(flag == O_WDONLY && !inode->if_write){
+				printf("open mode error: have no permission to write%s\n", inode->name);
+				return -1;
+			}
+			for(int i = 3; i<fd_cnt; i++){
+				if(fd[i] == 0){
+					fd[i] = 1;
+					current_fd = i;
+					break;
+				}
+			}
+			if(current_fd == -1){
+				printf("open fd error: there isn't enough fd left in write!\n");
+				return -1;
+			}
+			file->fd = current_fd;
+			strcpy(file->name, inode->name);
+			strcpy(file->content, inode->content);
+			file->f_inode = inode;
+			file->offset = 0;	
+			file->if_read = 0;
+			file->if_write = 1;									
+			file_table[current_fd] = file;
+			break;
+		case ORDWR:
+			if(inode->if_exist){
+				printf("cannot open the file which is not existing while writing!\n");
+				return -1;
+			}
+			else if(flag == O_RDWR && (!inode->if_write || !inode->if_read)){
+				printf("open mode error: have no permission to write or read %s\n", inode->name);
+				return -1;
+			}
+			for(int i = 3; i<fd_cnt; i++){
+				if(fd[i] == 0){
+					fd[i] = 1;
+					current_fd = i;
+					break;
+				}
+			}
+			if(current_fd == -1){
+				printf("open fd error: there isn't enough fd left in read&write!\n");
+				return -1;
+			}
+			file->fd = current_fd;
+			strcpy(file->name, inode->name);
+			strcpy(file->content, inode->content);
+			file->f_inode = inode;
+			file->offset = 0;	
+			file->if_read = 1;
+			file->if_write = 1;									
+			file_table[current_fd] = file;	
+			break;	
+		case O_CREATE:
+			if(inode->if_exist){
+				printf("this file %s has already existed!", inode->name);
+				return -1;
+			}
+			for(int i = 3; i<fd_cnt; i++){
+				if(fd[i] == 0){
+					fd[i] = 1;
+					current_fd = i;
+					break;
+				}
+			}	
+			if(current_fd == -1){
+				printf("open fd error: there isn't enough fd left in create!\n");
+				return -1;
+			}
+			inode->if_exist = 1; inode->if_read = 0; inode->if_write = 0;
+			strcpy(inode->name, name);
+			inode->size = 0; inode->content[0] = '\0';
+			
+			file->fd = current_fd;
+			strcpy(file->name, inode->name);
+			strcpy(file->content, inode->content);
+			file->f_inode = inode;
+			file->offset = 0;	
+			file->if_read = 0;
+			file->if_write = 0;									
+			file_table[current_fd] = file;
+			break;								
+		case O_CREATE|O_RDONLY:
+			if(inode->if_exist){
+				printf("this file %s has already existed!", inode->name);
+				return -1;
+			}
+			for(int i = 3; i<fd_cnt; i++){
+				if(fd[i] == 0){
+					fd[i] = 1;
+					current_fd = i;
+					break;
+				}
+			}	
+			if(current_fd == -1){
+				printf("open fd error: there isn't enough fd left in create!\n");
+				return -1;
+			}
+			inode->if_exist = 1; inode->if_read = 1; inode->if_write = 0;
+			strcpy(inode->name, name);
+			inode->size = 0; inode->content[0] = '\0';
+			
+			file->fd = current_fd;
+			strcpy(file->name, inode->name);
+			strcpy(file->content, inode->content);
+			file->f_inode = inode;
+			file->offset = 0;	
+			file->if_read = 1;
+			file->if_write = 0;									
+			file_table[current_fd] = file;
+			break;		
+		case O_CREATE|O_WRONLY:
+			if(inode->if_exist){
+				printf("this file %s has already existed!", inode->name);
+				return -1;
+			}
+			for(int i = 3; i<fd_cnt; i++){
+				if(fd[i] == 0){
+					fd[i] = 1;
+					current_fd = i;
+					break;
+				}
+			}	
+			if(current_fd == -1){
+				printf("open fd error: there isn't enough fd left in create!\n");
+				return -1;
+			}
+			inode->if_exist = 1; inode->if_read = 0; inode->if_write = 1;
+			strcpy(inode->name, name);
+			inode->size = 0; inode->content[0] = '\0';
+			
+			file->fd = current_fd;
+			strcpy(file->name, inode->name);
+			strcpy(file->content, inode->content);
+			file->f_inode = inode;
+			file->offset = 0;	
+			file->if_read = 0;
+			file->if_write = 1;									
+			file_table[current_fd] = file;
+			break;				
+		case O_CREATE|ORDWR:
+			if(inode->if_exist){
+				printf("this file %s has already existed!", inode->name);
+				return -1;
+			}
+			for(int i = 3; i<fd_cnt; i++){
+				if(fd[i] == 0){
+					fd[i] = 1;
+					current_fd = i;
+					break;
+				}
+			}	
+			if(current_fd == -1){
+				printf("open fd error: there isn't enough fd left in create!\n");
+				return -1;
+			}
+			inode->if_exist = 1; inode->if_read = 1; inode->if_write = 1;
+			strcpy(inode->name, name);
+			inode->size = 0; inode->content[0] = '\0';
+			
+			file->fd = current_fd;
+			strcpy(file->name, inode->name);
+			strcpy(file->content, inode->content);
+			file->f_inode = inode;
+			file->offset = 0;	
+			file->if_read = 1;
+			file->if_write = 1;									
+			file_table[current_fd] = file;
+			break;				
 	}
-	if(current_fd == -1){
-		printf("open fd error: there isn't enough fd left!\n");
-		return -1;
-	}
-	file->fd = current_fd;
-	strcpy(file->name, inode->name);
-	strcpy(file->content, inode->content);
-	file->f_inode = inode;
-	file->offset = 0;
-	if(flag == O_RDONLY){
-		file->if_read = 1;
-		file->if_write = 0;
-	}
-	else if(flag == O_WRONLY){
-		file->if_read = 0;
-		file->if_write = 1;
-	}
-	else if(flag == O_RDWR){
-		file->if_read = 1;
-		file->if_write = 1;
-	}
-	
-	file_table[current_fd] = file;
 	return file->fd;
 }
 ssize_t kvproc_file_read(inode_t *inode, file_t *file, char *buf, size_t size)
@@ -450,46 +619,20 @@ void vfs_init()
 	mount("/", create_kvfs());
 	return;
 }
-inode_t* find_inode(const char *path, filesystem_t *fs)
-{
-	inode_t* ans = NULL;
-	if(!strcmp(fs->name, "procfs")){
-		for(int i = 0; i<inode_num_proc; i++){
-			if(!strcmp(path, fs->inode[i]->name)){
-				ans = fs->inode[i];
-				break;
-			}
-		}
-	}
-	else if(!strcmp(fs->name, "devfs")){
-		for(int i = 0; i<inode_num_dev; i++){
-			if(!strcmp(path, fs->inode[i]->name)){
-				ans = fs->inode[i];
-				break;
-			}
-		}
-	}
-	else if(!strcmp(fs->name, "kvfs")){
-		for(int i = 0; i<inode_num_kv; i++){
-			if(!strcmp(path, fs->inode[i]->name)){
-				ans = fs->inode[i];
-				break;
-			}
-		}
-	}
-	return ans;
-}
 int access(const char *path, int mode)
 {
 	inode_t *temp;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
-		temp = find_inode(path, procfs_p->fs);
+		//temp = find_inode(path, procfs_p->fs);
+		temp = procfs_p->fs->ops->lookup(procfs_p->fs, path, mode);	//不知道是不是mode
 	}
 	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
-		temp = find_inode(path, devfs_p->p);
+		//temp = find_inode(path, devfs_p->p);
+		temp = devfs_p->fs->ops->lookup(devfs_p->fs, path, mode);
 	}
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
-		temp = find_inode(path, kvfs_p->p);
+		//temp = find_inode(path, kvfs_p->p);
+		temp = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, mode);
 	}
 	if(temp == NULL){
 		printf("The path is not an existing file when in access %s!!\n", path);
@@ -529,22 +672,45 @@ int open(const char *path, int flags)
 {
 	inode_t* node; file_t *FILE; FILE->if_read = 0; FILE->if_write = 0;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
-		node = find_inode(path, procfs_p->fs);
+		//node = find_inode(path, procfs_p->fs);
+		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, flags);	//不知道是不是flag
 		FILE->ops = procfile_op;
-		
+		if(node == NULL){
+			if(inode_num_proc == inode_cnt){
+				printf("the file is not exisiting while open and there is no inode to allocate!\n");
+				return -1;
+			}
+			node = pmm->alloc(sizeof(inode_t));
+			procfs_p->fs->inode[inode_num_proc++] = node;
+		}
 	}
 	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
-		node = find_inode(path, devfs_p->p);
+		//node = find_inode(path, devfs_p->p);
+		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, flags);
 		FILE->ops = devfile_op;
+		if(node == NULL){
+			if(inode_num_dev == inode_cnt){
+				printf("the file is not exisiting while open and there is no inode to allocate!\n");
+				return -1;
+			}
+			node = pmm->alloc(sizeof(inode_t));
+			devfs_p->fs->inode[inode_num_dev++] = node;
+		}		
 	}
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
-		node = find_inode(path, kvfs_p->p);
+		//node = find_inode(path, kvfs_p->p);
+		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, flags);
 		FILE->ops = kvfile_op;
+		if(node == NULL){
+			if(inode_num_kv == inode_cnt){
+				printf("the file is not exisiting while open and there is no inode to allocate!\n");
+				return -1;
+			}
+			node = pmm->alloc(sizeof(inode_t));
+			kvfs_p->fs->inode[inode_num_kv++] = node;
+		}		
 	}
-	if(temp == NULL){
-		//TODO()创建文件还要看参数
-	}
-	return FILE->open(node, FILE, flags);	//要在file_open做一些处理
+	return FILE->ops->open(node, FILE, flags);	//要在file_open做一些处理
 }
 ssize_t read(int fd, void *buf, size_t nbyte)
 {
@@ -556,13 +722,16 @@ ssize_t read(int fd, void *buf, size_t nbyte)
 	file_t *FILE = file_table[fd];	//还未实现描述符为0、1、2的操作
 	char *path = FILE->path->p;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
-		node = find_inode(path, procfs_p->fs);
+		//node = find_inode(path, procfs_p->fs);
+		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, NULL);
 	}
 	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
-		node = find_inode(path, devfs_p->p);
+		//node = find_inode(path, devfs_p->p);
+		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, NULL);
 	}
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
-		node = find_inode(path, kvfs_p->p);
+		//node = find_inode(path, kvfs_p->p);
+		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, NULL);
 	}	
 	return FILE->read(node, FILE, buf, nbyte);
 }
@@ -576,13 +745,16 @@ ssize_t write(int fd, void *buf, size_t nbyte)
 	file_t *FILE = file_table[fd];
 	char *path = FILE->path->p;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
-		node = find_inode(path, procfs_p->fs);
+		//node = find_inode(path, procfs_p->fs);
+		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, NULL);
 	}
 	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
-		node = find_inode(path, devfs_p->p);
+		//node = find_inode(path, devfs_p->p);
+		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, NULL);
 	}
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
-		node = find_inode(path, kvfs_p->p);
+		//node = find_inode(path, kvfs_p->p);
+		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, NULL);
 	}	
 	return FILE->write(node, FILE, buf, nbyte);
 }
@@ -596,13 +768,16 @@ off_t lseek(int fd, off_t offset, int whence)
 	file_t *FILE = file_table[fd];
 	char *path = FILE->path->p;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
-		node = find_inode(path, procfs_p->fs);
+		//node = find_inode(path, procfs_p->fs);
+		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, NULL);
 	}
 	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
-		node = find_inode(path, devfs_p->p);
+		//node = find_inode(path, devfs_p->p);
+		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, NULL);
 	}
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
-		node = find_inode(path, kvfs_p->p);
+		//node = find_inode(path, kvfs_p->p);
+		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, NULL);
 	}	
 	return FILE->lseek(node, FILE, offset, whence);	
 }
@@ -616,13 +791,16 @@ int close(int fd)
 	file_t *FILE = file_table[fd];
 	char *path = FILE->path->p;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
-		node = find_inode(path, procfs_p->fs);
+		//node = find_inode(path, procfs_p->fs);
+		procfs_p->fs->ops->lookup(procfs_p->fs, path, NULL);
 	}
 	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
-		node = find_inode(path, devfs_p->p);
+		//node = find_inode(path, devfs_p->p);
+		devfs_p->fs->ops->lookup(devfs_p->fs, path, NULL);
 	}
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
-		node = find_inode(path, kvfs_p->p);
+		//node = find_inode(path, kvfs_p->p);
+		kvfs_p->fs->ops->lookup(kvfs_p->fs, path, NULL);
 	}	
 	return FILE->close(node, FILE);	
 }

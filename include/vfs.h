@@ -18,9 +18,10 @@
 #define file_cnt 2048
 typedef struct inode
 {
-	int inode_no;
+	//int inode_no;
 	int if_write;
-	int if_read;	
+	int if_read;
+	int if_exist;	
 	char name[name_len];
 	char content[file_content_maxn];
 	int size;	//文件大小
