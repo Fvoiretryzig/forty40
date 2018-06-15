@@ -59,7 +59,7 @@ void procfs_init(filesystem_t *fs, inode_t *dev)
 	cpuinfo->if_write = 0; cpuinfo->if_read = 1;
 	strcpy(cpuinfo->name, fs->path->p);
 	strcat(cpuinfo->name, "/cpuinfo");
-	char* c_info = "My cpuinfo:remain to be done"
+	char* c_info = "My cpuinfo:remain to be done";
 	strcpy(cpuinfo->content, c_info);
 	cpuinfo->size = strlen(c_info);
 	fs->inode[inode_num_proc++] = cpuinfo;
@@ -68,13 +68,13 @@ void procfs_init(filesystem_t *fs, inode_t *dev)
 		printf("the inode is full in procfs\n");
 		return;
 	}		
-	inode_t *meminfo = (inode_t *)pmm->alloc(sizeof(inode)t));
+	inode_t *meminfo = (inode_t *)pmm->alloc(sizeof(inode_t));
 	//meminfo->inode_no = inode_num_proc; 
 	meminfo->if_exist = 1;
 	meminfo->if_write = 0; meminfo->if_read = 1;
 	strcpy(meminfo->name, fs->path->p);
 	strcat(meminfo->name, "/meminfo");
-	char* m_info = "My meminfo:remain to be done"
+	char* m_info = "My meminfo:remain to be done";
 	strcpy(meminfo->content, m_info);
 	meminfo->size = strlen(m_info);
 	fs->inode[inode_num_proc++] = meminfo;	
@@ -101,7 +101,7 @@ void devfs_init(filesystem_t *fs, inode_t *dev)
 		printf("the inode is full in procfs\n");
 		return;
 	}	
-	inode_t *zero = (inode_t *)pmm->alloc(sizeof(inode)t));
+	inode_t *zero = (inode_t *)pmm->alloc(sizeof(inode_t));
 	//zero->inode_no = inode_num_dev; 
 	zero->if_exist = 1;
 	zero->if_write = 1; zero->if_read = 1; zero->size = 0;
@@ -113,7 +113,7 @@ void devfs_init(filesystem_t *fs, inode_t *dev)
 		printf("the inode is full in procfs\n");
 		return;
 	}	
-	inode_t *random = (inode_t *)pmm->alloc(sizeof(inode)t));
+	inode_t *random = (inode_t *)pmm->alloc(sizeof(inode_t));
 	//random->inode_no = inode_num_dev;
 	random->if_exist = 1; 
 	random->if_write = 1; random->if_read = 1; random->size = 0;	//不知道要初始成多大
@@ -161,7 +161,7 @@ inode_t *lookup(filesystem_t *fs, const char *path, int flag)
 	}
 	return ans;
 }
-int close(inode_t *inode)
+int fs_close(inode_t *inode)
 {
 	//TODO()目前不知道这里要干什么
 	return 0;
@@ -170,15 +170,15 @@ void fsop_init()
 {
 	procfs_op.init = &fs_init;
 	procfs_op.lookup = &lookup;
-	procfs_op.close = &close;
+	procfs_op.close = &fs_close;
 	
 	devfs_op.init = &fs_init;
 	devfs_op.lookup = &lookup;
-	devfs_op.close = &close;	
+	devfs_op.close = &fs_close;	
 	
 	kvfs_op.init = &fs_init;
 	kvfs_op.lookup = &lookup;
-	kvfs_op.close = &close;		
+	kvfs_op.close = &fs_close;		
 	
 	return;		
 }
