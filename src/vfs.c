@@ -323,7 +323,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file->if_write = 1;									
 			file_table[current_fd] = file;
 			break;
-		case ORDWR:
+		case O_RDWR:
 			if(inode->if_exist){
 				printf("cannot open the file which is not existing while writing!\n");
 				return -1;
@@ -368,7 +368,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 				printf("open fd error: there isn't enough fd left in create!\n");
 				return -1;
 			}
-			inode->if_exist = 1; inode->if_read = 0; inode->if_write = 0;
+			inode->if_exist = 1; inode->if_read = 1; inode->if_write = 0;
 			inode->size = 0; inode->content[0] = '\0';
 			
 			file->fd = current_fd;
@@ -376,11 +376,11 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			strcpy(file->content, inode->content);
 			file->f_inode = inode;
 			file->offset = 0;	
-			file->if_read = 0;
+			file->if_read = 1;
 			file->if_write = 0;									
 			file_table[current_fd] = file;
 			break;								
-		case O_CREATE|O_RDONLY:
+		/*case O_CREATE|O_RDONLY:
 			if(inode->if_exist){
 				printf("this file %s has already existed!", inode->name);
 				return -1;
@@ -407,7 +407,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file->if_read = 1;
 			file->if_write = 0;									
 			file_table[current_fd] = file;
-			break;		
+			break;*/		
 		case O_CREATE|O_WRONLY:
 			if(inode->if_exist){
 				printf("this file %s has already existed!", inode->name);
