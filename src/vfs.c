@@ -168,14 +168,17 @@ int fs_close(inode_t *inode)
 }
 void fsop_init()
 {
+	procfs_op = pmm->alloc(sizeof(fsops_t));
 	procfs_op.init = &fs_init;
 	procfs_op.lookup = &lookup;
 	procfs_op.close = &fs_close;
 	
+	devfs_op = pmm->alloc(sizeof(fsops_t));
 	devfs_op.init = &fs_init;
 	devfs_op.lookup = &lookup;
 	devfs_op.close = &fs_close;	
 	
+	kvfs_op = pmm->alloc(sizeof(fsops_t));
 	kvfs_op.init = &fs_init;
 	kvfs_op.lookup = &lookup;
 	kvfs_op.close = &fs_close;		
