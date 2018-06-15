@@ -627,7 +627,7 @@ void vfs_init()
 }
 int access(const char *path, int mode)
 {
-	inode_t *temp;
+	inode_t *temp = NULL;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
 		//temp = find_inode(path, procfs_p->fs);
 		temp = procfs_p->fs->ops->lookup(procfs_p->fs, path, mode);	//不知道是不是mode
@@ -729,7 +729,7 @@ ssize_t read(int fd, void *buf, size_t nbyte)
 		printf("invalid fd:%d in read\n", fd);
 		return -1;
 	}
-	inode_t* node; 
+	inode_t* node = NULL; 
 	file_t *FILE = file_table[fd];	//还未实现描述符为0、1、2的操作
 	char *path = FILE->name;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
