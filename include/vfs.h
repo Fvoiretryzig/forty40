@@ -21,7 +21,7 @@ typedef struct fileops fileops_t;
 typedef struct file file_t;
 typedef struct fsops fsops_t;
 typedef struct filesystem filesystem_t;
-typedef struct mount_path mount_path_t;
+typedef struct mount_path mountpath_t;
 struct inode
 {
 	//int inode_no;
