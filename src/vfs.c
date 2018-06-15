@@ -742,7 +742,7 @@ ssize_t read(int fd, void *buf, size_t nbyte)
 		//node = find_inode(path, kvfs_p->p);
 		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, 0);
 	}	
-	return FILE->read(node, FILE, buf, nbyte);
+	return FILE->ops->read(node, FILE, buf, nbyte);
 }
 ssize_t write(int fd, void *buf, size_t nbyte)
 {
@@ -765,7 +765,7 @@ ssize_t write(int fd, void *buf, size_t nbyte)
 		//node = find_inode(path, kvfs_p->p);
 		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, 0);
 	}	
-	return FILE->write(node, FILE, buf, nbyte);
+	return FILE->ops->write(node, FILE, buf, nbyte);
 }
 off_t lseek(int fd, off_t offset, int whence)
 {
@@ -788,7 +788,7 @@ off_t lseek(int fd, off_t offset, int whence)
 		//node = find_inode(path, kvfs_p->p);
 		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, 0);
 	}	
-	return FILE->lseek(node, FILE, offset, whence);	
+	return FILE->ops->lseek(node, FILE, offset, whence);	
 }
 int close(int fd)
 {
@@ -811,5 +811,5 @@ int close(int fd)
 		//node = find_inode(path, kvfs_p->p);
 		kvfs_p->fs->ops->lookup(kvfs_p->fs, path, 0);
 	}	
-	return FILE->close(node, FILE);	
+	return FILE->ops->close(node, FILE);	
 }
