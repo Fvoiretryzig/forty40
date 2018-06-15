@@ -26,7 +26,7 @@ mountpath_t* kvfs_p;
 int fd[fd_cnt];
 file_t* file_table[file_cnt];
  
-//int fd_num;
+
 MOD_DEF(vfs)
 {
 	.init = vfs_init,
