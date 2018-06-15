@@ -247,7 +247,7 @@ int unmount(const char *path)
 	else if(!strcmp(path, "/dev")){
 		devfs_p->fs->path = NULL;
 	}
-	else if(!strcpm(path, "/")){
+	else if(!strcmp(path, "/")){
 		kvfs_p->fs->path = NULL;
 	}
 	else{
@@ -261,7 +261,7 @@ int unmount(const char *path)
 fileops_t *procfile_op;
 fileops_t *devfile_op;
 fileops_t *kvfile_op;
-int file_open(inode_t *inode, file_t *file, int flags, char* name)
+int file_open(inode_t *inode, file_t *file, int flags)
 {
 	int current_fd = -1;
 	switch(flags){
@@ -270,7 +270,7 @@ int file_open(inode_t *inode, file_t *file, int flags, char* name)
 				printf("cannot open the file which is not existing while reading!\n");
 				return -1;
 			}
-			else if(flag == O_RDONLY && !inode->if_read){
+			else if(!inode->if_read){
 				printf("open mode error: have no permission to read %s\n", inode->name);
 				return -1;
 			}
@@ -299,7 +299,7 @@ int file_open(inode_t *inode, file_t *file, int flags, char* name)
 				printf("cannot open the file which is not existing while writing!\n");
 				return -1;
 			}
-			else if(flag == O_WDONLY && !inode->if_write){
+			else if(!inode->if_write){
 				printf("open mode error: have no permission to write%s\n", inode->name);
 				return -1;
 			}
@@ -328,7 +328,7 @@ int file_open(inode_t *inode, file_t *file, int flags, char* name)
 				printf("cannot open the file which is not existing while writing!\n");
 				return -1;
 			}
-			else if(flag == O_RDWR && (!inode->if_write || !inode->if_read)){
+			else if(!inode->if_write || !inode->if_read){
 				printf("open mode error: have no permission to write or read %s\n", inode->name);
 				return -1;
 			}
@@ -369,7 +369,6 @@ int file_open(inode_t *inode, file_t *file, int flags, char* name)
 				return -1;
 			}
 			inode->if_exist = 1; inode->if_read = 0; inode->if_write = 0;
-			strcpy(inode->name, name);
 			inode->size = 0; inode->content[0] = '\0';
 			
 			file->fd = current_fd;
@@ -398,7 +397,6 @@ int file_open(inode_t *inode, file_t *file, int flags, char* name)
 				return -1;
 			}
 			inode->if_exist = 1; inode->if_read = 1; inode->if_write = 0;
-			strcpy(inode->name, name);
 			inode->size = 0; inode->content[0] = '\0';
 			
 			file->fd = current_fd;
@@ -427,7 +425,6 @@ int file_open(inode_t *inode, file_t *file, int flags, char* name)
 				return -1;
 			}
 			inode->if_exist = 1; inode->if_read = 0; inode->if_write = 1;
-			strcpy(inode->name, name);
 			inode->size = 0; inode->content[0] = '\0';
 			
 			file->fd = current_fd;
@@ -456,7 +453,6 @@ int file_open(inode_t *inode, file_t *file, int flags, char* name)
 				return -1;
 			}
 			inode->if_exist = 1; inode->if_read = 1; inode->if_write = 1;
-			strcpy(inode->name, name);
 			inode->size = 0; inode->content[0] = '\0';
 			
 			file->fd = current_fd;
@@ -688,6 +684,7 @@ int open(const char *path, int flags)
 			}
 			node = pmm->alloc(sizeof(inode_t));
 			procfs_p->fs->inode[inode_num_proc++] = node;
+			strcpy(node->name, path);
 		}
 	}
 	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
@@ -701,6 +698,7 @@ int open(const char *path, int flags)
 			}
 			node = pmm->alloc(sizeof(inode_t));
 			devfs_p->fs->inode[inode_num_dev++] = node;
+			strcpy(node->name, path);
 		}		
 	}
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
@@ -714,6 +712,7 @@ int open(const char *path, int flags)
 			}
 			node = pmm->alloc(sizeof(inode_t));
 			kvfs_p->fs->inode[inode_num_kv++] = node;
+			strcpy(node->name, path);
 		}		
 	}
 	return FILE->ops->open(node, FILE, flags);	//要在file_open做一些处理
