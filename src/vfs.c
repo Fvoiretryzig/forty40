@@ -481,7 +481,7 @@ ssize_t kvproc_file_read(inode_t *inode, file_t *file, char *buf, size_t size)
 }
 ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
 {
-	if(!inode-if_read){
+	if(!inode->if_read){
 		printf("read permission error: cannot read %s\n", file->name);
 		return -1;
 	}
@@ -489,8 +489,8 @@ ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
 		size = inode->size - file->offset;
 	}	
 	if(!strcmp(inode->name+strlen(devfs_p->p), "/zero")){
-		for(int i = 0; i<n; i++){
-			strncpy(buf+i, '\0');
+		for(int i = 0; i<size; i++){
+			strcpy(buf+i, '\0');
 		}
 	}
 	else if(!strcmp(inode->name+strlen(devfs_p->p), "/null")){
