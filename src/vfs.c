@@ -169,19 +169,19 @@ int fs_close(inode_t *inode)
 void fsop_init()
 {
 	procfs_op = (fsops_t*)pmm->alloc(sizeof(fsops_t));
-	procfs_op.init = &fs_init;
-	procfs_op.lookup = &lookup;
-	procfs_op.close = &fs_close;
+	procfs_op->init = &fs_init;
+	procfs_op->lookup = &lookup;
+	procfs_op->close = &fs_close;
 	
 	devfs_op = (fsops_t*)pmm->alloc(sizeof(fsops_t));
-	devfs_op.init = &fs_init;
-	devfs_op.lookup = &lookup;
-	devfs_op.close = &fs_close;	
+	devfs_op->init = &fs_init;
+	devfs_op->lookup = &lookup;
+	devfs_op->close = &fs_close;	
 	
 	kvfs_op = (fsops_t*)pmm->alloc(sizeof(fsops_t));
-	kvfs_op.init = &fs_init;
-	kvfs_op.lookup = &lookup;
-	kvfs_op.close = &fs_close;		
+	kvfs_op->init = &fs_init;
+	kvfs_op->lookup = &lookup;
+	kvfs_op->close = &fs_close;		
 	
 	return;		
 }
@@ -258,9 +258,9 @@ int unmount(const char *path)
   /*====================================================================*/
  /*==============================file ops==============================*/
 /*====================================================================*/
-fileops_t procfile_op;
-fileops_t devfile_op;
-fileops_t kvfile_op;
+fileops_t *procfile_op;
+fileops_t *devfile_op;
+fileops_t *kvfile_op;
 int file_open(inode_t *inode, file_t *file, int flags, char* name)
 {
 	int current_fd = -1;
@@ -581,23 +581,26 @@ int file_close(inode_t *inode, file_t *file)
 }
 void fileop_init()
 {
-	procfile_op.open = &file_open;
-	procfile_op.read = &kvproc_file_read;
-	procfile_op.write = &kvproc_file_write;
-	procfile_op.lseek = &file_lseek;
-	procfile_op.close = &file_close;
+	procfile_op = (fileops_t*)pmm->alloc(sizeof(fileops_t));
+	procfile_op->open = &file_open;
+	procfile_op->read = &kvproc_file_read;
+	procfile_op->write = &kvproc_file_write;
+	procfile_op->lseek = &file_lseek;
+	procfile_op->close = &file_close;
 	
-	devfile_op.open = &file_open;
-	dvefile_op.read = &dev_file_read;
-	devfile_op.write = &dev_file_write;
-	devfile_op.lseek = &file_lseek;
-	devfile_op.close = &file_close;
+	devfile_op = (fileops_t*)pmm->alloc(sizeof(fileops_t));
+	devfile_op->open = &file_open;
+	dvefile_op->read = &dev_file_read;
+	devfile_op->write = &dev_file_write;
+	devfile_op->lseek = &file_lseek;
+	devfile_op->close = &file_close;
 	
-	kvfile_op.open = &file_open;
-	kvfile_op.read = &kvproc_file_read;
-	kvfile_op.write = &kvproc_file_write;
-	procfile_op.lseek = &file_lseek;
-	procfile_op.close = &file_close;	
+	kvfile_op = (fileops_t*)pmm->alloc(sizeof(fileops_t));
+	kvfile_op->open = &file_open;
+	kvfile_op->read = &kvproc_file_read;
+	kvfile_op->write = &kvproc_file_write;
+	procfile_op->lseek = &file_lseek;
+	procfile_op->close = &file_close;	
 	
 	return;		
 }
