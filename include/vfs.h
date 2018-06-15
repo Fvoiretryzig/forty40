@@ -16,12 +16,7 @@
 #define fd_cnt 2048
 #define file_cnt 2048
 
-typedef struct inode inode_t;
-typedef struct fileops fileops_t;
-typedef struct file file_t;
-typedef struct fsops fsops_t;
-typedef struct filesystem filesystem_t;
-typedef struct mount_path mountpath_t;
+
 struct inode
 {
 	//int inode_no;
