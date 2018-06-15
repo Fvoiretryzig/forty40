@@ -25,7 +25,8 @@ mountpath_t* kvfs_p;
 
 int fd[fd_cnt];
 file_t* file_table[file_cnt];
- 
+
+int seed;
 
 MOD_DEF(vfs)
 {
@@ -497,7 +498,7 @@ ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
 		strcpy(buf, '\0');
 	}
 	else if(!strcmp(inode->name+strlen(devfs_p->p), "/random")){
-		srand(uptime.lo);	//看看能不能用 不能用用其他方法
+		srand(seed);	
 		int num = rand();
 		strncpy(buf, itoa(num), size);
 	}
@@ -572,7 +573,7 @@ int file_close(inode_t *inode, file_t *file)
 {
 	int current_fd = file->fd;
 	fd[current_fd] = 0;
-	file[current_fd] = NULL;
+	file_table[current_fd] = NULL;
 	return 0;	//不知道什么时候会是-1
 }
 void fileop_init()
@@ -586,7 +587,7 @@ void fileop_init()
 	
 	devfile_op = (fileops_t*)pmm->alloc(sizeof(fileops_t));
 	devfile_op->open = &file_open;
-	dvefile_op->read = &dev_file_read;
+	devfile_op->read = &dev_file_read;
 	devfile_op->write = &dev_file_write;
 	devfile_op->lseek = &file_lseek;
 	devfile_op->close = &file_close;
@@ -595,8 +596,8 @@ void fileop_init()
 	kvfile_op->open = &file_open;
 	kvfile_op->read = &kvproc_file_read;
 	kvfile_op->write = &kvproc_file_write;
-	procfile_op->lseek = &file_lseek;
-	procfile_op->close = &file_close;	
+	kvfile_op->lseek = &file_lseek;
+	kvfile_op->close = &file_close;	
 	
 	return;		
 }
@@ -609,13 +610,16 @@ void vfs_init()
 	for(int i = 0; i<file_cnt; i++){
 		file_table[i] = NULL;		
 	}
+	/*========random seed init========*/
+	seed = 40;
+	/*================================*/
 	inode_num_proc = 0;
 	inode_num_dev = 0;
 	inode_num_kv = 0;
 	fsop_init();
 	procfs_p = pmm->alloc(sizeof(mountpath_t));
 	devfs_p = pmm->alloc(sizeof(mountpath_t));
-	kvfs_p = pmm->alloc(sizeof(montpath_t));
+	kvfs_p = pmm->alloc(sizeof(mountpath_t));
 	mount("/proc", create_procfs());
 	mount("/dev", create_devfs());
 	mount("/", create_kvfs());
@@ -725,7 +729,7 @@ ssize_t read(int fd, void *buf, size_t nbyte)
 	}
 	inode_t* node; 
 	file_t *FILE = file_table[fd];	//还未实现描述符为0、1、2的操作
-	char *path = FILE->path->p;
+	char *path = FILE->name;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
 		//node = find_inode(path, procfs_p->fs);
 		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, NULL);
@@ -748,7 +752,7 @@ ssize_t write(int fd, void *buf, size_t nbyte)
 	}
 	inode_t* node;
 	file_t *FILE = file_table[fd];
-	char *path = FILE->path->p;
+	char *path = FILE->name;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
 		//node = find_inode(path, procfs_p->fs);
 		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, NULL);
@@ -771,7 +775,7 @@ off_t lseek(int fd, off_t offset, int whence)
 	}
 	inode_t* node;
 	file_t *FILE = file_table[fd];
-	char *path = FILE->path->p;
+	char *path = FILE->name;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
 		//node = find_inode(path, procfs_p->fs);
 		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, NULL);
@@ -794,7 +798,7 @@ int close(int fd)
 	}
 	inode_t* node;
 	file_t *FILE = file_table[fd];
-	char *path = FILE->path->p;
+	char *path = FILE->name;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
 		//node = find_inode(path, procfs_p->fs);
 		procfs_p->fs->ops->lookup(procfs_p->fs, path, NULL);
