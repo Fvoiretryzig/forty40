@@ -190,27 +190,27 @@ filesystem_t *create_procfs()
 	filesystem_t *fs = (filesystem_t *)pmm->alloc(sizeof(filesystem_t));
 	strcpy(fs->name, "procfs");
 	if (!fs) panic("procfs allocation failed");
-	fs->ops = &procfs_ops; // 你为procfs定义的fsops_t，包含函数的实现
+	fs->ops = procfs_ops; // 你为procfs定义的fsops_t，包含函数的实现
 	fs->ops->init(fs, "procfs", NULL);
 	procfs_p = pmm->alloc(sizeof(mountpath_t));
 	return fs;
 }
 filesystem_t *create_devfs() 
 {
-	//filesystem_t *fs = (filesystem_t *)pmm->alloc(sizeof(filesystem_t));
+	filesystem_t *fs = (filesystem_t *)pmm->alloc(sizeof(filesystem_t));
 	strcpy(fs->name, "devfs"); 
 	if (!fs) panic("devfs allocation failed");
-	fs->ops = &devfs_op; // 你为procfs定义的fsops_t，包含函数的实现
+	fs->ops = devfs_op; // 你为procfs定义的fsops_t，包含函数的实现
 	fs->ops->init(fs, "devfs", NULL);
 	
 	return fs;
 }
 filesystem_t *create_kvfs() 
 {
-	//filesystem_t *fs = (filesystem_t *)pmm->alloc(sizeof(filesystem_t));
+	filesystem_t *fs = (filesystem_t *)pmm->alloc(sizeof(filesystem_t));
 	strcpy(fs->name, "kvfs"); 
 	if (!fs) panic("fs allocation failed");
-	fs->ops = &kvfs_op; // 你为procfs定义的fsops_t，包含函数的实现
+	fs->ops = kvfs_op; // 你为procfs定义的fsops_t，包含函数的实现
 	fs->ops->init(fs, "kvfs", NULL);
 	return fs;
 }

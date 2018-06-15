@@ -44,7 +44,7 @@ struct file
 	char content[file_content_maxn];
 	char name[name_len];
 	int fd;
-	fileops_t ops;
+	fileops_t *ops;
 };
 struct fsops 
 {
@@ -58,7 +58,7 @@ struct filesystem
 	//char mount_path[name_len];
 	mountpath_t* path;
 	inode_t *inode[inode_cnt];
-	fsops_t ops;
+	fsops_t *ops;
 };
 struct mount_path
 {
