@@ -676,7 +676,7 @@ int access(const char *path, int mode)
 
 int open(const char *path, int flags)
 {
-	inode_t* node; 
+	inode_t* node = NULL; 
 	file_t *FILE = (file_t*)pmm->alloc(sizeof(file_t)); 
 	FILE->if_read = 0; FILE->if_write = 0;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
@@ -743,6 +743,10 @@ ssize_t read(int fd, void *buf, size_t nbyte)
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
 		//node = find_inode(path, kvfs_p->p);
 		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, 0);
+	}
+	if(node == NULL){
+		printf("invalid read for a non-exiting inode!\n");
+		return -1;
 	}	
 	return FILE->ops->read(node, FILE, buf, nbyte);
 }
@@ -752,7 +756,7 @@ ssize_t write(int fd, void *buf, size_t nbyte)
 		printf("invalid fd:%d in read\n", fd);
 		return -1;
 	}
-	inode_t* node;
+	inode_t* node = NULL;
 	file_t *FILE = file_table[fd];
 	char *path = FILE->name;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
@@ -766,6 +770,10 @@ ssize_t write(int fd, void *buf, size_t nbyte)
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
 		//node = find_inode(path, kvfs_p->p);
 		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, 0);
+	}
+	if(node == NULL){
+		printf("invalid write for a non-exising inode!\n");
+		return -1;
 	}	
 	return FILE->ops->write(node, FILE, buf, nbyte);
 }
@@ -775,7 +783,7 @@ off_t lseek(int fd, off_t offset, int whence)
 		printf("invalid fd:%d in read\n", fd);
 		return -1;
 	}
-	inode_t* node;
+	inode_t* node = NULL;
 	file_t *FILE = file_table[fd];
 	char *path = FILE->name;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
@@ -789,6 +797,10 @@ off_t lseek(int fd, off_t offset, int whence)
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
 		//node = find_inode(path, kvfs_p->p);
 		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, 0);
+	}
+	if(node == NULL){
+		printf("invalid lseek for a non-existing inode!\n");
+		return -1;
 	}	
 	return FILE->ops->lseek(node, FILE, offset, whence);	
 }
@@ -798,7 +810,7 @@ int close(int fd)
 		printf("invalid fd:%d in read\n", fd);
 		return -1;
 	}
-	inode_t* node;
+	inode_t* node = NULL;
 	file_t *FILE = file_table[fd];
 	char *path = FILE->name;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
@@ -812,6 +824,9 @@ int close(int fd)
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
 		//node = find_inode(path, kvfs_p->p);
 		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, 0);
+	}
+	if(node == NULL){
+		printf("invalid close for a non-existing inode!\n");
 	}	
 	return FILE->ops->close(node, FILE);	
 }
