@@ -43,9 +43,9 @@ MOD_DEF(vfs)
   /*====================================================================*/
  /*==============================vfs init==============================*/
 /*====================================================================*/
-fsops_t procfs_op;
-fsops_t devfs_op;
-fsops_t kvfs_op;
+static fsops_t procfs_op;
+static fsops_t devfs_op;
+static fsops_t kvfs_op;
 void procfs_init(filesystem_t *fs, inode_t *dev)
 {
 	/*================cpuinfo================*/
