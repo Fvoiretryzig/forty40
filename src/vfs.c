@@ -436,7 +436,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file->if_write = 1;									
 			file_table[current_fd] = file;
 			break;				
-		case O_CREATE|ORDWR:
+		case O_CREATE|O_RDWR:
 			if(inode->if_exist){
 				printf("this file %s has already existed!", inode->name);
 				return -1;
@@ -479,7 +479,7 @@ ssize_t kvproc_file_read(inode_t *inode, file_t *file, char *buf, size_t size)
 	strncpy(buf, file->content+file->offset, size);
 	return size;
 }
-ssize_t dev_file_read(inode_T *inode, file_t *file, char*buf, size_t size)
+ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
 {
 	if(!inode-if_read){
 		printf("read permission error: cannot read %s\n", file->name);
@@ -527,9 +527,9 @@ ssize_t dev_file_write(inode_t *inode, file_t *file, const char *buf, size_t siz
 		printf("write permmison error: cannot write %s\n", file->name);
 		return -1;
 	}
-	if(!strcmp(inode->name+strlen(devfs_p->p), "/zero"
+	if(!strcmp(inode->name+strlen(devfs_p->p), "/zero")
 	|| !strcmp(inode->name+strlen(devfs_p->p), "/null")
-	|| !strcmp(inode->name+strlen(devfs_p->p), "/random"){
+	|| !strcmp(inode->name+strlen(devfs_p->p), "/random")){
 		return size;	//这几个文件写了也没用
 	}
 	else if((file->f_inode->size + size) >= file_content_maxn){
