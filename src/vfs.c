@@ -676,7 +676,9 @@ int access(const char *path, int mode)
 
 int open(const char *path, int flags)
 {
-	inode_t* node; file_t *FILE; FILE->if_read = 0; FILE->if_write = 0;
+	inode_t* node; 
+	file_t *FILE = (file_t*)pmm->alloc(sizeof(file_t)); 
+	FILE->if_read = 0; FILE->if_write = 0;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
 		//node = find_inode(path, procfs_p->fs);
 		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, flags);	//不知道是不是flag
@@ -801,15 +803,15 @@ int close(int fd)
 	char *path = FILE->name;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
 		//node = find_inode(path, procfs_p->fs);
-		procfs_p->fs->ops->lookup(procfs_p->fs, path, 0);
+		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, 0);
 	}
 	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
 		//node = find_inode(path, devfs_p->p);
-		devfs_p->fs->ops->lookup(devfs_p->fs, path, 0);
+		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, 0);
 	}
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
 		//node = find_inode(path, kvfs_p->p);
-		kvfs_p->fs->ops->lookup(kvfs_p->fs, path, 0);
+		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, 0);
 	}	
 	return FILE->ops->close(node, FILE);	
 }
