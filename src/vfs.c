@@ -22,7 +22,6 @@ static int inode_num_kv;
 mountpath_t* procfs_p;
 mountpath_t* devfs_p;
 mountpath_t* kvfs_p;
-
 int fd[fd_cnt];
 file_t* file_table[file_cnt];
 
