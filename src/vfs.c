@@ -655,7 +655,7 @@ int access(const char *path, int mode)
 
 int open(const char *path, int flags)
 {
-	ktm->spin_lock(&vfs_lk);
+	kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/
 	inode_t* node = NULL; 
 	file_t *FILE = (file_t*)pmm->alloc(sizeof(file_t)); 
@@ -817,5 +817,5 @@ int close(int fd)
 	int ret = FILE->ops->close(node, FILE);	
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);		
-	return ret
+	return ret;
 }
