@@ -676,7 +676,7 @@ int open(const char *path, int flags)
 		else{
 	/*=========================unlock=========================*/
 			kmt->spin_unlock(&vfs_lk);	
-			while(inode->thread_cnt > 0);
+			while(node->thread_cnt > 0);
 			kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/						
 		}
@@ -696,7 +696,7 @@ int open(const char *path, int flags)
 		else{
 	/*=========================unlock=========================*/
 			kmt->spin_unlock(&vfs_lk);	
-			while(inode->thread_cnt > 0);
+			while(node->thread_cnt > 0);
 			kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/						
 		}				
@@ -716,7 +716,7 @@ int open(const char *path, int flags)
 		else{
 	/*=========================unlock=========================*/
 			kmt->spin_unlock(&vfs_lk);	
-			while(inode->thread_cnt > 0);
+			while(node->thread_cnt > 0);
 			kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/						
 		}			
@@ -837,7 +837,7 @@ int close(int fd)
 		printf("invalid close for a non-existing inode!\n");
 	}	
 	int ret = FILE->ops->close(node, FILE);	
-	inode->thread_cnt--;	//不知道放锁里面还是外面
+	node->thread_cnt--;	//不知道放锁里面还是外面
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);		
 	return ret;
