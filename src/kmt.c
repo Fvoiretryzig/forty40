@@ -192,7 +192,7 @@ static void sem_wait(sem_t *sem)
 		}
 		spin_unlock(&sem_lk);
 		while(last_node->if_in){
-			//printf("");	//我也不知道为什么要一个printf才可以……
+			printf("");	//我也不知道为什么要一个printf才可以……
 		}
 		spin_lock(&sem_lk);
 		sem->count--;
