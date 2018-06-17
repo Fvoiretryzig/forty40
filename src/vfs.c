@@ -370,6 +370,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 				return -1;
 			}
 			inode->if_exist = 1; inode->if_read = 1; inode->if_write = 0;
+			inode->thread_cnt++;
 			inode->size = 0; inode->content[0] = '\0';
 			
 			file->fd = current_fd;
@@ -672,6 +673,13 @@ int open(const char *path, int flags)
 			procfs_p->fs->inode[inode_num_proc++] = node;
 			strcpy(node->name, path);
 		}
+		else{
+	/*=========================unlock=========================*/
+			kmt->spin_unlock(&vfs_lk);	
+			while(inode->thread_cnt > 0);
+			kmt->spin_lock(&vfs_lk);
+	/*=========================lock=========================*/						
+		}
 	}
 	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
 		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, flags);
@@ -684,7 +692,14 @@ int open(const char *path, int flags)
 			node = pmm->alloc(sizeof(inode_t));
 			devfs_p->fs->inode[inode_num_dev++] = node;
 			strcpy(node->name, path);
-		}		
+		}
+		else{
+	/*=========================unlock=========================*/
+			kmt->spin_unlock(&vfs_lk);	
+			while(inode->thread_cnt > 0);
+			kmt->spin_lock(&vfs_lk);
+	/*=========================lock=========================*/						
+		}				
 	}
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
 		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, flags);
@@ -697,7 +712,14 @@ int open(const char *path, int flags)
 			node = pmm->alloc(sizeof(inode_t));
 			kvfs_p->fs->inode[inode_num_kv++] = node;
 			strcpy(node->name, path);
-		}		
+		}	
+		else{
+	/*=========================unlock=========================*/
+			kmt->spin_unlock(&vfs_lk);	
+			while(inode->thread_cnt > 0);
+			kmt->spin_lock(&vfs_lk);
+	/*=========================lock=========================*/						
+		}			
 	}
 	int temp_fd = FILE->ops->open(node, FILE, flags);
 	/*=========================unlock=========================*/
@@ -815,6 +837,7 @@ int close(int fd)
 		printf("invalid close for a non-existing inode!\n");
 	}	
 	int ret = FILE->ops->close(node, FILE);	
+	inode->thread_cnt--;	//不知道放锁里面还是外面
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);		
 	return ret;
