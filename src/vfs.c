@@ -605,7 +605,7 @@ void vfs_init()
 /*====================================================================*/
 int access(const char *path, int mode)
 {
-	kmt->spin_lock(&vsf_lk);
+	kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/
 	inode_t *temp = NULL;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
