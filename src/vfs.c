@@ -597,7 +597,7 @@ void vfs_init()
 	mount("/dev", create_devfs());
 	mount("/", create_kvfs());
 	
-	spin_init(&vfs_lk, "vfs_lk");
+	kmt->spin_init(&vfs_lk, "vfs_lk");
 	return;
 }
   /*====================================================================*/
@@ -605,7 +605,7 @@ void vfs_init()
 /*====================================================================*/
 int access(const char *path, int mode)
 {
-	spin_lock(&vsf_lk);
+	kmt->spin_lock(&vsf_lk);
 	/*=========================lock=========================*/
 	inode_t *temp = NULL;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
@@ -649,13 +649,13 @@ int access(const char *path, int mode)
 			break;
 	}
 	/*=========================unlock=========================*/
-	spin_unlock(&vfs_lk);
+	kmt->spin_unlock(&vfs_lk);
 	return 0;
 }
 
 int open(const char *path, int flags)
 {
-	spin_lock(&vfs_lk);
+	ktm->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/
 	inode_t* node = NULL; 
 	file_t *FILE = (file_t*)pmm->alloc(sizeof(file_t)); 
@@ -701,12 +701,12 @@ int open(const char *path, int flags)
 	}
 	int temp_fd = FILE->ops->open(node, FILE, flags);
 	/*=========================unlock=========================*/
-	spin_unlock(&vfs_lk);	
+	kmt->spin_unlock(&vfs_lk);	
 	return temp_fd;
 }
 ssize_t read(int fd, void *buf, size_t nbyte)
 {
-	spin_lock(&vfs_lk);
+	kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/
 	if(fd < 0){
 		printf("invalid fd:%d in read\n", fd);
@@ -730,12 +730,12 @@ ssize_t read(int fd, void *buf, size_t nbyte)
 	}	
 	ssize_t size = FILE->ops->read(node, FILE, buf, nbyte);
 	/*=========================unlock=========================*/
-	spin_unlock(&vfs_lk);	
+	kmt->spin_unlock(&vfs_lk);	
 	return size;
 }
 ssize_t write(int fd, void *buf, size_t nbyte)
 {
-	spin_lock(&vfs_lk);
+	kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/
 	if(fd < 0){
 		printf("invalid fd:%d in read\n", fd);
@@ -759,12 +759,12 @@ ssize_t write(int fd, void *buf, size_t nbyte)
 	}	
 	ssize_t size = FILE->ops->write(node, FILE, buf, nbyte);
 	/*=========================unlock=========================*/
-	spin_unlock(&vfs_lk);		
+	kmt->spin_unlock(&vfs_lk);		
 	return size;
 }
 off_t lseek(int fd, off_t offset, int whence)
 {
-	spin_lock(&vfs_lk);
+	kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/
 	if(fd < 0){
 		printf("invalid fd:%d in read\n", fd);
@@ -788,12 +788,12 @@ off_t lseek(int fd, off_t offset, int whence)
 	}	
 	off_t temp_offset = FILE->ops->lseek(node, FILE, offset, whence);	
 	/*=========================unlock=========================*/
-	spin_unlock(&vfs_lk);		
+	kmt->spin_unlock(&vfs_lk);		
 	return temp_offset;
 }
 int close(int fd)
 {
-	spin_lock(&vfs_lk);
+	kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/
 	if(fd < 0){
 		printf("invalid fd:%d in read\n", fd);
@@ -816,6 +816,6 @@ int close(int fd)
 	}	
 	int ret = FILE->ops->close(node, FILE);	
 	/*=========================unlock=========================*/
-	spin_unlock(&vfs_lk);		
+	kmt->spin_unlock(&vfs_lk);		
 	return ret
 }
