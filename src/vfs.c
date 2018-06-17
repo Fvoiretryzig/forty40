@@ -27,6 +27,7 @@ file_t* file_table[file_cnt];
 
 int seed;
 
+spinlock_t vfs_lk;
 MOD_DEF(vfs)
 {
 	.init = vfs_init,
@@ -379,35 +380,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file->if_read = 1;
 			file->if_write = 0;									
 			file_table[current_fd] = file;
-			break;								
-		/*case O_CREATE|O_RDONLY:
-			if(inode->if_exist){
-				printf("this file %s has already existed!", inode->name);
-				return -1;
-			}
-			for(int i = 3; i<fd_cnt; i++){
-				if(fd[i] == 0){
-					fd[i] = 1;
-					current_fd = i;
-					break;
-				}
-			}	
-			if(current_fd == -1){
-				printf("open fd error: there isn't enough fd left in create!\n");
-				return -1;
-			}
-			inode->if_exist = 1; inode->if_read = 1; inode->if_write = 0;
-			inode->size = 0; inode->content[0] = '\0';
-			
-			file->fd = current_fd;
-			strcpy(file->name, inode->name);
-			strcpy(file->content, inode->content);
-			file->f_inode = inode;
-			file->offset = 0;	
-			file->if_read = 1;
-			file->if_write = 0;									
-			file_table[current_fd] = file;
-			break;*/		
+			break;									
 		case O_CREATE|O_WRONLY:
 			if(inode->if_exist){
 				printf("this file %s has already existed!", inode->name);
@@ -616,27 +589,32 @@ void vfs_init()
 	inode_num_dev = 0;
 	inode_num_kv = 0;
 	fsop_init();
+	fileop_init();
 	procfs_p = pmm->alloc(sizeof(mountpath_t));
 	devfs_p = pmm->alloc(sizeof(mountpath_t));
 	kvfs_p = pmm->alloc(sizeof(mountpath_t));
 	mount("/proc", create_procfs());
 	mount("/dev", create_devfs());
 	mount("/", create_kvfs());
+	
+	spin_init(&vfs_lk, "vfs_lk");
 	return;
 }
+  /*====================================================================*/
+ /*==============================sys_call==============================*/
+/*====================================================================*/
 int access(const char *path, int mode)
 {
+	spin_lock(&vsf_lk);
+	/*=========================lock=========================*/
 	inode_t *temp = NULL;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
-		//temp = find_inode(path, procfs_p->fs);
 		temp = procfs_p->fs->ops->lookup(procfs_p->fs, path, mode);	//不知道是不是mode
 	}
 	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
-		//temp = find_inode(path, devfs_p->p);
 		temp = devfs_p->fs->ops->lookup(devfs_p->fs, path, mode);
 	}
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
-		//temp = find_inode(path, kvfs_p->p);
 		temp = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, mode);
 	}
 	if(temp == NULL){
@@ -670,16 +648,19 @@ int access(const char *path, int mode)
 			}
 			break;
 	}
+	/*=========================unlock=========================*/
+	spin_unlock(&vfs_lk);
 	return 0;
 }
 
 int open(const char *path, int flags)
 {
+	spin_lock(&vfs_lk);
+	/*=========================lock=========================*/
 	inode_t* node = NULL; 
 	file_t *FILE = (file_t*)pmm->alloc(sizeof(file_t)); 
 	FILE->if_read = 0; FILE->if_write = 0;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
-		//node = find_inode(path, procfs_p->fs);
 		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, flags);	//不知道是不是flag
 		FILE->ops = procfile_op;
 		if(node == NULL){
@@ -693,7 +674,6 @@ int open(const char *path, int flags)
 		}
 	}
 	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
-		//node = find_inode(path, devfs_p->p);
 		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, flags);
 		FILE->ops = devfile_op;
 		if(node == NULL){
@@ -707,7 +687,6 @@ int open(const char *path, int flags)
 		}		
 	}
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
-		//node = find_inode(path, kvfs_p->p);
 		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, flags);
 		FILE->ops = kvfile_op;
 		if(node == NULL){
@@ -720,10 +699,15 @@ int open(const char *path, int flags)
 			strcpy(node->name, path);
 		}		
 	}
-	return FILE->ops->open(node, FILE, flags);	//要在file_open做一些处理
+	int temp_fd = FILE->ops->open(node, FILE, flags);
+	/*=========================unlock=========================*/
+	spin_unlock(&vfs_lk);	
+	return temp_fd;
 }
 ssize_t read(int fd, void *buf, size_t nbyte)
 {
+	spin_lock(&vfs_lk);
+	/*=========================lock=========================*/
 	if(fd < 0){
 		printf("invalid fd:%d in read\n", fd);
 		return -1;
@@ -732,25 +716,27 @@ ssize_t read(int fd, void *buf, size_t nbyte)
 	file_t *FILE = file_table[fd];	//还未实现描述符为0、1、2的操作
 	char *path = FILE->name;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
-		//node = find_inode(path, procfs_p->fs);
 		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, 0);
 	}
 	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
-		//node = find_inode(path, devfs_p->p);
 		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, 0);
 	}
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
-		//node = find_inode(path, kvfs_p->p);
 		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, 0);
 	}
 	if(node == NULL){
 		printf("invalid read for a non-exiting inode!\n");
 		return -1;
 	}	
-	return FILE->ops->read(node, FILE, buf, nbyte);
+	ssize_t size = FILE->ops->read(node, FILE, buf, nbyte);
+	/*=========================unlock=========================*/
+	spin_unlock(&vfs_lk);	
+	return size;
 }
 ssize_t write(int fd, void *buf, size_t nbyte)
 {
+	spin_lock(&vfs_lk);
+	/*=========================lock=========================*/
 	if(fd < 0){
 		printf("invalid fd:%d in read\n", fd);
 		return -1;
@@ -759,25 +745,27 @@ ssize_t write(int fd, void *buf, size_t nbyte)
 	file_t *FILE = file_table[fd];
 	char *path = FILE->name;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
-		//node = find_inode(path, procfs_p->fs);
 		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, 0);
 	}
 	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
-		//node = find_inode(path, devfs_p->p);
 		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, 0);
 	}
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
-		//node = find_inode(path, kvfs_p->p);
 		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, 0);
 	}
 	if(node == NULL){
 		printf("invalid write for a non-exising inode!\n");
 		return -1;
 	}	
-	return FILE->ops->write(node, FILE, buf, nbyte);
+	ssize_t size = FILE->ops->write(node, FILE, buf, nbyte);
+	/*=========================unlock=========================*/
+	spin_unlock(&vfs_lk);		
+	return size;
 }
 off_t lseek(int fd, off_t offset, int whence)
 {
+	spin_lock(&vfs_lk);
+	/*=========================lock=========================*/
 	if(fd < 0){
 		printf("invalid fd:%d in read\n", fd);
 		return -1;
@@ -786,25 +774,27 @@ off_t lseek(int fd, off_t offset, int whence)
 	file_t *FILE = file_table[fd];
 	char *path = FILE->name;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
-		//node = find_inode(path, procfs_p->fs);
 		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, 0);
 	}
 	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
-		//node = find_inode(path, devfs_p->p);
 		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, 0);
 	}
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
-		//node = find_inode(path, kvfs_p->p);
 		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, 0);
 	}
 	if(node == NULL){
 		printf("invalid lseek for a non-existing inode!\n");
 		return -1;
 	}	
-	return FILE->ops->lseek(node, FILE, offset, whence);	
+	off_t temp_offset = FILE->ops->lseek(node, FILE, offset, whence);	
+	/*=========================unlock=========================*/
+	spin_unlock(&vfs_lk);		
+	return temp_offset;
 }
 int close(int fd)
 {
+	spin_lock(&vfs_lk);
+	/*=========================lock=========================*/
 	if(fd < 0){
 		printf("invalid fd:%d in read\n", fd);
 		return -1;
@@ -813,19 +803,19 @@ int close(int fd)
 	file_t *FILE = file_table[fd];
 	char *path = FILE->name;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
-		//node = find_inode(path, procfs_p->fs);
 		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, 0);
 	}
 	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
-		//node = find_inode(path, devfs_p->p);
 		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, 0);
 	}
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
-		//node = find_inode(path, kvfs_p->p);
 		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, 0);
 	}
 	if(node == NULL){
 		printf("invalid close for a non-existing inode!\n");
 	}	
-	return FILE->ops->close(node, FILE);	
+	int ret = FILE->ops->close(node, FILE);	
+	/*=========================unlock=========================*/
+	spin_unlock(&vfs_lk);		
+	return ret
 }
