@@ -687,6 +687,7 @@ int open(const char *path, int flags)
 		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, flags);
 		FILE->ops = devfile_op;
 		if(node == NULL){
+			printf("node null in dev\n");
 			if(inode_num_dev == inode_cnt){
 				printf("the file is not exisiting while open and there is no inode to allocate!\n");
 				return -1;
