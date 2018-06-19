@@ -1,5 +1,5 @@
 #ifndef __VFS_H__
-#define __VFS_H__
+//#define __VFS_H__
 
 //#define O_RDONLY 0
 //#define O_WRONLY 1
