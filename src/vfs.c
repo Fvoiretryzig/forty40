@@ -598,7 +598,6 @@ void vfs_init()
 	mount("/proc", create_procfs());
 	mount("/dev", create_devfs());
 	mount("/", create_kvfs());
-	printf("this is after create fs\n");
 	kmt->spin_init(&vfs_lk, "vfs_lk");
 	return;
 }

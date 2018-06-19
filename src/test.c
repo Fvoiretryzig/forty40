@@ -108,6 +108,7 @@ void kv_test()
 
 void test_file()
 {
+	printf("this is before create thread\n");
 	kmt->create(&t1, &dev_test, NULL);
 	kmt->create(&t2, &proc_test, NULL);
 	kmt->create(&t3, &kv_test, NULL);
