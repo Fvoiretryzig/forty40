@@ -576,6 +576,7 @@ void fileop_init()
 }
 void vfs_init()
 {
+	printf("this is vfs_init()\n");
 	fd[0] = 1; fd[1] = 1; fd[2] = 1;
 	for(int i = 3; i<fd_cnt; i++){
 		fd[i] = 0;
