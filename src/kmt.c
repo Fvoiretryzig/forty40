@@ -78,7 +78,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		thread->thread_reg = _make(stack, entry, arg);
 		work[thread_cnt] = *thread;
 		thread_cnt++;
-		
+		printf("this is in a checkpoint\n");
 		/*========create proc thread info========*/
 		//char *id = itoa(thread->id);
 		//char *start = itoa(stack.start); char *end = itoa(stack.end);
