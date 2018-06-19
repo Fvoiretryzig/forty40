@@ -155,9 +155,7 @@ inode_t *lookup(filesystem_t *fs, const char *path, int flag)
 		index++;
 	}
 	if(if_find && index < inode_cnt){
-		ans = fs->inode[index];
-	printf("ans: name:%s if_exist:%d if_read:%d if_write:%d\n", ans->name, ans->if_exist, ans->if_read, ans->if_write);		
-		//return fs->inode[index];
+		ans = fs->inode[index];	
 	}
 	return ans;
 }
@@ -721,7 +719,7 @@ int open(const char *path, int flags)
 	/*=========================lock=========================*/						
 		}			
 	}
-	printf("node: name:%s if_exist:%d if_read:%s if_write:%d\n", node->name, node->if_exist, node->if_read, node->if_write);
+	printf("node: name:%s if_exist:%d if_read:%d if_write:%d\n", node->name, node->if_exist, node->if_read, node->if_write);
 	int temp_fd = FILE->ops->open(node, FILE, flags);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
