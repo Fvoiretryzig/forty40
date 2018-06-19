@@ -87,9 +87,9 @@ char * strcat(char * dst, const char * src)
 {
 	printf("in strcat dst:%s src:%s\n", dst, src);
 	char *tmp = dst;
-	while(*dst)
-		dst++;
-	while ((*dst++ = *src++) != '\0')
+	while(*tmp)
+		tmp++;
+	while ((*tmp++ = *src++) != '\0')
 	{
 		printf("in strcat: dst:%s src:%s\n", dst, src);
 	}
