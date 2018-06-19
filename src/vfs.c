@@ -658,7 +658,7 @@ int open(const char *path, int flags)
 {
 	kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/
-	inode_t* node = NULL; 
+	inode_t* node = NULL; printf("this is in a checkpoint\n");
 	file_t *FILE = (file_t*)pmm->alloc(sizeof(file_t)); 
 	FILE->if_read = 0; FILE->if_write = 0;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){

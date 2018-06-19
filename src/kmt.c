@@ -83,8 +83,8 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		//char *id = itoa(thread->id);
 		//char *start = itoa(stack.start); char *end = itoa(stack.end);
 		char *path = pmm->alloc(64);
-		strcpy(path, "/proc/"); strcat(path, itoa(thread->id));printf("path:%s\n", path);
-		//printf("this is in a checkpoint\n");
+		strcpy(path, "/proc/"); strcat(path, itoa(thread->id));
+		printf("path:%s\n", path);
 		int fd = vfs->open(path, O_CREATE|O_RDWR);
 		char *buf = pmm->alloc(128);
 		strcpy(buf, "id: "); 
