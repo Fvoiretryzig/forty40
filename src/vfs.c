@@ -272,7 +272,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 				return -1;
 			}
 			else if(!inode->if_read){
-				printf("open O_RDONLY can not read:%s\n", inode->name);
+				printf("open O_RDONLY can not read in file_open:%s\n", inode->name);
 				printf("open mode error: have no permission to read %s\n", inode->name);
 				return -1;
 			}
@@ -686,6 +686,7 @@ int open(const char *path, int flags)
 		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, flags);
 		FILE->ops = devfile_op;
 		if(node == NULL){
+			printf("the %s inode is null\n", path);
 			if(inode_num_dev == inode_cnt){
 				printf("the file is not exisiting while open and there is no inode to allocate!\n");
 				return -1;
