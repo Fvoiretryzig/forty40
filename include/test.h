@@ -15,6 +15,9 @@ void consumer();
 spinlock_t lk;
 void test_run();
 
-void dev_test()
+void dev_test();
+void proc_test();
+void kv_test();
+void file_test();
  
 #endif
