@@ -662,7 +662,6 @@ int open(const char *path, int flags)
 	file_t *FILE = (file_t*)pmm->alloc(sizeof(file_t)); 
 	FILE->if_read = 0; FILE->if_write = 0;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
-		printf("this is a checkpoint\n");
 		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, flags);	//不知道是不是flag
 		FILE->ops = procfile_op;
 		if(node == NULL){
@@ -670,9 +669,11 @@ int open(const char *path, int flags)
 				printf("the file is not exisiting while open and there is no inode to allocate!\n");
 				return -1;
 			}
+			printf("this is a checkpoint!\n");
 			node = pmm->alloc(sizeof(inode_t));
 			procfs_p->fs->inode[inode_num_proc++] = node;
 			strcpy(node->name, path);
+			printf("node->name:%d\n", node->name);
 		}
 		else{
 	/*=========================unlock=========================*/
