@@ -56,7 +56,7 @@ void dev_test()
 	size = vfs->read(random_fd, buf, 128);
 	if(size < 0){
 		printf("error read /dev/random in dev_test\n");
-		vfs->close(rando_fd);
+		vfs->close(random_fd);
 		pmm->free(buf);
 		return;
 	}
@@ -81,7 +81,7 @@ void dev_test()
 		return;
 	}
 	printf("after read /dev/null buf:%d\n", (int)*buf);
-	close(null_fd);
+	vfs->close(null_fd);
 	/*========================null========================*/
 	int zero_fd = vfs->open("/dev/zero", O_RDONLY);
 	strcpy(buf, "40404040");
@@ -93,6 +93,8 @@ void dev_test()
 		return;
 	}	
 	printf("this is read from /dev/zero: %d\n", (int)*buf);
+	vfs->close(zero_fd);
+	pmm->free(buf);
 	return;
 }
 void proc_test()
