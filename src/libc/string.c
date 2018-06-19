@@ -73,6 +73,7 @@ int strncmp(const char *s1, const char *s2, size_t n)
 	while(*s1 == *s2 && *s2 && n--){
 		s1++; s2++;
 	}
+	printf("s1:%s s2:%s ", s1, s2);
 	printf("this is in a checkpoint ");
 	int temp = *s1 - *s2;
     if(temp > 0)
