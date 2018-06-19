@@ -576,7 +576,7 @@ void fileop_init()
 }
 void vfs_init()
 {
-	printf("this is vfs_init()\n");
+	
 	fd[0] = 1; fd[1] = 1; fd[2] = 1;
 	for(int i = 3; i<fd_cnt; i++){
 		fd[i] = 0;
@@ -591,7 +591,7 @@ void vfs_init()
 	inode_num_dev = 0;
 	inode_num_kv = 0;
 	fsop_init();
-	fileop_init();
+	fileop_init();printf("this is after ops init\n");
 	procfs_p = pmm->alloc(sizeof(mountpath_t));
 	devfs_p = pmm->alloc(sizeof(mountpath_t));
 	kvfs_p = pmm->alloc(sizeof(mountpath_t));
