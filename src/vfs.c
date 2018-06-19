@@ -685,9 +685,9 @@ int open(const char *path, int flags)
 	}
 	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
 		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, flags);
+		printf("node: name:%s if_exist:%d if_read:%s if_write:%d\n", node->name, node->if_exist, node->if_read, node->if_write);
 		FILE->ops = devfile_op;
 		if(node == NULL){
-			printf("node null in dev\n");
 			if(inode_num_dev == inode_cnt){
 				printf("the file is not exisiting while open and there is no inode to allocate!\n");
 				return -1;
