@@ -108,10 +108,13 @@ void kv_test()
 
 void test_file()
 {
-	printf("this is before create thread\n");
+	kmt->spin_init(&lk,"test_file_lk");
+	kmt->spin_lock(&lk);
 	kmt->create(&t1, &dev_test, NULL);
 	kmt->create(&t2, &proc_test, NULL);
 	kmt->create(&t3, &kv_test, NULL);
+	printf("this is after create thread\n");
+	kmt->spin_unlock(&lk);
 	return;
 }
 
