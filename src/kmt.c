@@ -59,7 +59,7 @@ static void kmt_init()
 /*===================================*/
 static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 {
-	printf("this is in create\n");
+	//printf("this is in create\n");
 	void *fence1_addr = pmm->alloc(FC_SZ);
 	void *addr = pmm->alloc(STK_SZ);
 	void *fence2_addr = pmm->alloc(FC_SZ);
