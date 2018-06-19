@@ -662,6 +662,7 @@ int open(const char *path, int flags)
 	file_t *FILE = (file_t*)pmm->alloc(sizeof(file_t)); 
 	FILE->if_read = 0; FILE->if_write = 0;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
+		printf("this is a checkpoint\n");
 		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, flags);	//不知道是不是flag
 		FILE->ops = procfile_op;
 		if(node == NULL){
