@@ -58,6 +58,7 @@ void procfs_init(filesystem_t *fs, inode_t *dev)
 	//cpuinfo->inode_no = inode_num_proc; 
 	cpuinfo->if_exist = 1;
 	cpuinfo->if_write = 0; cpuinfo->if_read = 1;
+	printf("in procfs_init fs->path->p:%s\n",fs->path->p );
 	strcpy(cpuinfo->name, fs->path->p);
 	strcat(cpuinfo->name, "/cpuinfo");
 	char* c_info = "My cpuinfo:remain to be done";
