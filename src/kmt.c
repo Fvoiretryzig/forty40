@@ -132,7 +132,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 			pmm->free(path); pmm->free(buf);			
 			return -1;
 		}
-		strcpy(buf, itoa(stack.start));
+		strcpy(buf, itoa((int)stack.start));
 		if(vfs->write(fd, buf, strlen(buf)) < 0){
 			printf("write thread %d proc file error\n", thread->id);
 			vfs->close(fd);
@@ -153,7 +153,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 			pmm->free(path); pmm->free(buf);			
 			return -1;
 		}
-		strcpy(buf, itoa(stack.end));
+		strcpy(buf, itoa((int)stack.end));
 		if(vfs->write(fd, buf, strlen(buf)) < 0){
 			printf("write thread %d proc file error\n", thread->id);
 			vfs->close(fd);
