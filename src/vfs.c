@@ -595,10 +595,10 @@ void vfs_init()
 	procfs_p = pmm->alloc(sizeof(mountpath_t));
 	devfs_p = pmm->alloc(sizeof(mountpath_t));
 	kvfs_p = pmm->alloc(sizeof(mountpath_t));
-	mount("/proc", create_procfs());printf("this is after create procfs\n");
+	mount("/proc", create_procfs());
 	mount("/dev", create_devfs());
 	mount("/", create_kvfs());
-	
+	printf("this is after create fs\n");
 	kmt->spin_init(&vfs_lk, "vfs_lk");
 	return;
 }
