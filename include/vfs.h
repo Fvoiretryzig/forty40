@@ -1,10 +1,10 @@
 #ifndef __VFS_H__
 #define __VFS_H__
 
-#define O_RDONLY 0
-#define O_WRONLY 1
-#define O_RDWR 2
-#define O_CREATE 4
+//#define O_RDONLY 0
+//#define O_WRONLY 1
+//#define O_RDWR 2
+//#define O_CREATE 4
 
 //#define SEEK_SET 0
 //#define SEEK_CUR 1
