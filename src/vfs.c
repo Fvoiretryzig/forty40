@@ -157,9 +157,9 @@ inode_t *lookup(filesystem_t *fs, const char *path, int flag)
 	if(if_find && index < inode_cnt){
 		ans = fs->inode[index];
 	}
-	else{
+	/*else{
 		printf("cannot find the matching inode!\n");
-	}
+	}*/
 	return ans;
 }
 int fs_close(inode_t *inode)
@@ -272,6 +272,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 				return -1;
 			}
 			else if(!inode->if_read){
+				printf("open O_RDONLY can not read:%s\n", inode->name);
 				printf("open mode error: have no permission to read %s\n", inode->name);
 				return -1;
 			}
@@ -669,11 +670,9 @@ int open(const char *path, int flags)
 				printf("the file is not exisiting while open and there is no inode to allocate!\n");
 				return -1;
 			}
-			printf("this is a checkpoint!\n");
 			node = pmm->alloc(sizeof(inode_t));
 			procfs_p->fs->inode[inode_num_proc++] = node;
 			strcpy(node->name, path);
-			printf("node->name:%s\n", node->name);
 		}
 		else{
 	/*=========================unlock=========================*/
