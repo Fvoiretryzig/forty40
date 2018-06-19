@@ -469,9 +469,8 @@ ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
 	else if(!strcmp(inode->name+strlen(devfs_p->p), "/null")){
 		strcpy(buf, '\0');
 	}
-	else if(!strcmp(inode->name+strlen(devfs_p->p), "/random")){
-		srand(seed);	
-		int num = rand() % 4096;
+	else if(!strcmp(inode->name+strlen(devfs_p->p), "/random")){	
+		int num = rand() % 8192;
 		strncpy(buf, itoa(num), 4);
 	}
 	else{
@@ -585,6 +584,7 @@ void vfs_init()
 	}
 	/*========random seed init========*/
 	seed = 40;
+	srand(seed);
 	/*================================*/
 	inode_num_proc = 0;
 	inode_num_dev = 0;

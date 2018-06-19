@@ -70,7 +70,6 @@ void dev_test()
 		return;
 	}
 	printf("this is the random number return by /dev/random:%s size:%d\n", buf, size);	
-	vfs->close(random_fd);
 	/*========================null========================*/
 	int null_fd = vfs->open("/dev/null", O_RDWR);
 	strcpy(buf, "40404040");
