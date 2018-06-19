@@ -147,11 +147,11 @@ inode_t *lookup(filesystem_t *fs, const char *path, int flag)
 {
 	inode_t *ans = NULL;	//????????????????
 	int index = 0; int if_find = 0;
-	printf("find path;%s\n", path);
 	while(fs->inode[index] && index < inode_cnt){
 		
 		if(!strcmp(path, fs->inode[index]->name)){
-			if_find = 1;printf("in lookup find node\n", path, fs->inode[index]->name);
+			if_find = 1;
+			printf("inode: name:%s if_write:%d if_read:%d if_exist:%d\n", fs->inode[index]->name,fs->inode[index]->if_write, fs->inode[index]->if_read, fs->inode[index]->if_exist);
 			break;
 		}
 		index++;
