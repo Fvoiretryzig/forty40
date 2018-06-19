@@ -86,82 +86,82 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		int fd = vfs->open(path, O_CREATE|O_RDWR);
 		char *buf = pmm->alloc(128);
 		strcpy(buf, "id: "); 
-		if(vfs->write(fd, id, strlen(buf)) < 0){
+		if(vfs->write(fd, buf, strlen(buf)) < 0){
 			printf("write thread %d proc file error\n", thread->id);
 			return -1;
 		}
 		strcpy(buf, itoa(thread->id));
-		if(vfs->write(fd, id, strlen(buf)) < 0){
+		if(vfs->write(fd, buf, strlen(buf)) < 0){
 			printf("write thread %d proc file error\n", thread->id);
 			vfs->close(fd);
 			pmm->free(path); pmm->free(buf);
 			return -1;
 		}		
 		strcpy(buf, "\n");
-		if(vfs->write(fd, id, strlen(buf)) < 0){
+		if(vfs->write(fd, buf, strlen(buf)) < 0){
 			printf("write thread %d proc file error\n", thread->id);
 			vfs->close(fd);
 			pmm->free(path); pmm->free(buf);			
 			return -1;
 		}		
 		strcpy(buf, "stack size: ");
-		if(vfs->write(fd, id, strlen(buf)) < 0){
+		if(vfs->write(fd, buf, strlen(buf)) < 0){
 			printf("write thread %d proc file error\n", thread->id);
 			vfs->close(fd);
 			pmm->free(path); pmm->free(buf);			
 			return -1;
 		}		
 		strcpy(buf, itoa(STK_SZ));
-		if(vfs->write(fd, id, strlen(buf)) < 0){
+		if(vfs->write(fd, buf, strlen(buf)) < 0){
 			printf("write thread %d proc file error\n", thread->id);
 			vfs->close(fd);
 			pmm->free(path); pmm->free(buf);			
 			return -1;
 		}
 		strcpy(buf, "\n");
-		if(vfs->write(fd, id, strlen(buf)) < 0){
+		if(vfs->write(fd, buf, strlen(buf)) < 0){
 			printf("write thread %d proc file error\n", thread->id);
 			vfs->close(fd);
 			pmm->free(path); pmm->free(buf);			
 			return -1;
 		}				
 		strcpy(buf, "stack start: ");
-		if(vfs->write(fd, id, strlen(buf)) < 0){
+		if(vfs->write(fd, buf, strlen(buf)) < 0){
 			printf("write thread %d proc file error\n", thread->id);
 			vfs->close(fd);
 			pmm->free(path); pmm->free(buf);			
 			return -1;
 		}
 		strcpy(buf, itoa(stack.start));
-		if(vfs->write(fd, id, strlen(buf)) < 0){
+		if(vfs->write(fd, buf, strlen(buf)) < 0){
 			printf("write thread %d proc file error\n", thread->id);
 			vfs->close(fd);
 			pmm->free(path); pmm->free(buf);			
 			return -1;
 		}
 		strcpy(buf, " ");
-		if(vfs->write(fd, id, strlen(buf)) < 0){
+		if(vfs->write(fd, buf, strlen(buf)) < 0){
 			printf("write thread %d proc file error\n", thread->id);
 			vfs->close(fd);
 			pmm->free(path); pmm->free(buf);			
 			return -1;
 		}				
 		strcpy(buf, "stack end: ");
-		if(vfs->write(fd, id, strlen(buf)) < 0){
+		if(vfs->write(fd, buf, strlen(buf)) < 0){
 			printf("write thread %d proc file error\n", thread->id);
 			vfs->close(fd);
 			pmm->free(path); pmm->free(buf);			
 			return -1;
 		}
 		strcpy(buf, itoa(stack.end));
-		if(vfs->write(fd, id, strlen(buf)) < 0){
+		if(vfs->write(fd, buf, strlen(buf)) < 0){
 			printf("write thread %d proc file error\n", thread->id);
 			vfs->close(fd);
 			pmm->free(path); pmm->free(buf);			
 			return -1;
 		}						
 		strcpy(buf, "\n");
-		if(vfs->write(fd, id, strlen(buf)) < 0){
+		if(vfs->write(fd, buf, strlen(buf)) < 0){
 			printf("write thread %d proc file error\n", thread->id);
 			vfs->close(fd);
 			pmm->free(path); pmm->free(buf);			
