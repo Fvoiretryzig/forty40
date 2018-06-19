@@ -68,17 +68,18 @@ int strcmp ( const char* s1, const char* s2 )
 }  
 int strncmp(const char *s1, const char *s2, size_t n)
 {
-	printf("s1:%s s2:%s", s1, s2);
+	printf("s1:%s s2:%s ", s1, s2);
 	int ret = 0;
 	while(*s1 == *s2 && *s2 && n--){
 		s1++; s2++;
 	}
-	printf("this is in a checkpoint\n");
+	printf("this is in a checkpoint ");
 	int temp = *s1 - *s2;
     if(temp > 0)
     	ret = 1;
     else if(temp < 0)
     	ret = -1; 
+    printf("ret:%d\n", ret);
     return ret;  		
 }
 char * strcat(char * dst, const char * src)
