@@ -62,6 +62,14 @@ void dev_test()
 		return;
 	}
 	printf("this is the random number return by /dev/random:%s size:%d\n", buf, size);
+	size = vfs->read(random_fd, buf, 0);
+	if(size < 0){
+		printf("error read /dev/random in dev_test\n");
+		vfs->close(random_fd);
+		pmm->free(buf);
+		return;
+	}
+	printf("this is the random number return by /dev/random:%s size:%d\n", buf, size);	
 	vfs->close(random_fd);
 	/*========================null========================*/
 	int null_fd = vfs->open("/dev/null", O_RDWR);
