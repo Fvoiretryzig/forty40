@@ -58,8 +58,7 @@ void procfs_init(filesystem_t *fs, inode_t *dev)
 	//cpuinfo->inode_no = inode_num_proc; 
 	cpuinfo->if_exist = 1;
 	cpuinfo->if_write = 0; cpuinfo->if_read = 1;
-	printf("in procfs_init fs->path->p:%s\n",fs->path->p );
-	strcpy(cpuinfo->name, fs->path->p);
+	strcpy(cpuinfo->name, "/proc");
 	strcat(cpuinfo->name, "/cpuinfo");
 	char* c_info = "My cpuinfo:remain to be done";
 	strcpy(cpuinfo->content, c_info);
@@ -74,7 +73,7 @@ void procfs_init(filesystem_t *fs, inode_t *dev)
 	//meminfo->inode_no = inode_num_proc; 
 	meminfo->if_exist = 1;
 	meminfo->if_write = 0; meminfo->if_read = 1;
-	strcpy(meminfo->name, fs->path->p);
+	strcpy(meminfo->name, "/proc");
 	strcat(meminfo->name, "/meminfo");
 	char* m_info = "My meminfo:remain to be done";
 	strcpy(meminfo->content, m_info);
@@ -95,7 +94,7 @@ void devfs_init(filesystem_t *fs, inode_t *dev)
 	//null->inode_no = inode_num_dev; 
 	null->if_exist = 1;
 	null->if_write = 1; null->if_read = 1; null->size = 0;
-	strcpy(null->name, fs->path->p);
+	strcpy(null->name, "/dev");
 	strcat(null->name, "/null");
 	fs->inode[inode_num_dev++] = null;
 	/*================zero================*/	
@@ -107,7 +106,7 @@ void devfs_init(filesystem_t *fs, inode_t *dev)
 	//zero->inode_no = inode_num_dev; 
 	zero->if_exist = 1;
 	zero->if_write = 1; zero->if_read = 1; zero->size = 0;
-	strcpy(zero->name, fs->path->p);
+	strcpy(zero->name, "/dev");
 	strcat(zero->name, "/zero");
 	fs->inode[inode_num_dev++] = zero;
 	/*================random================*/		
@@ -119,7 +118,7 @@ void devfs_init(filesystem_t *fs, inode_t *dev)
 	//random->inode_no = inode_num_dev;
 	random->if_exist = 1; 
 	random->if_write = 1; random->if_read = 1; random->size = 0;	//不知道要初始成多大
-	strcpy(random->name, fs->path->p);
+	strcpy(random->name,"/dev");
 	strcat(random->name, "/random");
 	fs->inode[inode_num_dev++] = random;
 	
@@ -195,7 +194,7 @@ filesystem_t *create_procfs()
 	if (!fs) panic("procfs allocation failed");
 	fs->ops = procfs_op; // 你为procfs定义的fsops_t，包含函数的实现
 	fs->ops->init(fs, "procfs", NULL);
-	procfs_p = pmm->alloc(sizeof(mountpath_t));
+	
 	return fs;
 }
 filesystem_t *create_devfs() 
