@@ -591,10 +591,10 @@ void vfs_init()
 	inode_num_dev = 0;
 	inode_num_kv = 0;
 	fsop_init();
-	fileop_init();printf("this is after ops init\n");
+	fileop_init();
 	procfs_p = pmm->alloc(sizeof(mountpath_t));
 	devfs_p = pmm->alloc(sizeof(mountpath_t));
-	kvfs_p = pmm->alloc(sizeof(mountpath_t));
+	kvfs_p = pmm->alloc(sizeof(mountpath_t));printf("this is after alloc for mountpath\n");
 	mount("/proc", create_procfs());
 	mount("/dev", create_devfs());
 	mount("/", create_kvfs());
