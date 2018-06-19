@@ -49,6 +49,7 @@ void test_run()
 /*=======================================================*/
 void dev_test()
 {
+	printf("this is in dev_test\n");
 	/*========================random========================*/
 	int random_fd = vfs->open("/dev/random", O_RDONLY);
 	char *buf = pmm->alloc(1024);
@@ -108,13 +109,13 @@ void kv_test()
 
 void test_file()
 {
-	kmt->spin_init(&lk,"test_file_lk");
-	kmt->spin_lock(&lk);
+	//kmt->spin_init(&lk,"test_file_lk");
+	//kmt->spin_lock(&lk);
 	kmt->create(&t1, &dev_test, NULL);
-	kmt->create(&t2, &proc_test, NULL);
-	kmt->create(&t3, &kv_test, NULL);
-	printf("this is after create thread\n");
-	kmt->spin_unlock(&lk);
+	//kmt->create(&t2, &proc_test, NULL);
+	//kmt->create(&t3, &kv_test, NULL);
+	
+	//kmt->spin_unlock(&lk);
 	return;
 }
 
