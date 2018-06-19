@@ -472,7 +472,7 @@ ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
 	else if(!strcmp(inode->name+strlen(devfs_p->p), "/random")){
 		srand(seed);	
 		int num = rand() % 4096;
-		strncpy(buf, itoa(num), size);
+		strncpy(buf, itoa(num), 4);
 	}
 	else{
 		strncpy(buf, file->content+file->offset, size);
