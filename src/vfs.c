@@ -148,6 +148,7 @@ inode_t *lookup(filesystem_t *fs, const char *path, int flag)
 	inode_t *ans = NULL;	//????????????????
 	int index = 0; int if_find = 0;
 	while(fs->inode[index] && index < inode_cnt){
+		printf("in lookup: path:%s inode:%s", path, fs->inode[index]->name);
 		if(!strcmp(path, fs->inode[index]->name)){
 			if_find = 1;
 			break;
@@ -686,7 +687,6 @@ int open(const char *path, int flags)
 		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, flags);
 		FILE->ops = devfile_op;
 		if(node == NULL){
-			printf("the %s inode is null\n", path);
 			if(inode_num_dev == inode_cnt){
 				printf("the file is not exisiting while open and there is no inode to allocate!\n");
 				return -1;
