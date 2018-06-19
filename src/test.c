@@ -3,7 +3,7 @@
   /*=======================================================*/
  /*====================test for thread====================*/
 /*=======================================================*/
-void producer() 
+void producer()
 {
 	while (1) {
 		kmt->sem_wait(&empty);
@@ -11,7 +11,7 @@ void producer()
 		kmt->sem_signal(&fill);
 	}
 }
-void consumer() 
+void consumer()
 {
 	while (1) {
 		kmt->sem_wait(&fill);
@@ -19,7 +19,7 @@ void consumer()
 		kmt->sem_signal(&empty);
 	}
 }
-void test_run() 
+void test_run()
 {
 	kmt->spin_init(&lk,"intestrun");
 	kmt->spin_lock(&lk);
