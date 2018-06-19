@@ -49,7 +49,6 @@ void test_run()
 /*=======================================================*/
 void dev_test()
 {
-	
 	/*========================random========================*/
 	int random_fd = vfs->open("/dev/random", O_RDONLY);
 	char *buf = pmm->alloc(1024);
