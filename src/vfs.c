@@ -673,7 +673,7 @@ int open(const char *path, int flags)
 			node = pmm->alloc(sizeof(inode_t));
 			procfs_p->fs->inode[inode_num_proc++] = node;
 			strcpy(node->name, path);
-			printf("node->name:%d\n", node->name);
+			printf("node->name:%s\n", node->name);
 		}
 		else{
 	/*=========================unlock=========================*/
