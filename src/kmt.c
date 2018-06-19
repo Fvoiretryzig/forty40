@@ -78,13 +78,13 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		thread->thread_reg = _make(stack, entry, arg);
 		work[thread_cnt] = *thread;
 		thread_cnt++;
-		printf("this is in a checkpoint\n");
+		
 		/*========create proc thread info========*/
 		//char *id = itoa(thread->id);
 		//char *start = itoa(stack.start); char *end = itoa(stack.end);
 		char *path = pmm->alloc(64);
 		strcpy(path, "/proc/"); strcat(path, itoa(thread->id));
-		int fd = vfs->open(path, O_CREATE|O_RDWR);
+		int fd = vfs->open(path, O_CREATE|O_RDWR);printf("this is in a checkpoint\n");
 		char *buf = pmm->alloc(128);
 		strcpy(buf, "id: "); 
 		if(vfs->write(fd, buf, strlen(buf)) < 0){
