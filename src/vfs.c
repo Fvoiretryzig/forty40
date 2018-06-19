@@ -145,10 +145,9 @@ void fs_init(filesystem_t *fs, const char *name, inode_t *dev)	//dev的作用
 }
 inode_t *lookup(filesystem_t *fs, const char *path, int flag)
 {
-	inode_t *ans = NULL;	//????????????????
+	//inode_t *ans = NULL;	//????????????????
 	int index = 0; int if_find = 0;
 	while(fs->inode[index] && index < inode_cnt){
-		
 		if(!strcmp(path, fs->inode[index]->name)){
 			if_find = 1;
 			break;
@@ -156,12 +155,13 @@ inode_t *lookup(filesystem_t *fs, const char *path, int flag)
 		index++;
 	}
 	if(if_find && index < inode_cnt){
-		ans = fs->inode[index];
+		//ans = fs->inode[index];
+		return fs->inode[index];
 	}
 	/*else{
 		printf("cannot find the matching inode!\n");
 	}*/
-	return ans;
+	return NULL;
 }
 int fs_close(inode_t *inode)
 {
@@ -685,7 +685,6 @@ int open(const char *path, int flags)
 	}
 	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
 		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, flags);
-		printf("node: name:%s if_exist:%d if_read:%s if_write:%d\n", node->name, node->if_exist, node->if_read, node->if_write);
 		FILE->ops = devfile_op;
 		if(node == NULL){
 			if(inode_num_dev == inode_cnt){
