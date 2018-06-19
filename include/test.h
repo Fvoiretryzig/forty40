@@ -18,6 +18,6 @@ void test_run();
 void dev_test();
 void proc_test();
 void kv_test();
-void file_test();
+void test_file();
  
 #endif
