@@ -39,6 +39,7 @@ size_t strlen(const char* s)
 }
 char *strcpy(char *dst, const char *src)
 {
+	printf("in strcpy dst:%s src:%s\n", dst, src);
 	char *temp_dst = dst;
 	while((*temp_dst++ = *src++)!='\0');
 	printf("in strcpy dst:%s\n", dst);
@@ -84,7 +85,7 @@ int strncmp(const char *s1, const char *s2, size_t n)
 }
 char * strcat(char * dst, const char * src)
 {
-	printf("in strcat: dst:%s\n", dst);
+	printf("in strcat dst:%s src:%s\n", dst, src);
 	char *tmp = dst;
 	while(*dst)
 		dst++;
