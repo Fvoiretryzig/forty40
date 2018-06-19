@@ -594,8 +594,8 @@ void vfs_init()
 	fileop_init();
 	procfs_p = pmm->alloc(sizeof(mountpath_t));
 	devfs_p = pmm->alloc(sizeof(mountpath_t));
-	kvfs_p = pmm->alloc(sizeof(mountpath_t));printf("this is after alloc for mountpath\n");
-	mount("/proc", create_procfs());
+	kvfs_p = pmm->alloc(sizeof(mountpath_t));
+	mount("/proc", create_procfs());printf("this is after create procfs\n");
 	mount("/dev", create_devfs());
 	mount("/", create_kvfs());
 	
