@@ -25,7 +25,7 @@ void test_run()
 	kmt->spin_lock(&lk);
 	kmt->sem_init(&empty, "empty", BUF_SIZE);
 	kmt->sem_init(&fill, "fill", 0);
-	printf("this is in a checkpoint\n");
+	
   	kmt->create(&t1, &producer, NULL);
   	kmt->create(&t2, &consumer, NULL);
   	kmt->create(&t3, &producer, NULL);
@@ -41,7 +41,7 @@ void test_run()
   	kmt->create(&t13, &consumer, NULL);
   	kmt->create(&t14, &producer, NULL);
   	kmt->create(&t15, &consumer, NULL);
-  	kmt->create(&t16, &consumer, NULL);
+  	kmt->create(&t16, &consumer, NULL);printf("this is in a checkpoint\n");
   	kmt->spin_unlock(&lk);
 }
   /*=======================================================*/
