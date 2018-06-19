@@ -56,7 +56,7 @@ void dev_test()
 	size = vfs->read(random_fd, buf, 128);
 	if(size < 0){
 		printf("error read /dev/random in dev_test\n");
-		close(rando_fd);
+		vfs->close(rando_fd);
 		pmm->free(buf);
 		return;
 	}
@@ -68,7 +68,7 @@ void dev_test()
 	size = vfs->write(null_fd, buf, strlen(buf));
 	if(size < 0){
 		printf("error write /dev/null\n");
-		close(null_fd);
+		vfs->close(null_fd);
 		pmm->free(buf);
 		return;
 	}
@@ -76,7 +76,7 @@ void dev_test()
 	size = vfs->read(null_fd, buf, 128);
 	if(size < 0){
 		printf("error read /dev/null\n");
-		close(null_fd);
+		vfs->close(null_fd);
 		pmm->free(buf);
 		return;
 	}
@@ -88,7 +88,7 @@ void dev_test()
 	size = vfs->read(zero_fd, buf, 128);
 	if(size < 0){
 		printf("error read /dev/zero\n");
-		close(zero_fd);
+		vfs->close(zero_fd);
 		pmm->free(buf);
 		return;
 	}	
