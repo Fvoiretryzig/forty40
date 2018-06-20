@@ -720,7 +720,7 @@ int open(const char *path, int flags)
 	/*=========================lock=========================*/						
 		}			
 	}
-	printf("node:%s\n", node->name);
+	printf("node:%s if_exist:%d if_read:%d if_write:%d\n", node->name, node->if_exist, node->if_read, node->if_write);
 	int temp_fd = FILE->ops->open(node, FILE, flags);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
