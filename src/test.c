@@ -117,7 +117,7 @@ void kv_test()
 {
 	char *buf = pmm->alloc(1024); int size = 0;
 	char *name = pmm->alloc(128);
-	strcpy(name, "/forty/40c")
+	strcpy(name, "/forty/40c");
 	int fd = vfs->open(name, O_CREATE|O_RDWR);
 	if(fd < 0){
 		printf("open %s error!!\n", name);
