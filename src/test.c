@@ -49,8 +49,8 @@ void test_run()
 /*=======================================================*/
 void dev_test()
 {
+	char *buf = pmm->alloc(1024); int size = 0;
 	while(1){
-		char *buf = pmm->alloc(1024); int size = 0;
 		/*========================random========================*/
 		int random_fd = vfs->open("/dev/random", O_RDONLY);
 		printf("dev:random fd:%d\n", random_fd);
@@ -117,12 +117,12 @@ void proc_test()
 	return;
 }
 void kv_test()
-{
+{		
+	char *buf = pmm->alloc(1024); int size = 0;
+	char *name = pmm->alloc(128);		
+	strcpy(name, "/forty/40c");
+	int fd = vfs->open(name, O_CREATE|O_RDWR);
 	while(1){
-		char *buf = pmm->alloc(1024); int size = 0;
-		char *name = pmm->alloc(128);
-		strcpy(name, "/forty/40c");
-		int fd = vfs->open(name, O_CREATE|O_RDWR);
 		printf("kv:fd for %s:%d\n", name, fd);
 		if(fd < 0){
 			printf("kv:open %s error!!\n", name);
