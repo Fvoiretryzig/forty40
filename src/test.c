@@ -102,6 +102,7 @@ void dev_test()
 	printf("after read /dev/zero buf:%d\n", *buf);
 	vfs->close(zero_fd);
 	pmm->free(buf);
+	printf("this is checkpoint\n");
 	return;
 }
 void proc_test()
