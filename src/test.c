@@ -51,7 +51,7 @@ void dev_test()
 {
 	char *buf = pmm->alloc(1024); int size = 0;
 	/*========================random========================*/
-	/*int random_fd = vfs->open("/dev/random", O_RDONLY);
+	int random_fd = vfs->open("/dev/random", O_RDONLY);
 	size = vfs->read(random_fd, buf, 0);
 	if(size < 0){
 		printf("error read /dev/random in dev_test\n");
@@ -67,7 +67,7 @@ void dev_test()
 		pmm->free(buf);
 		return;
 	}
-	printf("this is the random number return by /dev/random:%s size:%d\n", buf, size);*/
+	printf("this is the random number return by /dev/random:%s size:%d\n", buf, size);
 	/*========================null========================*/
 	int null_fd = vfs->open("/dev/null", O_RDWR);
 	strcpy(buf, "40404040");
