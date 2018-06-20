@@ -17,8 +17,11 @@ void align()
 }
 void p_str(char *s)
 {
+	char* temp = "(null)";
 	if(s == NULL){
-		
+		while(*temp){
+			_putc(*temp++);
+		}
 	}
 	else{
 		while(*s){
