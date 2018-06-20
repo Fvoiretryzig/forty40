@@ -134,7 +134,6 @@ void kv_test()
 	}
 	printf("write %s size:%d\n", name, size);
 	vfs->close(fd);
-	
 	fd = vfs->open(name, O_RDWR);
 	printf("fd for %s:%d\n", name, fd);
 	if(fd < 0){
