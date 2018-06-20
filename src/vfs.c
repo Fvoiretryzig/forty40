@@ -465,9 +465,10 @@ ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
 		strcpy(buf, NULL);
 	}
 	else if(!strcmp(inode->name+strlen(devfs_p->p), "/null")){
-		char *temp = NULL;
-		printf("temp in null:%s\n", temp);
-		strcpy(buf, NULL);
+		char *temp = 0;
+		buf = temp;
+		printf("buf in null:%s\n", buf);
+		//strcpy(buf, NULL);
 	}
 	else if(!strcmp(inode->name+strlen(devfs_p->p), "/random")){	
 		int num = rand() % 8192;
