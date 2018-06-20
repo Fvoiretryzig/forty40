@@ -164,7 +164,8 @@ void test_file()
 	//kmt->spin_init(&lk,"test_file_lk");
 	//kmt->spin_lock(&lk);
 	
-	kmt->create(&t1, &dev_test, NULL);kmt->create(&t2, &kv_test, NULL);
+	//kmt->create(&t1, &dev_test, NULL);
+	kmt->create(&t2, &kv_test, NULL);
 	//kmt->create(&t3, &proc_test, NULL);
 	
 	
