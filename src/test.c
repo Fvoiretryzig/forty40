@@ -136,7 +136,7 @@ void kv_test()
 	vfs->close(fd);
 	
 	fd = vfs->open(name, O_RDWR);
-	printf("fd for %s:%d", name, fd);
+	printf("fd for %s:%d\n", name, fd);
 	if(fd < 0){
 		printf("open %s error!!\n", name);
 		return;
