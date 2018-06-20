@@ -86,7 +86,7 @@ void dev_test()
 		pmm->free(buf);
 		return;
 	}
-	printf("after read /dev/null buf:0x%08x\n", buf);
+	printf("after read /dev/null buf:%s\n", buf);
 	vfs->close(null_fd);
 	/*========================null========================*/
 	/*int zero_fd = vfs->open("/dev/zero", O_RDONLY);
