@@ -41,7 +41,10 @@ char *strcpy(char *dst, const char *src)
 {
 	printf("dst:%s src:%s", dst, src);
 	char *temp_dst = dst;
-	while((*temp_dst++ = *src++)!='\0');
+	if(src == NULL)
+		temp_dst = NULL;
+	else
+		while((*temp_dst++ = *src++)!='\0');
 	return dst;
 }
 char *strncpy(char *dst, const char *src, size_t n)
