@@ -40,8 +40,7 @@ size_t strlen(const char* s)
 char *strcpy(char *dst, const char *src)
 {
 	char *temp_dst = dst;
-	else
-		while((*temp_dst++ = *src++)!='\0');
+	while((*temp_dst++ = *src++)!='\0');
 	return dst;
 }
 char *strncpy(char *dst, const char *src, size_t n)
