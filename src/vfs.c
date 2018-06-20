@@ -462,14 +462,12 @@ ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
 		size = inode->size - file->offset;
 	}	
 	if(!strcmp(inode->name+strlen(devfs_p->p), "/zero")){
-		//for(int i = 0; i<size; i++){
-		//	strcpy(buf+i, '\0');
-		//}
-		buf = (char *)0;printf("buf:%d\n", buf);
+		buf = (char *)0;
+		printf("buf:%d\n", buf);
 	}
-	else if(!strcmp(inode->name+strlen(devfs_p->p), "/null")){
-		//strcpy(buf, NULL);
-		buf = (char *)0;printf("buf:%d\n", buf);
+	else if(!strcmp(inode->name+strlen(devfs_p->p), "/null")){;
+		buf = (char *)0;
+		printf("buf:%d\n", buf);
 	}
 	else if(!strcmp(inode->name+strlen(devfs_p->p), "/random")){	
 		int num = rand() % 8192;
@@ -478,6 +476,7 @@ ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
 	else{
 		strncpy(buf, file->content+file->offset, size);
 	}
+	printf("buf:%d\n", buf);
 	return size;
 }
 ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t size)
