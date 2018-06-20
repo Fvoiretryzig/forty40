@@ -478,7 +478,7 @@ ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
 	else{
 		strncpy(buf, file->content+file->offset, size);
 	}
-	printf("buf:%d\n", buf);
+	printf("after read buf:%d\n", buf);
 	return size;
 }
 ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t size)
