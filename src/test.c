@@ -80,7 +80,7 @@ void dev_test()
 		return;
 	}
 	printf("this is the writing /dev/null operation return value:%d\n", size);
-	size = vfs->read(null_fd, buf, 0);
+	size = vfs->read(null_fd, buf, 0);printf("after read /dev/null buf:%d\n", (int)*buf);
 	if(size < 0){
 		printf("error read /dev/null\n");
 		vfs->close(null_fd);
