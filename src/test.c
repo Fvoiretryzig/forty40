@@ -89,7 +89,7 @@ void dev_test()
 	printf("after read /dev/null buf:%s\n", buf);
 	vfs->close(null_fd);
 	/*========================null========================*/
-	/*int zero_fd = vfs->open("/dev/zero", O_RDONLY);
+	int zero_fd = vfs->open("/dev/zero", O_RDONLY);
 	strcpy(buf, "40404040");
 	size = vfs->read(zero_fd, buf, 0);
 	if(size < 0){
@@ -99,7 +99,7 @@ void dev_test()
 		return;
 	}	
 	printf("after read /dev/zero: %d\n", *buf);
-	vfs->close(zero_fd);*/
+	vfs->close(zero_fd);
 	pmm->free(buf);
 	return;
 }
