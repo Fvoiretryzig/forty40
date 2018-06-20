@@ -149,7 +149,6 @@ void kv_test()
 	}
 	printf("read %s size:%d read content:%s", name, size, buf);
 	
-	v
 	return;
 }
 
