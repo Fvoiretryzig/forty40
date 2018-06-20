@@ -115,6 +115,41 @@ void proc_test()
 }
 void kv_test()
 {
+	char *buf = pmm->alloc(1024); int size = 0;
+	char *name = pmm->alloc(128);
+	strcpy(name, "/forty/40c")
+	int fd = vfs->open(name, O_CREATE|O_RDWR);
+	if(fd < 0){
+		printf("open %s error!!\n", name);
+		return;
+	}
+	strcpy(buf, "forty-forty\nthis is a test for kvdb\n40404040\n");
+	size = vfs->write(fd, buf, strlen(buf));
+	if(size < 0){
+		printf("write %s error!!\n", name);
+		vfs->close(fd);
+		pmm->free(buf); pmm->free(name);
+		return;
+	}
+	printf("write %s size:%d\n", name, size);
+	vfs->close(fd);
+	
+	fd = vfs->open(name, O_RDWR);
+	if(fd < 0){
+		printf("open %s error!!\n", name);
+		return;
+	}	
+	strcpy(buf, " ");
+	size = vfs->read(fd, buf, 128);
+	if(size < 0){
+		printf("read %s error!!\n", name);
+		vfs->close(fd);
+		pmm->free(buf); pmm->free(name);		
+		return;
+	}
+	printf("read %s size:%d read content:%s", name, size, buf);
+	
+	v
 	return;
 }
 
