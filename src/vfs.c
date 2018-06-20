@@ -265,7 +265,6 @@ int file_open(inode_t *inode, file_t *file, int flags)
 	switch(flags){
 		case O_RDONLY:
 			if(!inode->if_exist){
-				printf("inode name:%s\n", inode->name);
 				printf("cannot open the file which is not existing while reading!\n");
 				return -1;
 			}
@@ -326,6 +325,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			break;
 		case O_RDWR:
 			if(inode->if_exist){
+				printf("inode name:%s\n", inode->name);				
 				printf("cannot open the file which is not existing while writing!\n");
 				return -1;
 			}
