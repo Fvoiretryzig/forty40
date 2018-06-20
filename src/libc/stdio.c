@@ -18,7 +18,7 @@ void align()
 void p_str(char *s)
 {
 	if(s == NULL){
-		_putc("("); _putc("n"); _putc("u"); _putc("l"); _putc("l"); _putc(")");
+		
 	}
 	else{
 		while(*s){
