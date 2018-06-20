@@ -17,10 +17,16 @@ void align()
 }
 void p_str(char *s)
 {
-	while(*s){
-		_putc(*s++);
-		cnt++;
+	if(s == NULL){
+		_putc("("); _putc("n"); _putc("u"); _putc("l"); _putc("l"); _putc(")");
 	}
+	else{
+		while(*s){
+			_putc(*s++);
+			cnt++;
+		}	
+	}
+
 	return;
 }
 void p_int(int num, int rank)
