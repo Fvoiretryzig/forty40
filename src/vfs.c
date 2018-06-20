@@ -464,7 +464,8 @@ ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
 	if(!strcmp(inode->name+strlen(devfs_p->p), "/zero")){
 		buf = (char *)0;
 	}
-	else if(!strcmp(inode->name+strlen(devfs_p->p), "/null")){;
+	else if(!strcmp(inode->name+strlen(devfs_p->p), "/null")){
+		printf("buf in null:%s\n", buf);
 		strcpy(buf, (char*)0);
 	}
 	else if(!strcmp(inode->name+strlen(devfs_p->p), "/random")){	
@@ -747,7 +748,6 @@ ssize_t read(int fd, void *buf, size_t nbyte)
 		printf("invalid read for a non-exiting inode!\n");
 		return -1;
 	}	
-	printf("buf before file_read:%s\n", buf);
 	ssize_t size = FILE->ops->read(node, FILE, buf, nbyte);
 	printf("buf after file_read:%s\n", buf);
 	/*=========================unlock=========================*/
