@@ -324,8 +324,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file_table[current_fd] = file;
 			break;
 		case O_RDWR:
-			if(inode->if_exist){
-				printf("inode name:%s\n", inode->name);				
+			if(inode->if_exist){			
 				printf("cannot open the file which is not existing while writing and reading!\n");
 				return -1;
 			}
@@ -721,6 +720,7 @@ int open(const char *path, int flags)
 	/*=========================lock=========================*/						
 		}			
 	}
+	printf("node:%s\n", node->name);
 	int temp_fd = FILE->ops->open(node, FILE, flags);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
