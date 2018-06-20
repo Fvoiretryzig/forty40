@@ -326,7 +326,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 		case O_RDWR:
 			if(inode->if_exist){
 				printf("inode name:%s\n", inode->name);				
-				printf("cannot open the file which is not existing while writing!\n");
+				printf("cannot open the file which is not existing while writing and reading!\n");
 				return -1;
 			}
 			else if(!inode->if_write || !inode->if_read){
