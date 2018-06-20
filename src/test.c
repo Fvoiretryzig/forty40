@@ -106,7 +106,7 @@ void dev_test()
 	vfs->close(zero_fd);
 	vfs->close(random_fd);
 	pmm->free(buf);
-	//printf("this is checkpoint\n");
+	printf("this is checkpoint\n");
 	return;
 }
 void proc_test()
