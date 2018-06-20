@@ -462,13 +462,13 @@ ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
 		size = inode->size - file->offset;
 	}	
 	if(!strcmp(inode->name+strlen(devfs_p->p), "/zero")){
-		//buf = (char *)0;
-		memset(buf, 0, sizeof(buf));
+		buf = (char *)0;
+		//memset(buf, 0, sizeof(buf));
 		printf("buf:%d\n", buf);
 	}
 	else if(!strcmp(inode->name+strlen(devfs_p->p), "/null")){;
-		//buf = (char *)0;
-		memset(buf, 0, sizeof(buf));
+		buf = (char *)0;
+		//memset(buf, 0, sizeof(buf));
 		printf("buf:%d\n", buf);
 	}
 	else if(!strcmp(inode->name+strlen(devfs_p->p), "/random")){	
