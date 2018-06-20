@@ -49,10 +49,9 @@ void test_run()
 /*=======================================================*/
 void dev_test()
 {
-	char *buf = pmm->alloc(1024);
+	char *buf = pmm->alloc(1024); int size = 0;
 	/*========================random========================*/
 	/*int random_fd = vfs->open("/dev/random", O_RDONLY);
-	int size = 0;
 	size = vfs->read(random_fd, buf, 0);
 	if(size < 0){
 		printf("error read /dev/random in dev_test\n");
