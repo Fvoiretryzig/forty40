@@ -116,8 +116,6 @@ void test_file()
 {
 	//kmt->spin_init(&lk,"test_file_lk");
 	//kmt->spin_lock(&lk);
-	char* s = NULL;
-	printf("s:%s\n", s);
 	kmt->create(&t1, &dev_test, NULL);
 	//kmt->create(&t2, &proc_test, NULL);
 	//kmt->create(&t3, &kv_test, NULL);
