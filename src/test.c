@@ -99,7 +99,7 @@ void dev_test()
 		pmm->free(buf);
 		return;
 	}	
-	printf("this is read from /dev/zero: %d\n", (int)*buf);
+	printf("after read /dev/zero: %shahaha\n", (int)*buf);
 	vfs->close(zero_fd);
 	pmm->free(buf);
 	return;
