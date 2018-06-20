@@ -87,7 +87,7 @@ void dev_test()
 		pmm->free(buf);
 		return;
 	}
-	printf("after read /dev/null buf:%d\n", (int)buf);
+	printf("after read /dev/null buf:%d\n", *buf);
 	vfs->close(null_fd);
 	/*========================null========================*/
 	int zero_fd = vfs->open("/dev/zero", O_RDONLY);
@@ -99,7 +99,7 @@ void dev_test()
 		pmm->free(buf);
 		return;
 	}	
-	printf("after read /dev/zero: %d\n", (int)buf);
+	printf("after read /dev/zero: %d\n", *buf);
 	vfs->close(zero_fd);
 	pmm->free(buf);
 	return;
