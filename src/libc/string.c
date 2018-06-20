@@ -39,7 +39,7 @@ size_t strlen(const char* s)
 }
 char *strcpy(char *dst, const char *src)
 {
-	printf("dst:%s src:%s", dst, src);
+	printf("dst:%s src:%s\n", dst, src);
 	char *temp_dst = dst;
 	if(src == NULL)
 		temp_dst = NULL;
