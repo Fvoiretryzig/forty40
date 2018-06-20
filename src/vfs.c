@@ -752,7 +752,9 @@ ssize_t read(int fd, void *buf, size_t nbyte)
 		printf("invalid read for a non-exiting inode!\n");
 		return -1;
 	}	
+	printf("buf before file_read:%s\n", buf);
 	ssize_t size = FILE->ops->read(node, FILE, buf, nbyte);
+	printf("buf after file_read:%s\n", buf);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
 	return size;
