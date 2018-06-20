@@ -295,7 +295,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file_table[current_fd] = file;
 			break;
 		case O_WRONLY:
-			if(inode->if_exist){
+			if(!inode->if_exist){
 				printf("cannot open the file which is not existing while writing!\n");
 				return -1;
 			}
@@ -324,7 +324,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file_table[current_fd] = file;
 			break;
 		case O_RDWR:
-			if(inode->if_exist){			
+			if(!inode->if_exist){			
 				printf("cannot open the file which is not existing while writing and reading!\n");
 				return -1;
 			}
@@ -720,7 +720,6 @@ int open(const char *path, int flags)
 	/*=========================lock=========================*/						
 		}			
 	}
-	printf("node:%s if_exist:%d if_read:%d if_write:%d\n", node->name, node->if_exist, node->if_read, node->if_write);
 	int temp_fd = FILE->ops->open(node, FILE, flags);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
