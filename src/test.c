@@ -49,64 +49,67 @@ void test_run()
 /*=======================================================*/
 void dev_test()
 {
-	char *buf = pmm->alloc(1024); int size = 0;
-	/*========================random========================*/
-	int random_fd = vfs->open("/dev/random", O_RDONLY);
-	printf("dev:random fd:%d\n", random_fd);
-	size = vfs->read(random_fd, buf, 0);
-	if(size < 0){
-		printf("dev:error read /dev/random in dev_test\n");
-		vfs->close(random_fd);
-		pmm->free(buf);
-		return;
-	}
-	printf("dev:this is the random number return by /dev/random:%s size:%d\n", buf, size);
-	size = vfs->read(random_fd, buf, 0);
-	if(size < 0){
-		printf("dev:error read /dev/random in dev_test\n");
-		vfs->close(random_fd);
-		pmm->free(buf);
-		return;
-	}
-	printf("dev:this is the random number return by /dev/random:%s size:%d\n", buf, size);
-	/*========================null========================*/
-	int null_fd = vfs->open("/dev/null", O_RDWR);
-	printf("dev:null fd:%d\n", null_fd);
-	strcpy(buf, "40404040");
-	size = vfs->write(null_fd, buf, strlen(buf));
-	if(size < 0){
-		printf("dev:error write /dev/null\n");
+	while(1){
+		char *buf = pmm->alloc(1024); int size = 0;
+		/*========================random========================*/
+		int random_fd = vfs->open("/dev/random", O_RDONLY);
+		printf("dev:random fd:%d\n", random_fd);
+		size = vfs->read(random_fd, buf, 0);
+		if(size < 0){
+			printf("dev:error read /dev/random in dev_test\n");
+				vfs->close(random_fd);
+			pmm->free(buf);
+			return;
+		}
+		printf("dev:this is the random number return by /dev/random:%s size:%d\n", buf, size);
+		size = vfs->read(random_fd, buf, 0);
+			if(size < 0){
+			printf("dev:error read /dev/random in dev_test\n");
+			vfs->close(random_fd);
+				pmm->free(buf);
+			return;
+		}
+		printf("dev:this is the random number return by /dev/random:%s size:%d\n", buf, size);
+		/*========================null========================*/
+		int null_fd = vfs->open("/dev/null", O_RDWR);
+			printf("dev:null fd:%d\n", null_fd);
+		strcpy(buf, "40404040");
+		size = vfs->write(null_fd, buf, strlen(buf));
+		if(size < 0){
+			printf("dev:error write /dev/null\n");
+				vfs->close(null_fd);
+			pmm->free(buf);
+			return;
+		}
+		printf("dev:this is the writing /dev/null operation return value:%d\n", size);
+		size = vfs->read(null_fd, buf, 0);
+		if(size < 0){
+			printf("dev:error read /dev/null\n");
+			vfs->close(null_fd);
+			pmm->free(buf);
+			return;
+		}
+		printf("dev:after read /dev/null buf:%d\n", *buf);
 		vfs->close(null_fd);
-		pmm->free(buf);
-		return;
-	}
-	printf("dev:this is the writing /dev/null operation return value:%d\n", size);
-	size = vfs->read(null_fd, buf, 0);
-	if(size < 0){
-		printf("dev:error read /dev/null\n");
-		vfs->close(null_fd);
-		pmm->free(buf);
-		return;
-	}
-	printf("dev:after read /dev/null buf:%d\n", *buf);
-	vfs->close(null_fd);
-	/*========================zero========================*/
-	int zero_fd = vfs->open("/dev/zero", O_RDONLY);
-	printf("dev:zero fd:%d\n", zero_fd);
-	strcpy(buf, "40404040");
-	printf("dev:this is buf in zero before read buf:%s\n", buf);
-	size = vfs->read(zero_fd, buf, 0);
-	if(size < 0){
-		printf("dev:error read /dev/zero\n");
+		/*========================zero========================*/
+		int zero_fd = vfs->open("/dev/zero", O_RDONLY);
+		printf("dev:zero fd:%d\n", zero_fd);
+		strcpy(buf, "40404040");
+		printf("dev:this is buf in zero before read buf:%s\n", buf);
+		size = vfs->read(zero_fd, buf, 0);
+		if(size < 0){
+			printf("dev:error read /dev/zero\n");
+			vfs->close(zero_fd);
+			pmm->free(buf);
+			return;
+		}	
+		printf("dev:after read /dev/zero buf:%d\n", *buf);
 		vfs->close(zero_fd);
+		vfs->close(random_fd);
 		pmm->free(buf);
-		return;
-	}	
-	printf("dev:after read /dev/zero buf:%d\n", *buf);
-	vfs->close(zero_fd);
-	vfs->close(random_fd);
-	pmm->free(buf);
-	printf("dev:this is checkpoint\n");
+		printf("dev:this is checkpoint\n");	
+	}
+
 	return;
 }
 void proc_test()
@@ -115,41 +118,44 @@ void proc_test()
 }
 void kv_test()
 {
-	char *buf = pmm->alloc(1024); int size = 0;
-	char *name = pmm->alloc(128);
-	strcpy(name, "/forty/40c");
-	int fd = vfs->open(name, O_CREATE|O_RDWR);
-	printf("kv:fd for %s:%d\n", name, fd);
-	if(fd < 0){
-		printf("kv:open %s error!!\n", name);
-		return;
-	}
-	strcpy(buf, "forty-forty\nthis is a test for kvdb\n40404040\n");
-	size = vfs->write(fd, buf, strlen(buf));
-	if(size < 0){
-		printf("kv:write %s error!!\n", name);
+	while(1){
+		char *buf = pmm->alloc(1024); int size = 0;
+		char *name = pmm->alloc(128);
+		strcpy(name, "/forty/40c");
+		int fd = vfs->open(name, O_CREATE|O_RDWR);
+		printf("kv:fd for %s:%d\n", name, fd);
+		if(fd < 0){
+			printf("kv:open %s error!!\n", name);
+			return;
+		}
+		strcpy(buf, "forty-forty\nthis is a test for kvdb\n40404040\n");
+		size = vfs->write(fd, buf, strlen(buf));
+		if(size < 0){
+			printf("kv:write %s error!!\n", name);
+			vfs->close(fd);
+			pmm->free(buf); pmm->free(name);
+			return;
+		}
+		printf("kv:write %s size:%d\n", name, size);
 		vfs->close(fd);
-		pmm->free(buf); pmm->free(name);
-		return;
+		fd = vfs->open(name, O_RDWR);
+		printf("kv:fd for %s:%d\n", name, fd);
+		if(fd < 0){
+			printf("kv:open %s error!!\n", name);
+			return;
+		}	
+		strcpy(buf, " ");
+		size = vfs->read(fd, buf, 128);
+		if(size < 0){
+			printf("kv:read %s error!!\n", name);
+			vfs->close(fd);
+			pmm->free(buf); pmm->free(name);		
+			return;
+		}
+		printf("kv:read %s size:%d\nread content:\n%s", name, size, buf);	
 	}
-	printf("kv:write %s size:%d\n", name, size);
-	vfs->close(fd);
-	fd = vfs->open(name, O_RDWR);
-	printf("kv:fd for %s:%d\n", name, fd);
-	if(fd < 0){
-		printf("kv:open %s error!!\n", name);
-		return;
-	}	
-	strcpy(buf, " ");
-	size = vfs->read(fd, buf, 128);
-	if(size < 0){
-		printf("kv:read %s error!!\n", name);
-		vfs->close(fd);
-		pmm->free(buf); pmm->free(name);		
-		return;
-	}
-	printf("kv:read %s size:%d\nread content:\n%s", name, size, buf);
 	
+		
 	return;
 }
 
