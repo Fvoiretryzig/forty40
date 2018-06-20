@@ -446,6 +446,7 @@ ssize_t kvproc_file_read(inode_t *inode, file_t *file, char *buf, size_t size)
 		printf("read permission error: cannot read %s\n", file->name);
 		return -1;
 	}
+	printf("inode size:%d\n", file->f_inode->size);
 	if(size > file->f_inode->size - file->offset){
 		size = inode->size - file->offset;
 	}

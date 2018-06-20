@@ -122,7 +122,7 @@ void kv_test()
 	char *name = pmm->alloc(128);		
 	strcpy(name, "/forty/40c");
 	int fd = vfs->open(name, O_CREATE|O_RDWR);
-	while(1){
+	//while(1){
 		printf("kv:fd for %s:%d\n", name, fd);
 		if(fd < 0){
 			printf("kv:open %s error!!\n", name);
@@ -153,7 +153,7 @@ void kv_test()
 			return;
 		}
 		printf("kv:read %s size:%d\nread content:\n%s", name, size, buf);	
-	}
+	//}
 	
 		
 	return;
