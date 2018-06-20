@@ -467,8 +467,7 @@ ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
 		printf("buf in zero:%s\n", buf);
 	}
 	else if(!strcmp(inode->name+strlen(devfs_p->p), "/null")){
-		char *temp = 0;
-		*buf = *temp;
+		buf = "";
 		//strcpy(buf, temp);
 		printf("buf in null:%s\n", buf);
 		//strcpy(buf, NULL);
