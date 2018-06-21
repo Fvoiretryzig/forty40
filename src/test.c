@@ -220,8 +220,8 @@ void test_file()
 	//kmt->spin_lock(&lk);
 	
 	//kmt->create(&t1, &dev_test, NULL);
-	//kmt->create(&t2, &kv_test, NULL);
-	kmt->create(&t1, &dummy, NULL);
+	kmt->create(&t2, &kv_test, NULL);
+	//kmt->create(&t1, &dummy, NULL);
 	kmt->create(&t3, &proc_test, NULL);
 	
 	
