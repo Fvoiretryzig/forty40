@@ -192,12 +192,12 @@ void proc_test()
 		
 	/*========================procinfo========================*/
 		int proc_fd = vfs->open("/proc/0", O_RDONLY);
-		if(mem_fd < 0){
+		if(proc_fd < 0){
 			printf("proc:open /proc/0 error!\n");
 			continue;
 		}
 		printf("proc: the process fd is %d\n", proc_fd);
-		size = vfs->read(mem_fd, buf, 1024);
+		size = vfs->read(proc_fd, buf, 1024);
 		if(size < 0){
 			printf("proc:read error while read process\n");
 			vfs->close(proc_fd);
