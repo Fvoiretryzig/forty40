@@ -57,8 +57,7 @@ void dev_test()
 		size = vfs->read(random_fd, buf, 0);
 		if(size < 0){
 			printf("dev:error read /dev/random in dev_test\n");
-				vfs->close(random_fd);
-			pmm->free(buf);
+			vfs->close(random_fd);
 			//return;
 			continue;
 		}
@@ -67,7 +66,6 @@ void dev_test()
 			if(size < 0){
 			printf("dev:error read /dev/random in dev_test\n");
 			vfs->close(random_fd);
-				pmm->free(buf);
 			//return;
 			continue;
 		}
@@ -79,8 +77,7 @@ void dev_test()
 		size = vfs->write(null_fd, buf, strlen(buf));
 		if(size < 0){
 			printf("dev:error write /dev/null\n");
-				vfs->close(null_fd);
-			pmm->free(buf);
+			vfs->close(null_fd);
 			//return;
 			continue;
 		}
@@ -88,8 +85,7 @@ void dev_test()
 		size = vfs->read(null_fd, buf, 0);
 		if(size < 0){
 			printf("dev:error read /dev/null\n");
-			vfs->close(null_fd);
-			pmm->free(buf);
+			vfs->close(null_fd);;
 			//return;
 			continue;
 		}
@@ -104,20 +100,16 @@ void dev_test()
 		if(size < 0){
 			printf("dev:error read /dev/zero\n");
 			vfs->close(zero_fd);
-			pmm->free(buf);
 			//return;
 			continue;
 		}	
 		printf("dev:after read /dev/zero buf:%d\n", *buf);
 		vfs->close(zero_fd);
 		vfs->close(random_fd);
-		pmm->free(buf);
+
 		printf("dev:this is checkpoint\n");	
-	}
-	return;
-}
-void proc_test()
-{
+	}		
+	pmm->free(buf);
 	return;
 }
 void kv_test()
@@ -138,7 +130,6 @@ void kv_test()
 		if(size < 0){
 			printf("kv:write %s error!!\n", name);
 			vfs->close(fd);
-			pmm->free(buf); pmm->free(name);
 			//return;
 			continue;
 		}
@@ -155,16 +146,67 @@ void kv_test()
 		size = vfs->read(fd, buf, 128);
 		if(size < 0){
 			printf("kv:read %s error!!\n", name);
-			vfs->close(fd);
-			pmm->free(buf); pmm->free(name);		
+			vfs->close(fd);	
 			//return;
 			continue;
 		}
 		printf("kv:read %s size:%d\nread content:\n%s", name, size, buf);	
 	}	
+	pmm->free(buf); pmm->free(name);
 	return;
 }
-
+void proc_test()
+{
+	char *buf = pmm->alloc(1024); int size = 0;
+	while(1){
+	/*========================cpuinfo========================*/
+		int cpu_fd = vfs->open("/proc/cpuinfo", O_RDOHLY);
+		if(cpu_fd < 0){
+			printf("proc:open cpuinfo error!\n");
+			continue;
+		}
+		printf("proc: the cpu fd is %d\n", cpu_fd);
+		size = vfs->read(cpu_fd, buf, sizeof(buf));
+		if(size < 0){
+			printf("proc:read error while read cpuinfo\n")
+			vfs->close(cpu_fd);
+			continue;
+		}
+		printf("the read result:\nsize:%d\ncontent:\n%s\n", size, buf);
+		vfs->close(cpu_fd);
+	/*========================meminfo========================*/
+		int mem_fd = vfs->open("/proc/meminfo", O_RDOHLY);
+		if(mem_fd < 0){
+			printf("proc:open meminfo error!\n");
+			continue;
+		}
+		printf("proc: the mem fd is %d\n", mem_fd);
+		size = vfs->read(mem_fd, buf, sizeof(buf));
+		if(size < 0){
+			printf("proc:read error while read meminfo\n")
+			vfs->close(proc_fd);
+			continue;
+		}
+		printf("the read result:\nsize:%d\ncontent:\n%s\n", size, buf);
+		vfs->close(mem_fd);
+	/*========================meminfo========================*/
+		int proc_fd = vfs->open("/proc/0", O_RDOHLY);
+		if(mem_fd < 0){
+			printf("proc:open /proc/0 error!\n");
+			continue;
+		}
+		printf("proc: the process fd is %d\n", proc_fd);
+		size = vfs->read(mem_fd, buf, sizeof(buf));
+		if(size < 0){
+			printf("proc:read error while read process\n")
+			vfs->close(proc_fd);
+			continue;
+		}
+		printf("the read result:\nsize:%d\ncontent:\n%s\n", size, buf);
+		vfs->close(proc_fd);
+	}
+	return;
+}
 void test_file()
 {
 	//kmt->spin_init(&lk,"test_file_lk");
