@@ -104,7 +104,7 @@ void dev_test()
 		vfs->close(zero_fd);
 		vfs->close(random_fd);
 
-		printf("dev:this is checkpoint\n");	
+		//printf("dev:this is checkpoint\n");	
 		kmt->spin_unlock(&lk);
 	}		
 	pmm->free(buf);
