@@ -60,7 +60,6 @@ void dev_test()
 		if(size < 0){
 			printf("dev:error read /dev/random in dev_test\n");
 			vfs->close(random_fd);
-			//return;
 			continue;
 		}
 		printf("dev:this is the random number return by /dev/random:%s size:%d\n", buf, size);
@@ -68,7 +67,6 @@ void dev_test()
 			if(size < 0){
 			printf("dev:error read /dev/random in dev_test\n");
 			vfs->close(random_fd);
-			//return;
 			continue;
 		}
 		printf("dev:this is the random number return by /dev/random:%s size:%d\n", buf, size);
@@ -80,7 +78,6 @@ void dev_test()
 		if(size < 0){
 			printf("dev:error write /dev/null\n");
 			vfs->close(null_fd);
-			//return;
 			continue;
 		}
 		printf("dev:this is the writing /dev/null operation return value:%d\n", size);
@@ -88,7 +85,6 @@ void dev_test()
 		if(size < 0){
 			printf("dev:error read /dev/null\n");
 			vfs->close(null_fd);;
-			//return;
 			continue;
 		}
 		printf("dev:after read /dev/null buf:%d\n", *buf);
@@ -102,7 +98,6 @@ void dev_test()
 		if(size < 0){
 			printf("dev:error read /dev/zero\n");
 			vfs->close(zero_fd);
-			//return;
 			continue;
 		}	
 		printf("dev:after read /dev/zero buf:%d\n", *buf);
@@ -126,7 +121,6 @@ void kv_test()
 		printf("kv:fd for %s:%d\n", name, fd);
 		if(fd < 0){
 			printf("kv:open %s error!!\n", name);
-			//return;
 			continue;
 		}
 		strcpy(buf, "forty-forty\nthis is a test for kvdb\n40404040\n");
@@ -134,7 +128,6 @@ void kv_test()
 		if(size < 0){
 			printf("kv:write %s error!!\n", name);
 			vfs->close(fd);
-			//return;
 			continue;
 		}
 		printf("kv:write %s size:%d\n", name, size);
@@ -143,7 +136,6 @@ void kv_test()
 		printf("kv:fd for %s:%d\n", name, fd);
 		if(fd < 0){
 			printf("kv:open %s error!!\n", name);
-			//return;
 			continue;
 		}	
 		strcpy(buf, " ");
@@ -151,7 +143,6 @@ void kv_test()
 		if(size < 0){
 			printf("kv:read %s error!!\n", name);
 			vfs->close(fd);	
-			//return;
 			continue;
 		}
 		printf("kv:read %s size:%d\nread content:\n%s", name, size, buf);
@@ -215,19 +206,23 @@ void proc_test()
 	}
 	return;
 }
-void dummy()
+/*void dummy()
 {
 	printf("this is in dummy\n");
 	while(1);
 	return;
+}*/
+void single_thread_test()
+{
+	kmt->create(&t1, &dev_test, NULL);
+	kmt->create(&t2, &kv_test, NULL);
+	kmt->create(&t3, &proc_test, NULL);	
 }
 void test_file()
 {
 	kmt->spin_init(&lk, "filetest_lk");
-	kmt->create(&t1, &dev_test, NULL);
-	kmt->create(&t2, &kv_test, NULL);
-	//kmt->create(&t1, &dummy, NULL);
-	kmt->create(&t3, &proc_test, NULL);
+	
+	single_thread_test();
 	
 	return;
 }

@@ -19,5 +19,6 @@ void dev_test();
 void proc_test();
 void kv_test();
 void test_file();
+void single_thread_test();
  
 #endif
