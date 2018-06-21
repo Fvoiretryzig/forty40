@@ -192,7 +192,7 @@ void proc_test()
 		printf("proc:size:%d\ncontent:\n%s\n", size, buf);
 		vfs->close(mem_fd);
 		
-	/*========================meminfo========================*/
+	/*========================procinfo========================*/
 		int proc_fd = vfs->open("/proc/0", O_RDONLY);
 		if(mem_fd < 0){
 			printf("proc:open /proc/0 error!\n");
@@ -208,6 +208,12 @@ void proc_test()
 		printf("proc:size:%d\ncontent:\n%s\n", size, buf);
 		vfs->close(proc_fd);
 	//}
+	printf("stop\n");
+	return;
+}
+void dummy()
+{
+	printf("this is in dummy\n");
 	return;
 }
 void test_file()
@@ -217,6 +223,7 @@ void test_file()
 	
 	//kmt->create(&t1, &dev_test, NULL);
 	//kmt->create(&t2, &kv_test, NULL);
+	kmt->create(&t1, &dummy, NULL);
 	kmt->create(&t3, &proc_test, NULL);
 	
 	
