@@ -193,7 +193,6 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 			pmm->free(path); pmm->free(buf);			
 			return -1;
 		}
-		
 		vfs->lseek(fd, offset, SEEK_SET);						
 		strcpy(buf, "\n");
 		offset += strlen(buf);
