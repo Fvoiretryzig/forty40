@@ -165,14 +165,14 @@ void proc_test()
 			printf("proc:open cpuinfo error!\n");
 			//continue;
 		}
-		printf("proc: the cpu fd is %d\n", cpu_fd);
+		printf("proc: the cpu fd is %d\n\n", cpu_fd);
 		size = vfs->read(cpu_fd, buf, 1024);
 		if(size < 0){
 			printf("proc:read error while read cpuinfo\n");
 			vfs->close(cpu_fd);
 			//continue;
 		}
-		printf("proc:the read result:\nsize:%d\ncontent:\n%s\n", size, buf);
+		printf("proc:the read result:\nsize:%d\ncontent:\n%s\n\n", size, buf);
 		vfs->close(cpu_fd);
 	/*========================meminfo========================*/
 		int mem_fd = vfs->open("/proc/meminfo", O_RDONLY);
@@ -180,7 +180,7 @@ void proc_test()
 			printf("proc:open meminfo error!\n");
 			//continue;
 		}
-		printf("proc: the mem fd is %d\n", mem_fd);
+		printf("proc: the mem fd is %d\n\n", mem_fd);
 		size = vfs->read(mem_fd, buf, 1024);
 		printf("after read buf:%s\n", buf);
 		if(size < 0){
@@ -188,7 +188,7 @@ void proc_test()
 			vfs->close(mem_fd);
 			//continue;
 		}
-		printf("proc:size:%d\ncontent:\n%s\n", size, buf);
+		printf("proc:size:%d\ncontent:\n%s\n\n", size, buf);
 		vfs->close(mem_fd);
 		
 	/*========================procinfo========================*/
@@ -197,14 +197,14 @@ void proc_test()
 			printf("proc:open /proc/0 error!\n");
 			//continue;
 		}
-		printf("proc: the process fd is %d\n", proc_fd);
+		printf("proc: the process fd is %d\n\n", proc_fd);
 		size = vfs->read(mem_fd, buf, 1024);
 		if(size < 0){
 			printf("proc:read error while read process\n");
 			vfs->close(proc_fd);
 			//continue;
 		}
-		printf("proc:size:%d\ncontent:\n%s\n", size, buf);
+		printf("proc:size:%d\ncontent:\n%s\n\n", size, buf);
 		vfs->close(proc_fd);
 	//}
 	printf("stop\n");
