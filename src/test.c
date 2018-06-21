@@ -160,7 +160,7 @@ void proc_test()
 	char *buf = pmm->alloc(1024); int size = 0;
 	while(1){
 	/*========================cpuinfo========================*/
-		int cpu_fd = vfs->open("/proc/cpuinfo", O_RDOHLY);
+		int cpu_fd = vfs->open("/proc/cpuinfo", O_RDONLY);
 		if(cpu_fd < 0){
 			printf("proc:open cpuinfo error!\n");
 			continue;
@@ -175,7 +175,7 @@ void proc_test()
 		printf("the read result:\nsize:%d\ncontent:\n%s\n", size, buf);
 		vfs->close(cpu_fd);
 	/*========================meminfo========================*/
-		int mem_fd = vfs->open("/proc/meminfo", O_RDOHLY);
+		int mem_fd = vfs->open("/proc/meminfo", O_RDONLY);
 		if(mem_fd < 0){
 			printf("proc:open meminfo error!\n");
 			continue;
@@ -190,7 +190,7 @@ void proc_test()
 		printf("the read result:\nsize:%d\ncontent:\n%s\n", size, buf);
 		vfs->close(mem_fd);
 	/*========================meminfo========================*/
-		int proc_fd = vfs->open("/proc/0", O_RDOHLY);
+		int proc_fd = vfs->open("/proc/0", O_RDONLY);
 		if(mem_fd < 0){
 			printf("proc:open /proc/0 error!\n");
 			continue;
