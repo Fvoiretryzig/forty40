@@ -158,7 +158,7 @@ void kv_test()
 void proc_test()
 {
 	char *buf = pmm->alloc(1024); int size = 0;
-	while(1){
+	//while(1){
 	/*========================cpuinfo========================*/
 		int cpu_fd = vfs->open("/proc/cpuinfo", O_RDONLY);
 		if(cpu_fd < 0){
@@ -181,13 +181,15 @@ void proc_test()
 			continue;
 		}
 		printf("proc: the mem fd is %d\n", mem_fd);
+		printf("before read buf:%s\n", buf);
 		size = vfs->read(mem_fd, buf, sizeof(buf));
+		printf("after read buf:%s\n", buf);
 		if(size < 0){
 			printf("proc:read error while read meminfo\n");
 			vfs->close(mem_fd);
 			continue;
 		}
-		printf("proc:the read result:\nsize:%d\ncontent:\n%s\n", size, buf);
+		printf("proc:size:%d\ncontent:\n%s\n", size, buf);
 		vfs->close(mem_fd);
 		
 	/*========================meminfo========================*/
@@ -203,9 +205,9 @@ void proc_test()
 			vfs->close(proc_fd);
 			continue;
 		}
-		printf("proc:the read result:\nsize:%d\ncontent:\n%s\n", size, buf);
+		printf("proc:size:%d\ncontent:\n%s\n", size, buf);
 		vfs->close(proc_fd);
-	}
+	//}
 	return;
 }
 void test_file()
