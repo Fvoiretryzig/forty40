@@ -181,7 +181,6 @@ void proc_test()
 			//continue;
 		}
 		printf("proc: the mem fd is %d\n", mem_fd);
-		printf("before read buf:%s\n", buf);
 		size = vfs->read(mem_fd, buf, sizeof(buf));
 		printf("after read buf:%s\n", buf);
 		if(size < 0){

@@ -449,6 +449,7 @@ ssize_t kvproc_file_read(inode_t *inode, file_t *file, char *buf, size_t size)
 	if(size > file->f_inode->size - file->offset){
 		size = inode->size - file->offset;
 	}
+	printf("size in kvproc_file_read:%d\n",size);
 	strncpy(buf, file->content+file->offset, size);
 	return size;
 }
@@ -748,7 +749,6 @@ ssize_t read(int fd, void *buf, size_t nbyte)
 		return -1;
 	}	
 	ssize_t size = FILE->ops->read(node, FILE, buf, nbyte);
-	printf("buf in read:%s\n", buf);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
 	return size;
