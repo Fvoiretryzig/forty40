@@ -144,7 +144,7 @@ void kv_test()
 			vfs->close(fd);	
 			continue;
 		}
-		printf("kv:read %s size:%d\nread content:\n%s\n", name, size, buf);
+		printf("kv:read %s size:%d\nread content:\n%s\n\n", name, size, buf);
 		kmt->spin_unlock(&lk);	
 	}	
 	pmm->free(buf); pmm->free(name);
