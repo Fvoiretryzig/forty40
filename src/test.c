@@ -103,7 +103,6 @@ void dev_test()
 		printf("dev:after read /dev/zero buf:%d\n\n", *buf);
 		vfs->close(zero_fd);
 		vfs->close(random_fd);
-
 		kmt->spin_unlock(&lk);
 	}		
 	pmm->free(buf);
@@ -145,6 +144,7 @@ void kv_test()
 			continue;
 		}
 		printf("kv:read %s size:%d\nread content:\n%s\n\n", name, size, buf);
+		strcpy(buf, "");
 		kmt->spin_unlock(&lk);	
 	}	
 	pmm->free(buf); pmm->free(name);
