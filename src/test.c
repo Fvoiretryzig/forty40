@@ -175,7 +175,7 @@ void proc_test()
 		printf("proc:the read result:\nsize:%d\ncontent:\n%s\n\n", size, buf);
 		vfs->close(cpu_fd);
 	/*========================meminfo========================*/
-	/*	int mem_fd = vfs->open("/proc/meminfo", O_RDONLY);
+		int mem_fd = vfs->open("/proc/meminfo", O_RDONLY);
 		if(mem_fd < 0){
 			printf("proc:open meminfo error!\n");
 			continue;
@@ -188,7 +188,7 @@ void proc_test()
 			continue;
 		}
 		printf("proc:size:%d\ncontent:\n%s\n\n", size, buf);
-		vfs->close(mem_fd);*/
+		vfs->close(mem_fd);
 		
 	/*========================procinfo========================*/
 	/*	int proc_fd = vfs->open("/proc/0", O_RDONLY);
