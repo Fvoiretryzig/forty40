@@ -52,6 +52,7 @@ void dev_test()
 {
 	char *buf = pmm->alloc(1024); int size = 0;
 	while(1){
+		spin_lock(&lk);
 		/*========================random========================*/
 		int random_fd = vfs->open("/dev/random", O_RDONLY);
 		printf("dev:random fd:%d\n", random_fd);
@@ -109,6 +110,7 @@ void dev_test()
 		vfs->close(random_fd);
 
 		printf("dev:this is checkpoint\n");	
+		spin_unlock(&lk);
 	}		
 	pmm->free(buf);
 	return;
@@ -221,16 +223,12 @@ void dummy()
 }
 void test_file()
 {
-	//kmt->spin_init(&lk,"test_file_lk");
-	//kmt->spin_lock(&lk);
 	kmt->spin_init(&lk, "filetest_lk");
-	//kmt->create(&t1, &dev_test, NULL);
+	kmt->create(&t1, &dev_test, NULL);
 	kmt->create(&t2, &kv_test, NULL);
 	//kmt->create(&t1, &dummy, NULL);
 	kmt->create(&t3, &proc_test, NULL);
 	
-	
-	//kmt->spin_unlock(&lk);
 	return;
 }
 
