@@ -59,7 +59,8 @@ void dev_test()
 			printf("dev:error read /dev/random in dev_test\n");
 				vfs->close(random_fd);
 			pmm->free(buf);
-			return;
+			//return;
+			continue;
 		}
 		printf("dev:this is the random number return by /dev/random:%s size:%d\n", buf, size);
 		size = vfs->read(random_fd, buf, 0);
@@ -67,7 +68,8 @@ void dev_test()
 			printf("dev:error read /dev/random in dev_test\n");
 			vfs->close(random_fd);
 				pmm->free(buf);
-			return;
+			//return;
+			continue;
 		}
 		printf("dev:this is the random number return by /dev/random:%s size:%d\n", buf, size);
 		/*========================null========================*/
@@ -79,7 +81,8 @@ void dev_test()
 			printf("dev:error write /dev/null\n");
 				vfs->close(null_fd);
 			pmm->free(buf);
-			return;
+			//return;
+			continue;
 		}
 		printf("dev:this is the writing /dev/null operation return value:%d\n", size);
 		size = vfs->read(null_fd, buf, 0);
@@ -87,7 +90,8 @@ void dev_test()
 			printf("dev:error read /dev/null\n");
 			vfs->close(null_fd);
 			pmm->free(buf);
-			return;
+			//return;
+			continue;
 		}
 		printf("dev:after read /dev/null buf:%d\n", *buf);
 		vfs->close(null_fd);
@@ -101,7 +105,8 @@ void dev_test()
 			printf("dev:error read /dev/zero\n");
 			vfs->close(zero_fd);
 			pmm->free(buf);
-			return;
+			//return;
+			continue;
 		}	
 		printf("dev:after read /dev/zero buf:%d\n", *buf);
 		vfs->close(zero_fd);
@@ -109,7 +114,6 @@ void dev_test()
 		pmm->free(buf);
 		printf("dev:this is checkpoint\n");	
 	}
-
 	return;
 }
 void proc_test()
@@ -122,11 +126,12 @@ void kv_test()
 	char *name = pmm->alloc(128);		
 	strcpy(name, "/forty/40c");
 	int fd = vfs->open(name, O_CREATE|O_RDWR);
-	//while(1){
+	while(1){
 		printf("kv:fd for %s:%d\n", name, fd);
 		if(fd < 0){
 			printf("kv:open %s error!!\n", name);
-			return;
+			//return;
+			continue;
 		}
 		strcpy(buf, "forty-forty\nthis is a test for kvdb\n40404040\n");
 		size = vfs->write(fd, buf, strlen(buf));
@@ -134,7 +139,8 @@ void kv_test()
 			printf("kv:write %s error!!\n", name);
 			vfs->close(fd);
 			pmm->free(buf); pmm->free(name);
-			return;
+			//return;
+			continue;
 		}
 		printf("kv:write %s size:%d\n", name, size);
 		vfs->close(fd);
@@ -142,7 +148,8 @@ void kv_test()
 		printf("kv:fd for %s:%d\n", name, fd);
 		if(fd < 0){
 			printf("kv:open %s error!!\n", name);
-			return;
+			//return;
+			continue;
 		}	
 		strcpy(buf, " ");
 		size = vfs->read(fd, buf, 128);
@@ -150,12 +157,11 @@ void kv_test()
 			printf("kv:read %s error!!\n", name);
 			vfs->close(fd);
 			pmm->free(buf); pmm->free(name);		
-			return;
+			//return;
+			continue;
 		}
 		printf("kv:read %s size:%d\nread content:\n%s", name, size, buf);	
-	//}
-	
-		
+	}	
 	return;
 }
 
@@ -164,7 +170,7 @@ void test_file()
 	//kmt->spin_init(&lk,"test_file_lk");
 	//kmt->spin_lock(&lk);
 	
-	//kmt->create(&t1, &dev_test, NULL);
+	kmt->create(&t1, &dev_test, NULL);
 	kmt->create(&t2, &kv_test, NULL);
 	//kmt->create(&t3, &proc_test, NULL);
 	
