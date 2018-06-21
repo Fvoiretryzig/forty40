@@ -607,6 +607,7 @@ void vfs_init()
 /*====================================================================*/
 int access(const char *path, int mode)
 {
+	int ret = 0;
 	kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/
 	inode_t *temp = NULL;
@@ -619,12 +620,12 @@ int access(const char *path, int mode)
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
 		temp = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, mode);
 	}
-	if(temp == NULL){
-		printf("The path is not an existing file when in access %s!!\n", path);
-		return -1;
-	}
 	switch(mode){
 		case F_OK:
+			if(temp == NULL){
+				printf("the file has not been created!!\n");
+				ret = -1
+			}
 			break;
 		case X_OK:
 		case X_OK|W_OK:
@@ -632,27 +633,39 @@ int access(const char *path, int mode)
 			printf("remain to be done to support executable file\n");
 			break;
 		case W_OK:
-			if(!temp->if_write){
+			if(temp == NULL){
+				printf("the file has not been created!!\n");
+				ret = -1;
+			}
+			else if(!temp->if_write){
 				printf("have no permission to write when check in access %s\n", path);
-				return -1;
+				ret = -1;
 			}
 			break;
 		case R_OK:
-			if(!temp->if_read){
+			if(temp == NULL){
+				printf("the file has not been created!!\n");
+				ret = -1;
+			}		
+			else if(!temp->if_read){
 				printf("have no permission to read when check in access %s\n", path);
-				return -1;
+				ret = -1;
 			}
 			break;
 		case W_OK|R_OK:
-			if(!temp->if_read || !temp->if_write){
+			if(temp == NULL){
+				printf("the file has not been created!!\n");
+				ret = -1;
+			}		
+			else if(!temp->if_read || !temp->if_write){
 				printf("have no permission to read or write when check in access %s\n", path);
-				return -1;
+				ret = -1;
 			}
 			break;
 	}
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);
-	return 0;
+	return ret;
 }
 
 int open(const char *path, int flags)
