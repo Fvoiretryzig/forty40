@@ -129,8 +129,8 @@ void kv_test()
 			continue;
 		}
 		printf("kv:write %s size:%d\n", name, size);
-		vfs->close(fd);
-		fd = vfs->open(name, O_RDWR);
+		vfs->lseek(fd, 0, SEEK_SET);
+		//fd = vfs->open(name, O_RDWR);
 		printf("kv:fd for %s:%d\n", name, fd);
 		if(fd < 0){
 			printf("kv:open %s error!!\n", name);
