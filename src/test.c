@@ -104,7 +104,6 @@ void dev_test()
 		vfs->close(zero_fd);
 		vfs->close(random_fd);
 
-		//printf("dev:this is checkpoint\n");	
 		kmt->spin_unlock(&lk);
 	}		
 	pmm->free(buf);
@@ -206,17 +205,11 @@ void proc_test()
 	}
 	return;
 }
-/*void dummy()
-{
-	printf("this is in dummy\n");
-	while(1);
-	return;
-}*/
 void single_thread_test()
 {
-	kmt->create(&t1, &dev_test, NULL);
+	//kmt->create(&t1, &dev_test, NULL);
 	kmt->create(&t2, &kv_test, NULL);
-	kmt->create(&t3, &proc_test, NULL);	
+	//kmt->create(&t3, &proc_test, NULL);	
 }
 void test_file()
 {
