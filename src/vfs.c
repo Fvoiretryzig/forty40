@@ -624,7 +624,7 @@ int access(const char *path, int mode)
 		case F_OK:
 			if(temp == NULL){
 				printf("the file has not been created!!\n");
-				ret = -1
+				ret = -1;
 			}
 			break;
 		case X_OK:
