@@ -163,14 +163,14 @@ void proc_test()
 		int cpu_fd = vfs->open("/proc/cpuinfo", O_RDONLY);
 		if(cpu_fd < 0){
 			printf("proc:open cpuinfo error!\n");
-			continue;
+			//continue;
 		}
 		printf("proc: the cpu fd is %d\n", cpu_fd);
 		size = vfs->read(cpu_fd, buf, sizeof(buf));
 		if(size < 0){
 			printf("proc:read error while read cpuinfo\n");
 			vfs->close(cpu_fd);
-			continue;
+			//continue;
 		}
 		printf("proc:the read result:\nsize:%d\ncontent:\n%s\n", size, buf);
 		vfs->close(cpu_fd);
@@ -178,7 +178,7 @@ void proc_test()
 		int mem_fd = vfs->open("/proc/meminfo", O_RDONLY);
 		if(mem_fd < 0){
 			printf("proc:open meminfo error!\n");
-			continue;
+			//continue;
 		}
 		printf("proc: the mem fd is %d\n", mem_fd);
 		printf("before read buf:%s\n", buf);
@@ -187,7 +187,7 @@ void proc_test()
 		if(size < 0){
 			printf("proc:read error while read meminfo\n");
 			vfs->close(mem_fd);
-			continue;
+			//continue;
 		}
 		printf("proc:size:%d\ncontent:\n%s\n", size, buf);
 		vfs->close(mem_fd);
@@ -196,14 +196,14 @@ void proc_test()
 		int proc_fd = vfs->open("/proc/0", O_RDONLY);
 		if(mem_fd < 0){
 			printf("proc:open /proc/0 error!\n");
-			continue;
+			//continue;
 		}
 		printf("proc: the process fd is %d\n", proc_fd);
 		size = vfs->read(mem_fd, buf, sizeof(buf));
 		if(size < 0){
 			printf("proc:read error while read process\n");
 			vfs->close(proc_fd);
-			continue;
+			//continue;
 		}
 		printf("proc:size:%d\ncontent:\n%s\n", size, buf);
 		vfs->close(proc_fd);
