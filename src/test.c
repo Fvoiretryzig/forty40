@@ -264,58 +264,6 @@ void file1()
 	pmm->free(buf); pmm->free(name);
 	return;
 }
-void file1()
-{
-	char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
-	int size = 0; int fd = 0; int offset = 0;
-	strcpy(name, "/home/forty/4040");
-	if(access(name, F_OK) < 0){
-		fd = vfs->open(name, O_CREATE|O_RDWR);
-		vfs->close(fd);
-	}d
-	while(1){
-		kmt->spin_lock(&lk);
-		fd = vfs->open(name, O_RDWR);
-		printf("file1:fd:%d\n", fd);
-		if(fd < 0){
-			printf("file1:open %s error!!\n", name);
-			continue;
-		}		
-		strcpy(buf, "this is /home/forty/4040 in file1\n");
-		size = vfs->write(fd, buf, strlen(buf));
-		if(size < 0){
-			printf("file1:write %s error!!\n", name);
-			vfs->close(fd);
-			continue;
-		}		
-		printf("file1:first write size:%d\n", size);
-		size = vfs->write(fd, buf, strlen(buf));	//写两遍
-		if(size < 0){
-			printf("file1:write %s error!!\n", name);
-			vfs->close(fd);
-			continue;
-		}
-		printf("file1:second write size:%d\n", size);		
-		offset = vfs->lseek(fd, 0, SEEK_SET);
-		if(offset < 0){
-			printf("file1:lseek %s error!!\n", name);
-			vfs->close(fd);
-			continue;
-		}
-		size = vfs->read(fd, buf, strlen(buf));
-		if(size < 0){
-			printf("file1:read %s error!!\n", name);
-			vfs->close(fd);
-			continue;
-		}		
-		printf("file1:read size:%d ", size); printf("content:\n%s\n", buf);
-		strcpy(buf, "");
-		vfs->close(fd);
-		kmt->spin_unlock(&lk);
-	}
-	pmm->free(buf); pmm->free(name);
-	return;
-}
 void file2()
 {
 	char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
