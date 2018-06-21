@@ -206,7 +206,6 @@ void proc_test()
 		printf("proc:size:%d\ncontent:\n%s\n\n", size, buf);
 		vfs->close(proc_fd);
 	}
-	printf("stop\n");
 	return;
 }
 void dummy()
