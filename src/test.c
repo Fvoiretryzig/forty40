@@ -137,7 +137,7 @@ void kv_test()
 			continue;
 		}	
 		strcpy(buf, " ");
-		size = vfs->read(fd, buf, 128);
+		size = vfs->read(fd, buf, 64);
 		if(size < 0){
 			printf("kv:read %s error!!\n", name);
 			vfs->close(fd);	
