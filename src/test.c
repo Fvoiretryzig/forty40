@@ -3,6 +3,7 @@
   /*=======================================================*/
  /*====================test for thread====================*/
 /*=======================================================*/
+spinlock_t lk;
 void producer()
 {
 	while (1) {
@@ -119,6 +120,7 @@ void kv_test()
 	strcpy(name, "/forty/40c");
 	int fd = vfs->open(name, O_CREATE|O_RDWR);
 	while(1){
+		kmt->spin_lock(&lk);
 		printf("kv:fd for %s:%d\n", name, fd);
 		if(fd < 0){
 			printf("kv:open %s error!!\n", name);
@@ -150,7 +152,8 @@ void kv_test()
 			//return;
 			continue;
 		}
-		printf("kv:read %s size:%d\nread content:\n%s", name, size, buf);	
+		printf("kv:read %s size:%d\nread content:\n%s", name, size, buf);
+		kmt->spin_unlock(&lk);	
 	}	
 	pmm->free(buf); pmm->free(name);
 	return;
@@ -159,6 +162,7 @@ void proc_test()
 {
 	char *buf = pmm->alloc(1024); int size = 0;
 	while(1){
+		kmt->spin_lock(&lk);
 	/*========================cpuinfo========================*/
 		int cpu_fd = vfs->open("/proc/cpuinfo", O_RDONLY);
 		if(cpu_fd < 0){
@@ -205,6 +209,7 @@ void proc_test()
 		}
 		printf("proc:size:%d\ncontent:\n%s\n\n", size, buf);
 		vfs->close(proc_fd);
+		kmt->spin_unlock(&lk);
 	}
 	return;
 }
@@ -218,7 +223,7 @@ void test_file()
 {
 	//kmt->spin_init(&lk,"test_file_lk");
 	//kmt->spin_lock(&lk);
-	
+	kmt->spin_init(&lk, "filetest_lk");
 	//kmt->create(&t1, &dev_test, NULL);
 	kmt->create(&t2, &kv_test, NULL);
 	//kmt->create(&t1, &dummy, NULL);
