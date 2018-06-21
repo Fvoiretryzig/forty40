@@ -267,15 +267,16 @@ void file1()
 void file2()
 {
 	char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
-	int size = 0; int fd = 0; int offset = 0;
+	int size = 0; int fd = 0; 
 	strcpy(name, "/home/forty/4040");
-	if(access(name, F_OK) < 0){
+	if(vfs->access(name, F_OK) < 0){
 		fd = vfs->open(name, O_CREATE|O_RDWR);
 		vfs->close(fd);
-	}d
+	}
 	while(1){
 		kmt->spin_lock(&lk);
 		fd = vfs->open(name, O_RDWR);
+		int offset = 0;
 		printf("file2:fd:%d\n", fd);
 		if(fd < 0){
 			printf("file2:open %s error!!\n", name);
