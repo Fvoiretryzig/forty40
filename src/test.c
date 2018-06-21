@@ -184,7 +184,7 @@ void proc_test()
 		size = vfs->read(mem_fd, buf, sizeof(buf));
 		if(size < 0){
 			printf("proc:read error while read meminfo\n");
-			vfs->close(proc_fd);
+			vfs->close(mem_fd);
 			continue;
 		}
 		printf("the read result:\nsize:%d\ncontent:\n%s\n", size, buf);
