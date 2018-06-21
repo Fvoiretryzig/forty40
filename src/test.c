@@ -189,6 +189,7 @@ void proc_test()
 		}
 		printf("the read result:\nsize:%d\ncontent:\n%s\n", size, buf);
 		vfs->close(mem_fd);
+		
 	/*========================meminfo========================*/
 		int proc_fd = vfs->open("/proc/0", O_RDONLY);
 		if(mem_fd < 0){
