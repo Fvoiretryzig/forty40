@@ -65,7 +65,7 @@ void dev_test()
 		printf("dev:this is the random number return by /dev/random:%s size:%d\n", buf, size);
 		size = vfs->read(random_fd, buf, 0);
 			if(size < 0){
-			printf("dev:error read /dev/random in dev_test\n");
+			printf("dev:error read /dev/random in dev_test\n\n");
 			vfs->close(random_fd);
 			continue;
 		}
@@ -87,7 +87,7 @@ void dev_test()
 			vfs->close(null_fd);;
 			continue;
 		}
-		printf("dev:after read /dev/null buf:%d\n", *buf);
+		printf("dev:after read /dev/null buf:%d\n\n", *buf);
 		vfs->close(null_fd);
 		/*========================zero========================*/
 		int zero_fd = vfs->open("/dev/zero", O_RDONLY);
@@ -100,7 +100,7 @@ void dev_test()
 			vfs->close(zero_fd);
 			continue;
 		}	
-		printf("dev:after read /dev/zero buf:%d\n", *buf);
+		printf("dev:after read /dev/zero buf:%d\n\n", *buf);
 		vfs->close(zero_fd);
 		vfs->close(random_fd);
 
@@ -145,7 +145,7 @@ void kv_test()
 			vfs->close(fd);	
 			continue;
 		}
-		printf("kv:read %s size:%d\nread content:\n%s", name, size, buf);
+		printf("kv:read %s size:%d\nread content:\n%s\n", name, size, buf);
 		kmt->spin_unlock(&lk);	
 	}	
 	pmm->free(buf); pmm->free(name);
