@@ -451,6 +451,7 @@ ssize_t kvproc_file_read(inode_t *inode, file_t *file, char *buf, size_t size)
 		size = inode->size - file->offset;
 	}
 	strncpy(buf, file->content+file->offset, size);
+	file->offset += size;
 	return size;
 }
 ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
@@ -475,6 +476,7 @@ ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
 	else{
 		strncpy(buf, file->content+file->offset, size);
 	}
+	file->offset += size;
 	return size;
 }
 ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t size)
@@ -484,13 +486,13 @@ ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t 
 		printf("write permission error: cannot write %s\n", file->name);
 		return -1;
 	}
-	if((file->f_inode->size + size) >= file_content_maxn){
-		size = file_content_maxn - file->f_inode->size;
+	if((file->offset + size) >= file_content_maxn){
+		size = file_content_maxn - file->offset;
 	}
 	strncpy(inode->content + file->offset, buf, size);
 	strcpy(file->content, inode->content);	//先拷贝到inode再到文件
-	//strncpy(file->content + file->offset, buf, size);
-	inode->size += size;
+	inode->size = file->offset + size;
+	file->offset += size;
 	return size;
 }
 ssize_t dev_file_write(inode_t *inode, file_t *file, const char *buf, size_t size)
@@ -504,13 +506,13 @@ ssize_t dev_file_write(inode_t *inode, file_t *file, const char *buf, size_t siz
 	|| !strcmp(inode->name+strlen(devfs_p->p), "/random")){
 		return size;	//这几个文件写了也没用
 	}
-	else if((file->f_inode->size + size) >= file_content_maxn){
-		size = file_content_maxn - file->f_inode->size;
+	else if(file->offset + size >= file_content_maxn){
+		size = file_content_maxn - file->offset;
 	}
 	strncpy(inode->content + file->offset, buf, size);
-	strcpy(file->content, inode->content);	//先拷贝到inode再到文件
-	//strncpy(file->content + file->offset, buf, size);
-	inode->size += size;	
+	strcpy(file->content, inode->content);	//先拷贝到inode再到文件	
+	inode->size = file->offset + size;
+	file->offset += size;
 	return size;
 }
 off_t file_lseek(inode_t *inode, file_t *file, off_t offset, int whence)
