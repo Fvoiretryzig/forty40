@@ -748,6 +748,7 @@ ssize_t read(int fd, void *buf, size_t nbyte)
 		return -1;
 	}	
 	ssize_t size = FILE->ops->read(node, FILE, buf, nbyte);
+	printf("buf in read:%s\n", buf);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
 	return size;
