@@ -172,7 +172,7 @@ void proc_test()
 			vfs->close(cpu_fd);
 			continue;
 		}
-		printf("the read result:\nsize:%d\ncontent:\n%s\n", size, buf);
+		printf("proc:the read result:\nsize:%d\ncontent:\n%s\n", size, buf);
 		vfs->close(cpu_fd);
 	/*========================meminfo========================*/
 		int mem_fd = vfs->open("/proc/meminfo", O_RDONLY);
@@ -187,7 +187,7 @@ void proc_test()
 			vfs->close(mem_fd);
 			continue;
 		}
-		printf("the read result:\nsize:%d\ncontent:\n%s\n", size, buf);
+		printf("proc:the read result:\nsize:%d\ncontent:\n%s\n", size, buf);
 		vfs->close(mem_fd);
 		
 	/*========================meminfo========================*/
@@ -203,7 +203,7 @@ void proc_test()
 			vfs->close(proc_fd);
 			continue;
 		}
-		printf("the read result:\nsize:%d\ncontent:\n%s\n", size, buf);
+		printf("proc:the read result:\nsize:%d\ncontent:\n%s\n", size, buf);
 		vfs->close(proc_fd);
 	}
 	return;
@@ -215,7 +215,7 @@ void test_file()
 	
 	kmt->create(&t1, &dev_test, NULL);
 	kmt->create(&t2, &kv_test, NULL);
-	//kmt->create(&t3, &proc_test, NULL);
+	kmt->create(&t3, &proc_test, NULL);
 	
 	
 	//kmt->spin_unlock(&lk);
