@@ -62,10 +62,10 @@ void dev_test()
 			vfs->close(random_fd);
 			continue;
 		}
-		printf("dev:this is the random number return by /dev/random:%s size:%d\n", buf, size);
+		printf("dev:this is the random number return by /dev/random:%s size:%d\n\n", buf, size);
 		size = vfs->read(random_fd, buf, 0);
 			if(size < 0){
-			printf("dev:error read /dev/random in dev_test\n\n");
+			printf("dev:error read /dev/random in dev_test\n");
 			vfs->close(random_fd);
 			continue;
 		}
