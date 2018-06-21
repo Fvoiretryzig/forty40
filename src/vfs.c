@@ -449,7 +449,7 @@ ssize_t kvproc_file_read(inode_t *inode, file_t *file, char *buf, size_t size)
 	if(size > file->f_inode->size - file->offset){
 		size = inode->size - file->offset;
 	}
-	printf("size in kvproc_file_read:%d\n",size);
+	printf("inode size:%d size in kvproc_file_read:%d\n",inode->size, size);
 	strncpy(buf, file->content+file->offset, size);
 	return size;
 }
