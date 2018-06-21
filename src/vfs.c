@@ -442,7 +442,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 }
 ssize_t kvproc_file_read(inode_t *inode, file_t *file, char *buf, size_t size)
 {
-	printf("in file_read:name:%s size:%d inode_size:%d offset:%d\n", file->name, size, inode->size,file->offset);
+	//printf("in file_read:name:%s size:%d inode_size:%d offset:%d\n", file->name, size, inode->size,file->offset);
 	if(!inode->if_read){
 		printf("read permission error: cannot read %s\n", file->name);
 		return -1;
@@ -481,7 +481,7 @@ ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
 }
 ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t size)
 {
-	printf("in file_write:name:%s size:%d inode_size:%d offset:%d\n", file->name,size,inode->size, file->offset);
+	//printf("in file_write:name:%s size:%d inode_size:%d offset:%d\n", file->name,size,inode->size, file->offset);
 	if(!inode->if_write){
 		printf("write permission error: cannot write %s\n", file->name);
 		return -1;
