@@ -504,10 +504,8 @@ ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t 
 	}
 	printf("file_write:before renew size:%d\n", size);
 	if((file->offset + size) >= file_content_maxn){
-		printf("file_write:file->offset:%d\n", file->offset);
 		size = file_content_maxn - file->offset;
 	}
-	printf("file_write:before strncpy size:%d\n", size);
 	strncpy(inode->content + file->offset, buf, size);
 	strcpy(file->content, inode->content);	//先拷贝到inode再到文件
 	inode->size = file->offset + size;
@@ -805,7 +803,7 @@ ssize_t write(int fd, void *buf, size_t nbyte)
 		return -1;
 	}
 	inode_t* node = NULL;
-	file_t *FILE = file_table[fd];
+	file_t *FILE = file_table[fd]; printf("write:FILE->offset:%d\n", FILE->offset);
 	char *path = FILE->name;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
 		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, 0);
