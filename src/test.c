@@ -419,7 +419,7 @@ while(1){
 			printf("file11:open %s error!!\n", name);
 			continue;
 		}		
-		strcpy(buf, "this is /home/40\n");
+		strcpy(buf, "this is /home/vier\n");
 		size = vfs->write(fd, buf, strlen(buf));
 		printf("file11size:%d\n", size);
 		if(size < 0){
