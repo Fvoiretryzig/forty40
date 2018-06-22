@@ -133,17 +133,18 @@ void free_unsafe(void *ptr)
 					tail = current->prev;
 					current->prev->next = NULL;
 					current->prev = NULL;
-					int decrement = 0-current->size;
-					if(sbrk(decrement) == -1){
-						printf("sbrk(decrement) == -1\n");
+					int new_addr = brk(0)-current->size;
+					if(brk(new_addr) == -1){
+						printf("brk(new_addr) == -1\n");
 						return;
 					}
 				}				
 				else{
 					head = NULL;
 					tail = NULL;
-					if(sbrk(decrement) == -1){
-						printf("sbrk(decrement) == -1\n");
+					int new_addr = brk(0)-current->size;
+					if(brk(new_addr) == -1){
+						printf("brk(new_addr) == -1\n");
 						return;
 					}
 				}
@@ -153,9 +154,9 @@ void free_unsafe(void *ptr)
 					head = current->nex;
 					current->next->prev = NULL;
 					current->next = NULL;
-					int decrement = 0-current->size;
-					if(sbrk(decrement) == -1){
-						printf("sbrk(decrement) == -1\n");
+					int new_addr = brk(0)-current->size;
+					if(brk(new_addr) == -1){
+						printf("brk(new_addr) == -1\n");
 						return;
 					}
 				}
