@@ -497,7 +497,7 @@ ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
 }
 ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t size)
 {
-	//printf("in file_write:name:%s buf:%s\nsize:%d\n", inode->name, buf, size);
+	printf("in file_write:name:%s buf:%s size:%d\n", inode->name, buf, size);
 	if(!inode->if_write){
 		printf("write permission error: cannot write %s\n", file->name);
 		return -1;
