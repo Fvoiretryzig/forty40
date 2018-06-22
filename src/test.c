@@ -346,11 +346,15 @@ void file2()
 	pmm->free(buf); pmm->free(name);
 	return;
 }
+void multi_thread_test()
+{
+	kmt->create(&t4, &file1, NULL);
+}
 void test_file()
 {
 	kmt->spin_init(&lk, "filetest_lk");
-	single_thread_test();
-	
+	//single_thread_test();
+	muliti_thread_test();
 	return;
 }
 

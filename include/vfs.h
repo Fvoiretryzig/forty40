@@ -56,7 +56,6 @@ struct fsops
 struct filesystem
 {
 	char name[name_len];
-	//char mount_path[name_len];
 	mountpath_t* path;
 	inode_t *inode[inode_cnt];
 	fsops_t *ops;
