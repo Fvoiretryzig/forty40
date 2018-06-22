@@ -226,6 +226,7 @@ void file1()
 		fd = vfs->open(name, O_CREATE|O_RDWR);
 		vfs->close(fd);
 	}	
+	_yield();
 	//kmt->spin_unlock(&lk);
 	while(1){
 		kmt->spin_lock(&lk);

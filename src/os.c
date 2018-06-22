@@ -58,6 +58,7 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 		
 	if(ev.event == _EVENT_YIELD){
 		printf("request trap into kernal...\n");
+		
 	}
 		
 	if(ev.event == _EVENT_SYSCALL){
