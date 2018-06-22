@@ -464,11 +464,11 @@ while(1){
 spinlock_t lk_multhread;
 void multi_thread_test()
 {
-	spin_lock(&lk_multhread);
+	kmt->spin_lock(&lk_multhread);
 	kmt->create(&t4, &file1, NULL);
 	printf("between two thread\n");
 	kmt->create(&t5, &file11, NULL);
-	spin_unlock(&lk_multhread);
+	kmt->spin_unlock(&lk_multhread);
 }
 void test_file()
 {
