@@ -45,7 +45,7 @@ struct block* add_block(size_t size)
 	}
 	return current;
 }
-/*void split(struct block* current, size_t size, size_t remain_size)
+void split(struct block* current, size_t size, size_t remain_size)
 {
 	struct block* remain = current->ptr + size;
 	remain->size = remain_size; remain->if_free = 1;
@@ -53,7 +53,7 @@ struct block* add_block(size_t size)
 	current->size = size;
 	current->next = remain;
 	return;
-}*/
+}
 void *malloc_unsafe(size_t size)
 {
 	struct block *current;
@@ -76,9 +76,9 @@ void *malloc_unsafe(size_t size)
 		}
 		else{
 			current->if_free = 0;
-			//size_t remain_size = current->size - block_size - size;
-			//if(remain_size > 0)
-				//split(current, align_size, remain_size);
+			size_t remain_size = current->size - block_size - size;
+			if(remain_size > 0)
+				split(current, align_size, remain_size);
 		}
 	}
 	return current->ptr;
