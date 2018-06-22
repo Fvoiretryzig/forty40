@@ -235,7 +235,7 @@ void file1()
 		}		
 		strcpy(buf, "this is /home/forty/4040\n");
 		size = vfs->write(fd, buf, strlen(buf));
-		printf("file1: size:%d\n", size);
+		//printf("file1: size:%d\n", size);
 		if(size < 0){
 			printf("file1:write %s error!!\n", name);
 			vfs->close(fd);
