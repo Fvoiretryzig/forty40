@@ -227,7 +227,7 @@ void file1()
 		vfs->close(fd);
 	}kmt->spin_unlock(&lk);	
 	printf("heiheihei\n");
-	//printf("file1:_intr_read():%d\n",_intr_read());
+	printf("file1:_intr_read():%d\n",_intr_read());
 	//printf("file1:this is before yield\n");
 	//_yield();
 	//printf("file1:this is after yield\n");
@@ -390,12 +390,13 @@ void file11()
 		fd = vfs->open(name, O_CREATE|O_RDWR);
 		vfs->close(fd);
 	}kmt->spin_unlock(&lk);	
-	//printf("file11:_intr_read():%d\n",_intr_read());
+	printf("file11:_intr_read():%d\n",_intr_read());
 	//printf("file11:this is before yield\n");
 	//_yield();
 	//printf("file11:this is after yield\n");	
 	printf("hahah\n");
 	while(1){
+		
 		kmt->spin_lock(&lk);
 		int offset = 0;
 		fd = vfs->open(name, O_RDWR);
@@ -458,8 +459,6 @@ void multi_thread_test()
 {
 	kmt->create(&t4, &file1, NULL);
 	kmt->create(&t5, &file11, NULL);
-	
-	
 }
 void test_file()
 {
