@@ -717,6 +717,7 @@ int open(const char *path, int flags)
 		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, flags);
 		FILE->ops = kvfile_op;
 		if(node == NULL){
+			printf("path in open /:%s\n",path);
 			if(inode_num_kv == inode_cnt){
 				printf("the file is not exisiting while open and there is no inode to allocate!\n");
 				return -1;
