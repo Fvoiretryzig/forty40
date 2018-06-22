@@ -152,7 +152,7 @@ static void* pmm_alloc(size_t size)	//TODO():thread unsafe
 {
 	kmt->spin_lock(&pmm_lk);
 	void* ret = malloc_unsafe(size);
-	printf("in pmm alloc:0x%08x\n", ret);
+	printf("in pmm alloc:0x%08x\n", (int)ret);
 	kmt->spin_unlock(&pmm_lk);
 	return ret;
 }
