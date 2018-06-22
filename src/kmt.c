@@ -84,11 +84,11 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		printf("in kmt thread_cnt:%d\n", thread_cnt);
 		/*========create proc thread info========*/
 		
-		char *path = pmm->alloc(64);
+		char path[64];
 		strcpy(path, "/proc/"); strcat(path, itoa(thread->id));
 		int fd = vfs->open(path, O_CREATE|O_RDWR);
 		int offset = 0;
-		char *buf = pmm->alloc(128);
+		char buf[128];
 		strcpy(buf, "id: "); 
 		offset = strlen(buf);
 		if(vfs->write(fd, buf, strlen(buf)) < 0){
@@ -205,7 +205,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 			return -1;
 		}		
 		vfs->close(fd);
-		pmm->free(path); pmm->free(buf);	
+		//pmm->free(path); pmm->free(buf);	
 		spin_unlock(&lk);					
 		return 0;
 	}

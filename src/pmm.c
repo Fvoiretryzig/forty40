@@ -130,10 +130,14 @@ void free_unsafe(void *ptr)
 			else{
 				head = NULL; tail = NULL;
 			}
-			if(brk(current) == -1)
+			printf("in pmm alloc: current size:%d\n", current->size);
+			if(brk(current) == -1){
 				return;
+			}
+				
 		}
 	}
+	return;
 }
 spinlock_t pmm_lk;
 static void pmm_init();
@@ -153,7 +157,6 @@ static void* pmm_alloc(size_t size)	//TODO():thread unsafe
 {
 	kmt->spin_lock(&pmm_lk);
 	void* ret = malloc_unsafe(size);
-	printf("in pmm alloc:0x%08x\n", ret);
 	kmt->spin_unlock(&pmm_lk);
 	return ret;
 }
