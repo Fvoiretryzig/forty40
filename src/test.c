@@ -321,7 +321,7 @@ while(1){
 			fd = vfs->open(name, O_RDWR);
 		}
 		char *s = kvfs_p->fs->inode[1]->name;
-		printf("file1:buf address:0x%08x inode[1] address:0x%08x\n", buf, *s);
+		printf("file1:buf address:0x%08x inode[1] address:0x%08x\n", buf, s);
 		printf("heiheihei\n");
 		//printf("file1:before_intr_read():%d\n",_intr_read());
 		//printf("file1:this is before yield\n");
