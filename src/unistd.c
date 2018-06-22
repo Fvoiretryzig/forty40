@@ -6,7 +6,7 @@ int* program_break;
 int brk(void *addr)
 {
 	//if((uint32_t)addr >= (uint32_t)program_break && (uint32_t)addr < (uint32_t)_heap.end){
-	if((uint32_t)addr >= (uin32_t)_heap.start && (uint32_t)addr < (uint32_t)_heap.end){
+	if((uint32_t)addr >= (uint32_t)_heap.start && (uint32_t)addr < (uint32_t)_heap.end){
 		program_break = addr;
 		return 0;
 	}
