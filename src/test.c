@@ -219,10 +219,15 @@ void file1()
 	char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
 	int size = 0;
 	strcpy(name, "/home/forty/4040");
-	int fd = vfs->open(name, O_CREATE|O_RDWR); int offset = 0;
-	vfs->close(fd);
+	//int fd = vfs->open(name, O_CREATE|O_RDWR); int offset = 0;
+	//vfs->close(fd);
+	if(vfs->access(name, F_OK) < 0){
+		fd = vfs->open(name, O_CREATE|O_RDWR);
+		vfs->close(fd);
+	}	
 	while(1){
 		kmt->spin_lock(&lk);
+		int offset = 0;
 		fd = vfs->open(name, O_RDWR);
 		printf("file1:fd:%d\n", fd);
 		if(fd < 0){
@@ -350,7 +355,7 @@ void file2()
 void multi_thread_test()
 {
 	kmt->create(&t4, &file1, NULL);
-	kmt->create(&t5, &file2, NULL);
+	//kmt->create(&t5, &file2, NULL);
 }
 void test_file()
 {
