@@ -60,7 +60,6 @@ void procfs_init(filesystem_t *fs, inode_t *dev)
 	strcpy(cpuinfo->name, "/proc");
 	strcat(cpuinfo->name, "/cpuinfo");
 	char* c_info = "My cpuinfo:remain to be done";
-	printf("in cpuinfo:%s\n", c_info);
 	strcpy(cpuinfo->content, c_info);
 	cpuinfo->size = strlen(c_info);
 	fs->inode[inode_num_proc++] = cpuinfo;

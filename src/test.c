@@ -216,6 +216,7 @@ void single_thread_test()
 }
 void file1()
 {
+	printf("this is file1");
 	char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
 	int size = 0; int fd = -1;
 	strcpy(name, "/home/forty/4040");
@@ -282,6 +283,7 @@ void file1()
 }
 void file2()
 {
+	printf("this is file2\n");
 	char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
 	int size = 0; int fd = 0; 
 	strcpy(name, "/home/forty/4040");
