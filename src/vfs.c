@@ -504,6 +504,7 @@ ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t 
 	}
 	printf("file_write:before renew size:%d\n", size);
 	if((file->offset + size) >= file_content_maxn){
+		printf("file_write:file->offset:%d\n", file->offset);
 		size = file_content_maxn - file->offset;
 	}
 	printf("file_write:before strncpy size:%d\n", size);
