@@ -2,6 +2,7 @@
 
 #include <unistd.h>
 #include <stdint.h>
+#include <libc.h>
 
 #define block_size 20
 int* program_break;
@@ -152,7 +153,7 @@ static void* pmm_alloc(size_t size)	//TODO():thread unsafe
 {
 	kmt->spin_lock(&pmm_lk);
 	void* ret = malloc_unsafe(size);
-	printf("in pmm alloc:0x%08x\n", (int)ret);
+	printf("in pmm alloc:0x%08x\n", ret);
 	kmt->spin_unlock(&pmm_lk);
 	return ret;
 }
