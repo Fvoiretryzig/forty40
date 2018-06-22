@@ -393,7 +393,7 @@ void file11()
 	}kmt->spin_unlock(&lk);	
 	printf("file11:before_intr_read():%d\n",_intr_read());
 	_yield();
-	printf("file1:after_intr_read():%d\n",_intr_read());
+	printf("file11:after_intr_read():%d\n",_intr_read());
 	printf("hahah\n");
 	while(1){
 		
