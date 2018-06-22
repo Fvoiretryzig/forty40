@@ -815,7 +815,7 @@ ssize_t write(int fd, void *buf, size_t nbyte)
 		printf("invalid write for a non-exising inode!\n");
 		return -1;
 	}	
-	printf("before file write: buf:%s nbyte:%d\n", buf, nbyte);
+	//printf("before file write: buf:%s nbyte:%d\n", buf, nbyte);
 	ssize_t size = FILE->ops->write(node, FILE, buf, nbyte);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);		
