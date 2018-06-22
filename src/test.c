@@ -374,9 +374,9 @@ void file2()
 }
 void multi_thread_test()
 {
-	
-	kmt->create(&t4, &file1, NULL);
 	kmt->create(&t5, &file2, NULL);
+	kmt->create(&t4, &file1, NULL);
+	
 }
 void test_file()
 {
