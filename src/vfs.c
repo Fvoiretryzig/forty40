@@ -46,9 +46,9 @@ MOD_DEF(vfs)
   /*====================================================================*/
  /*==============================vfs init==============================*/
 /*====================================================================*/
-static fsops_t procfs_op;
-static fsops_t devfs_op;
-static fsops_t kvfs_op;
+//static fsops_t procfs_op;
+//static fsops_t devfs_op;
+//static fsops_t kvfs_op;
 void procfs_init(inode_t *dev)
 {
 	for(int i = 0; i<inode_cnt; i++){
@@ -753,7 +753,7 @@ int open(const char *path, int flags)
 		//fs_index = 2;
 		//FILE.ops = devfile_op;
 		node_index = lookup(fs[2], path, flags);
-		if(node.if_exist == 0){
+		if(node_index < 0){
 			if(inode_num_kv == inode_cnt){
 				printf("the file is not exisiting while open and there is no inode to allocate!\n");
 				return -1;
