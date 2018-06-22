@@ -725,7 +725,7 @@ int open(const char *path, int flags)
 			kvfs_p->fs->inode[inode_num_kv++] = node;
 			printf("in kvfs inode if_exist\n");
 			for(int i = 0; i<inode_cnt; i++){
-				printf("inode %d:%d ", i, kvfs_p->fd->inode[i].if_exist);
+				printf("inode %d:%d ", i, kvfs_p->fs->inode[i].if_exist);
 			}
 			strcpy(node->name, path);
 		}	
