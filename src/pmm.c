@@ -134,19 +134,23 @@ void free_unsafe(void *ptr)
 					current->prev->next = NULL;
 					current->prev = NULL;
 					int new_addr = (uint32_t)sbrk(0)-current->size;
+					printf("1-1:program_break:0x%08x\n",program_break);
 					if(brk((void*)new_addr) == -1){
 						printf("1:brk(new_addr) == -1 new_addr:0x%08x\n", new_addr);
 						return;
 					}
+					printf("1-2:program_break:0x%08x\n",program_break);
 				}				
 				else{
 					head = NULL;
 					tail = NULL;
 					int new_addr = (uint32_t)sbrk(0)-current->size;
+					printf("2-1:program_break:0x%08x\n",program_break);
 					if(brk((void*)new_addr) == -1){
 						printf("2:brk(new_addr) == -1 new_addr:0x%08x\n", new_addr);
 						return;
 					}
+					printf("2-2:program_break:0x%08x\n",program_break);
 				}
 			}
 			else if(current->prev == NULL){
@@ -155,10 +159,12 @@ void free_unsafe(void *ptr)
 					current->next->prev = NULL;
 					current->next = NULL;
 					int new_addr = (uint32_t)sbrk(0)-current->size;
+					printf("3-1:program_break:0x%08x\n",program_break);
 					if(brk((void*)new_addr) == -1){
 						printf("3:brk(new_addr) == -1 new_addr:0x%08x\n", new_addr);
 						return;
 					}
+					printf("3-2:program_break:0x%08x\n",program_break);
 				}
 			}
 			else{
@@ -166,10 +172,12 @@ void free_unsafe(void *ptr)
 				current->prev->next = current->next;
 				current->next = NULL; current->prev = NULL;
 				int new_addr = (uint32_t)sbrk(0)-current->size;
+				printf("4-1:program_break:0x%08x\n",program_break);
 				if(brk((void*)new_addr) == -1){
 					printf("3:brk(new_addr) == -1 new_addr:0x%08x\n", new_addr);
 					return;
-				}				
+				}			
+				printf("4-2:program_break:0x%08x\n",program_break);	
 			}
 		//}
 	}
