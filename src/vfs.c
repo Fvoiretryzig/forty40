@@ -389,6 +389,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 				printf("open fd error: there isn't enough fd left in create!\n");
 				return -1;
 			}
+			printf("file_open:inode->name:%s\n", inode->name);
 			inode->if_exist = 1; inode->if_read = 1; inode->if_write = 0;
 			inode->thread_cnt++;
 			inode->size = 0; inode->content[0] = '\0';
