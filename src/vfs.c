@@ -810,10 +810,10 @@ ssize_t read(int fd, void *buf, size_t nbyte)
 	return size;
 }
 ssize_t write(int fd, void *buf, size_t nbyte)
-{
+{printf("write:kvfs_p->fs->inode[0]->name:%s\n",kvfs_p->fs->inode[0]->name);
 	kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/
-	printf("write:kvfs_p->fs->inode[0]->name:%s\n",kvfs_p->fs->inode[0]->name);
+	
 	if(fd < 0){
 		printf("invalid fd:%d in read\n", fd);
 		return -1;
