@@ -1,7 +1,7 @@
 #include <os.h>
 #include<libc.h>
 
-#define STK_SZ 8192
+#define STK_SZ 256*1024
 #define FC_SZ 32
 #define T_max 20
 
