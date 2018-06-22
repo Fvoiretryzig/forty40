@@ -381,7 +381,7 @@ void file2()
 void file11()
 {
 	kmt->spin_lock(&lk);
-	printf("this is file1\n");
+	printf("file11:this is file11\n");
 	char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
 	int size = 0; int fd = -1;
 	strcpy(name, "/home/40/forty");
@@ -398,20 +398,20 @@ void file11()
 		kmt->spin_lock(&lk);
 		int offset = 0;
 		fd = vfs->open(name, O_RDWR);
-		printf("file1:fd:%d\n", fd);
+		printf("file11:fd:%d\n", fd);
 		if(fd < 0){
-			printf("file1:open %s error!!\n", name);
+			printf("file11open %s error!!\n", name);
 			continue;
 		}		
 		strcpy(buf, "this is /home/40/forty\n");
 		size = vfs->write(fd, buf, strlen(buf));
-		printf("file1: size:%d\n", size);
+		printf("file11size:%d\n", size);
 		if(size < 0){
-			printf("file1:write %s error!!\n", name);
+			printf("file11write %s error!!\n", name);
 			vfs->close(fd);
 			continue;
 		}		
-		printf("file1:first write size:%d\n", size);
+		printf("file11first write size:%d\n", size);
 		/*size = vfs->write(fd, buf, strlen(buf));	//写两遍
 		if(size < 0){
 			printf("file1:write %s error!!\n", name);
@@ -421,17 +421,17 @@ void file11()
 		printf("file1:second write size:%d\n", size);*/		
 		offset = vfs->lseek(fd, 0, SEEK_SET);
 		if(offset < 0){
-			printf("file1:lseek %s error!!\n", name);
+			printf("file11lseek %s error!!\n", name);
 			vfs->close(fd);
 			continue;
 		}
 		size = vfs->read(fd, buf, strlen(buf));
 		if(size < 0){
-			printf("file1:read %s error!!\n", name);
+			printf("file11read %s error!!\n", name);
 			vfs->close(fd);
 			continue;
 		}		
-		printf("file1:read size:%d\n", size); printf("content:\n%s", buf);
+		printf("file11read size:%d\n", size); printf("content:\n%s", buf);
 		/*offset = vfs->lseek(fd, 0, SEEK_SET);
 		if(offset < 0){
 			printf("file1:lseek %s error!!\n", name);
