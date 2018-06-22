@@ -314,7 +314,10 @@ while(1){
 		//kmt->spin_lock(&lk);
 		if(vfs->access(name, F_OK) < 0){
 			fd = vfs->open(name, O_CREATE|O_RDWR);
-			vfs->close(fd);
+			//vfs->close(fd);
+		}
+		else{
+			fd = vfs->open(name, O_RDWR);
 		}
 		printf("heiheihei\n");
 		//printf("file1:before_intr_read():%d\n",_intr_read());
@@ -325,7 +328,7 @@ while(1){
 	
 		//kmt->spin_lock(&lk);
 		int offset = 0;
-		fd = vfs->open(name, O_RDWR);
+		//fd = vfs->open(name, O_RDWR);
 		printf("file1:fd:%d\n", fd);
 		if(fd < 0){
 			printf("file1:open %s error!!\n", name);
@@ -393,7 +396,10 @@ while(1){
 		strcpy(name, "/home/40/forty");
 		if(vfs->access(name, F_OK) < 0){
 			fd = vfs->open(name, O_CREATE|O_RDWR);
-			vfs->close(fd);
+			//vfs->close(fd);
+		}
+		else{
+			fd = vfs->open(name, O_RDWR);
 		}
 		//printf("file11:before_intr_read():%d\n",_intr_read());
 		//_yield();
@@ -403,7 +409,7 @@ while(1){
 		
 		//kmt->spin_lock(&lk);
 		int offset = 0;
-		fd = vfs->open(name, O_RDWR);
+		//fd = vfs->open(name, O_RDWR);
 		printf("file11:fd:%d\n", fd);
 		if(fd < 0){
 			printf("file11open %s error!!\n", name);

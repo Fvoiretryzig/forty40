@@ -762,7 +762,7 @@ int open(const char *path, int flags)
 		}			
 	}
 	int temp_fd = FILE->ops->open(node, FILE, flags);
-	printf("open:FILE->offset:%d", FILE->offset);
+	printf("open:FILE->offset:%d\n", FILE->offset);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
 	return temp_fd;
