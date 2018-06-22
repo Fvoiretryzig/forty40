@@ -234,6 +234,7 @@ static thread_t* schedule()
 {		
 	int old_id = current_id;
 	current_id = (current_id+1)%thread_cnt;
+	printf("old id:%d current id:%d\n", old_id, current_id);
 	//printf("work eip:0x%08x\n", work[old_id].thread_reg->eip);
 	return &work[old_id];
 }
