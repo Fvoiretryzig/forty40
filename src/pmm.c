@@ -112,30 +112,54 @@ void free_unsafe(void *ptr)
 	struct block* current = NULL;
 	if(valid_addr(ptr)){
 		current = get_block(ptr);
-		current->if_free = 1;
+		current->if_free = 1; int if_merge = 0;
 		if(current->next){
-			if(current->next->if_free)
+			if(current->next->if_free){
 				merge(current);
-		}
-		else if(current->prev){
-			if(current->prev->if_free)
-				merge(current->prev);
-		}
-		else if(current->next == NULL){	//this is the last block
-			printf("in pmm alloc:IN THE ELSE IF CURRENT->NEXT == NULL!!!\n");
-			if(current->prev){
-				tail = current->prev;
-				current->prev->next = NULL;
-				current->prev = NULL;
-			}
-			else{
-				head = NULL; tail = NULL;
-			}
-			printf("in pmm alloc: current size:%d\n", current->size);
-			if(brk(current) == -1){
-				return;
+				if_merge = 1;
 			}
 				
+		}
+		else if(current->prev){
+			if(current->prev->if_free){
+				merge(current->prev);
+				if_merge = 1;
+			}
+				
+		}
+		if(!if_merge){
+			if(current->next == NULL){//this is the last block
+				if(current->prev){
+					tail = current->prev;
+					current->prev->next = NULL;
+					current->prev = NULL;
+					int decrement = 0-current->size;
+					if(sbrk(decrement) == -1){
+						printf("sbrk(decrement) == -1\n");
+						return;
+					}
+				}				
+				else{
+					head = NULL;
+					tail = NULL;
+					if(sbrk(decrement) == -1){
+						printf("sbrk(decrement) == -1\n");
+						return;
+					}
+				}
+			}
+			else if(current->prev == NULL){
+				if(current->next){
+					head = current->nex;
+					current->next->prev = NULL;
+					current->next = NULL;
+					int decrement = 0-current->size;
+					if(sbrk(decrement) == -1){
+						printf("sbrk(decrement) == -1\n");
+						return;
+					}
+				}
+			}
 		}
 	}
 	return;
@@ -158,6 +182,7 @@ static void* pmm_alloc(size_t size)	//TODO():thread unsafe
 {
 	kmt->spin_lock(&pmm_lk);
 	void* ret = malloc_unsafe(size);
+	printf("in pmm alloc:ret address:0x%08x\n", ret);
 	kmt->spin_unlock(&pmm_lk);
 	return ret;
 }
