@@ -226,6 +226,7 @@ void file1()
 		fd = vfs->open(name, O_CREATE|O_RDWR);
 		vfs->close(fd);
 	}	
+	printf("_intr_read():%d\n",_intr_read());
 	printf("this is before yield\n");
 	_yield();
 	printf("this is after yield\n");
