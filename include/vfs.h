@@ -53,6 +53,11 @@ struct fsops
 	inode_t *(*lookup)(struct filesystem *fs, const char *path, int flags);
 	int (*close)(inode_t *inode);
 };
+struct mount_path
+{
+	char p[64];
+	filesystem_t fs;
+};
 struct filesystem
 {
 	char name[name_len];
@@ -60,9 +65,5 @@ struct filesystem
 	inode_t inode[inode_cnt];
 	fsops_t ops;
 };
-struct mount_path
-{
-	char p[64];
-	filesystem_t fs;
-};
+
 #endif
