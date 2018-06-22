@@ -698,7 +698,6 @@ int open(const char *path, int flags)
 	file_t FILE; FILE.if_read = 0; FILE.if_write = 0; FILE.fd = -1; 
 	FILE.if_read = 0; FILE.if_write = 0;
 	if(!strncmp(path, procfs_p.p, strlen(procfs_p.p))){
-		fs_index = 0;
 		node_index = lookup(fs[0], path, flags);	//不知道是不是flag
 		//FILE.ops = procfile_op;
 		if(node_index < 0){
@@ -725,8 +724,8 @@ int open(const char *path, int flags)
 		
 	}
 	else if(!strncmp(path, devfs_p.p, strlen(devfs_p.p))){
-		fs_index = 1;
-		FILE.ops = devfile_op;
+		//fs_index = 1;
+		//FILE.ops = devfile_op;
 		node_index = lookup(fs[1], path, flags);		
 		if(node_index < 0){
 			if(inode_num_dev == inode_cnt){
@@ -751,8 +750,8 @@ int open(const char *path, int flags)
 		temp_fd =file_open(&fs[1].inode[node_index], &FILE, flags);			
 	}
 	else if(!strncmp(path, kvfs_p.p, strlen(kvfs_p.p))){	
-		fs_index = 2;
-		FILE.ops = devfile_op;
+		//fs_index = 2;
+		//FILE.ops = devfile_op;
 		node_index = lookup(fs[2], path, flags);
 		if(node.if_exist == 0){
 			if(inode_num_kv == inode_cnt){
