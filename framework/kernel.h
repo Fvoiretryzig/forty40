@@ -40,7 +40,7 @@ typedef struct mount_path mountpath_t;
 MODULE {
 	void (*init)();
 	int (*access)(const char *path, int mode);
-	int (*mount)(const char *path, filesystem_t *fs);
+	int (*mount)(const char *path, filesystem_t* fs);
 	int (*unmount)(const char *path);
 	int (*open)(const char *path, int flags);
 	ssize_t (*read)(int fd, void *buf, size_t nbyte);
