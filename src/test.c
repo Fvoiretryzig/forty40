@@ -394,7 +394,8 @@ void file11()
 while(1){
 		kmt->spin_lock(&lk);
 		printf("file11:this is file11\n");
-		char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
+		//char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
+		char buf[1024]; char name[64];
 		int size = 0; int fd = -1;
 		strcpy(name, "/home/40/forty");
 		if(vfs->access(name, F_OK) < 0){
