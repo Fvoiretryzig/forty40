@@ -60,7 +60,7 @@ static void kmt_init()
 spinlock_t lk;
 static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 {
-	
+	printf("thread id:%d\n", thread_id);
 	void *fence1_addr = pmm->alloc(FC_SZ);
 	void *addr = pmm->alloc(STK_SZ);
 	void *fence2_addr = pmm->alloc(FC_SZ);
