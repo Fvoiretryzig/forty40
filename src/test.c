@@ -402,6 +402,7 @@ while(1){
 		int size = 0; int fd = -1;
 		strcpy(name, "/home/vier");
 		if(vfs->access(name, F_OK) < 0){
+			printf("file11:hahah create!!!\n");
 			fd = vfs->open(name, O_CREATE|O_RDWR);
 			//vfs->close(fd);
 		}
@@ -413,7 +414,7 @@ while(1){
 		//printf("file11:after_intr_read():%d\n",_intr_read());
 		char *s0 = kvfs_p->fs->inode[0]->name;
 		char *s = kvfs_p->fs->inode[1]->name;
-		printf("file1:buf address:0x%08x inode[0] address:0x%08x inode[1] address:0x%08x\n", buf, s0,s);		
+		printf("file11:buf address:0x%08x inode[0] address:0x%08x inode[1] address:0x%08x\n", buf, s0,s);		
 		printf("hahah\n");
 	
 		
