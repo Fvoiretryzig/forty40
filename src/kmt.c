@@ -23,6 +23,7 @@ static void sem_signal(sem_t *sem);
 extern thread_t work[T_max];
 extern int thread_cnt;
 extern int current_id;
+extern int lock_cnt;
 int lock_cnt;
 
 

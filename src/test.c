@@ -392,9 +392,12 @@ while(1){
 	
 	return;
 }
+int lock_cnt = 1;
 void file11()
 {
+_intr_write(0);	
 while(1){
+		
 		kmt->spin_lock(&lk);
 		printf("file11:this is file11\n");
 		//char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
