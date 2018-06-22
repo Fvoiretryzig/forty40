@@ -461,15 +461,19 @@ while(1){
 	
 	return;
 }
+spinlock_t lk_multhread;
 void multi_thread_test()
 {
+	spin_lock(&lk_multhread);
 	kmt->create(&t4, &file1, NULL);
 	printf("between two thread\n");
 	kmt->create(&t5, &file11, NULL);
+	spin_unlock(&lk_multhread);
 }
 void test_file()
 {
 	kmt->spin_init(&lk, "filetest_lk");
+	kmt->spin_init(&lk, "multithread_lk");
 	//single_thread_test();
 	multi_thread_test();
 	return;
