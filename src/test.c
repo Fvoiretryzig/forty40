@@ -317,7 +317,8 @@ void file1()
 	printf("heiheihei\n");
 	printf("file1:_intr_read():%d\n",_intr_read());
 	//printf("file1:this is before yield\n");
-	//_yield();
+	_yield();
+	printf("file1:_intr_read():%d\n",_intr_read());
 	//printf("file1:this is after yield\n");
 	
 	while(1){
@@ -391,9 +392,10 @@ void file11()
 		vfs->close(fd);
 	}kmt->spin_unlock(&lk);	
 	printf("file11:_intr_read():%d\n",_intr_read());
-	//printf("file11:this is before yield\n");
-	//_yield();
-	//printf("file11:this is after yield\n");	
+	printf("file11:this is before yield\n");
+	_yield();
+	printf("file11:this is after yield\n");	
+	printf("file1:_intr_read():%d\n",_intr_read());
 	printf("hahah\n");
 	while(1){
 		
