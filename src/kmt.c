@@ -60,7 +60,7 @@ static void kmt_init()
 spinlock_t lk;
 static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 {
-	spin_lock(&lk);
+	
 	void *fence1_addr = pmm->alloc(FC_SZ);
 	void *addr = pmm->alloc(STK_SZ);
 	void *fence2_addr = pmm->alloc(FC_SZ);
@@ -81,8 +81,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		thread_cnt++;
 		
 		/*========create proc thread info========*/
-		//char *id = itoa(thread->id);
-		//char *start = itoa(stack.start); char *end = itoa(stack.end);
+		spin_lock(&lk);
 		char *path = pmm->alloc(64);
 		strcpy(path, "/proc/"); strcat(path, itoa(thread->id));
 		int fd = vfs->open(path, O_CREATE|O_RDWR);
