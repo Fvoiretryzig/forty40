@@ -541,7 +541,7 @@ off_t file_lseek(inode_t *inode, file_t *file, off_t offset, int whence)
 			file->offset = inode->size + offset;
 			break;
 	}
-	return offset;
+	return file->offset;
 }
 int file_close(inode_t *inode, file_t *file)
 {
