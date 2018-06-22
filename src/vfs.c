@@ -788,7 +788,7 @@ int open(const char *path, int flags)
 		}			
 	}
 	int temp_fd = FILE->ops->open(node, FILE, flags);
-	pmm->free(FILE); pmm->free(node);printf("kuaidianxiehaoba!!\n");
+	pmm->free(FILE); printf("kuaidianxiehaoba!!\n");pmm->free(node);
 	//printf("open:FILE->offset:%d\n", FILE->offset);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
