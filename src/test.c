@@ -397,7 +397,7 @@ while(1){
 		//char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
 		char buf[1024]; char name[64];
 		int size = 0; int fd = -1;
-		strcpy(name, "/home/40/forty");
+		strcpy(name, "/home/vier");
 		if(vfs->access(name, F_OK) < 0){
 			fd = vfs->open(name, O_CREATE|O_RDWR);
 			//vfs->close(fd);
