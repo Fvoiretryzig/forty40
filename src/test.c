@@ -281,6 +281,7 @@ void file1()
 		strcpy(buf, "");
 		vfs->close(fd);
 		kmt->spin_unlock(&lk);
+		printf("file1 end\n");
 	}
 	pmm->free(buf); pmm->free(name);
 	return;
@@ -373,6 +374,7 @@ void file2()
 }
 void multi_thread_test()
 {
+	
 	kmt->create(&t4, &file1, NULL);
 	kmt->create(&t5, &file2, NULL);
 }
