@@ -416,10 +416,10 @@ while(1){
 		//fd = vfs->open(name, O_RDWR);
 		printf("file11:fd:%d\n", fd);
 		if(fd < 0){
-			printf("file11open %s error!!\n", name);
+			printf("file11:open %s error!!\n", name);
 			continue;
 		}		
-		strcpy(buf, "this is /home/40/forty\n");
+		strcpy(buf, "this is /home/40\n");
 		size = vfs->write(fd, buf, strlen(buf));
 		printf("file11size:%d\n", size);
 		if(size < 0){
