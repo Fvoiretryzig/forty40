@@ -338,7 +338,7 @@ void file2()
 			vfs->close(fd);
 			continue;
 		}		
-		printf("file2:read size:%d ", size); printf("content:\n%s\n", buf);
+		printf("file2:read size:%d\n", size); printf("content:\n%s\n", buf);
 		strcpy(buf, "");			
 		vfs->close(fd);
 		kmt->spin_unlock(&lk);
@@ -348,7 +348,8 @@ void file2()
 }
 void multi_thread_test()
 {
-	kmt->create(&t4, &file1, NULL);
+	//kmt->create(&t4, &file1, NULL);
+	kmt->create(&t5, &file2, NULL);
 }
 void test_file()
 {
