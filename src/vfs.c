@@ -9,7 +9,7 @@
 static void vfs_init();
 static int access(const char *path, int mode);
 static int mount(const char *path);
-static int unmount(const char *path);
+static int unmount(const char *path, filesystem_t* fs);
 static int open(const char *path, int flags);
 static ssize_t read(int fd, void *buf, size_t nbyte);
 static ssize_t write(int fd, void *buf, size_t nbyte);
@@ -214,22 +214,22 @@ void create_kvfs()
 	fs_init("kvfs", NULL);
 	return;
 }
-int mount(const char *path)
+int mount(const char *path, filesystem_t* fs)
 {
 	if(!strcmp(path, "/proc")){
 		strcpy(procfs_p.p, path);
 		//procfs_p.fs = fs[0];
-		fs[0].path = procfs_p;
+		fs->path = procfs_p;
 	}
 	else if(!strcmp(path, "/dev")){
 		strcpy(devfs_p.p, path);
 		//devfs_p.fs = fs[1];
-		fs[1].path = devfs_p;
+		fs->path = devfs_p;
 	}
 	else if(!strcmp(path, "/")){
 		strcpy(kvfs_p.p, path);
 		//kvfs_p.fs = fs[2];
-		fs[2].path = kvfs_p;
+		fs->path = kvfs_p;
 		
 	}
 	else{
@@ -258,9 +258,9 @@ int unmount(const char *path)
   /*====================================================================*/
  /*==============================file ops==============================*/
 /*====================================================================*/
-fileops_t procfile_op;
-fileops_t devfile_op;
-fileops_t kvfile_op;
+//fileops_t procfile_op;
+//fileops_t devfile_op;
+//fileops_t kvfile_op;
 int file_open(inode_t *inode, file_t *file, int flags)
 {
 	int current_fd = -1;
@@ -610,9 +610,9 @@ void vfs_init()
 	//fileop_init();
 	create_procfs(); create_devfs(); create_kvfs();
 
-	mount("/proc");
-	mount("/dev");
-	mount("/");
+	mount("/proc", &fs[0]);
+	mount("/dev", &fs[1]);
+	mount("/", &fs[2]);
 	kmt->spin_init(&vfs_lk, "vfs_lk");
 	return;
 }
