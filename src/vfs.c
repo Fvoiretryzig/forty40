@@ -509,6 +509,7 @@ ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t 
 	strcpy(file->content, inode->content);	//先拷贝到inode再到文件
 	inode->size = file->offset + size;
 	file->offset += size;
+	printf("file_write:size:%d\n", size);
 	return size;
 }
 ssize_t dev_file_write(inode_t *inode, file_t *file, const char *buf, size_t size)
@@ -816,7 +817,6 @@ ssize_t write(int fd, void *buf, size_t nbyte)
 		printf("invalid write for a non-exising inode!\n");
 		return -1;
 	}	
-	printf("write:before_intr_read():%d\n",_intr_read());
 	printf("write:in before file_write size:%d\n", nbyte);
 	ssize_t size = FILE->ops->write(node, FILE, buf, nbyte);
 	printf("write:in after file_write size:%d\n", size);
