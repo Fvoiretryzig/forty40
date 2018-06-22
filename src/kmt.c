@@ -79,7 +79,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		thread->thread_reg = _make(stack, entry, arg);
 		work[thread_cnt] = *thread;
 		thread_cnt++;
-		
+		printf("in kmt thread_cnt:%d\n", thread_cnt);
 		/*========create proc thread info========*/
 		spin_lock(&lk);
 		char *path = pmm->alloc(64);
