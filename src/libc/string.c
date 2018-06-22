@@ -43,7 +43,7 @@ char *strcpy(char *dst, const char *src)
 {
 	char *temp_dst = dst;
 	while((*temp_dst++ = *src++)!='\0');
-	printf("strcpy:kvfs_p->fs->inode[0]:%s\n", kvfs_p->fs->inode[0]->name);
+	printf("strcpy:kvfs_p->fs->inode[0]:%s inode[1]:%s\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[1]->name);
 	return dst;
 }
 char *strncpy(char *dst, const char *src, size_t n)
