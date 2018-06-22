@@ -195,7 +195,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		}
 		vfs->lseek(fd, offset, SEEK_SET);						
 		strcpy(buf, "\n");
-		offset += strlen(buf);printf("hahah\n");
+		offset += strlen(buf);
 		if(vfs->write(fd, buf, strlen(buf)) < 0){
 			printf("write thread %d proc file error\n", thread->id);
 			vfs->close(fd);
