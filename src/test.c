@@ -335,7 +335,7 @@ while(1){
 		if(fd < 0){
 			printf("file1:open %s error!!\n", name);
 			continue;
-		}		printf("open:kvfs_p->fs->inode[%d]:%s\n",inode_num_kv-1, kvfs_p->fs->inode[inode_num_kv-1]->name);
+		}	printf("file1:kvfs_p->fs->inode[0]:%s\n", kvfs_p->fs->inode[0]->name);	
 		strcpy(buf, "this is /home/forty/4040\n");printf("file1:kvfs_p->fs->inode[0]:%s\n", kvfs_p->fs->inode[0]->name);
 		size = vfs->write(fd, buf, strlen(buf));
 		//printf("file1: size:%d\n", size);
