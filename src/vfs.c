@@ -452,7 +452,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file->if_read = 1;
 			file->if_write = 1;									
 			file_table[current_fd] = file;
-			printf("file_open:current_fd:%d file->offset:%d",current_fd, file->offset);
+			//printf("file_open:current_fd:%d file->offset:%d",current_fd, file->offset);
 			break;				
 	}
 	return file->fd;
@@ -503,7 +503,7 @@ ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t 
 		printf("write permission error: cannot write %s\n", file->name);
 		return -1;
 	}
-	printf("file_write:before renew size:%d\n", size);
+	//printf("file_write:before renew size:%d\n", size);
 	if((file->offset + size) >= file_content_maxn){
 		size = file_content_maxn - file->offset;
 	}
@@ -511,7 +511,7 @@ ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t 
 	strcpy(file->content, inode->content);	//先拷贝到inode再到文件
 	inode->size = file->offset + size;
 	file->offset += size;
-	printf("file_write:size:%d\n", size);
+	//printf("file_write:size:%d\n", size);
 	return size;
 }
 ssize_t dev_file_write(inode_t *inode, file_t *file, const char *buf, size_t size)
@@ -820,9 +820,9 @@ ssize_t write(int fd, void *buf, size_t nbyte)
 		printf("invalid write for a non-exising inode!\n");
 		return -1;
 	}	
-	printf("write:in before file_write size:%d\n", nbyte);
+	//printf("write:in before file_write size:%d\n", nbyte);
 	ssize_t size = FILE->ops->write(node, FILE, buf, nbyte);
-	printf("write:in after file_write size:%d\n", size);
+	//printf("write:in after file_write size:%d\n", size);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);		
 	return size;
