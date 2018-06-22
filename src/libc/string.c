@@ -1,4 +1,5 @@
 #include<libc.h>
+#include <vfs.h>
 
 mountpath_t* kvfs_p;
 void *memset(void *b, int c, size_t n)
