@@ -245,13 +245,13 @@ void file1()
 			continue;
 		}		
 		printf("file1:first write size:%d\n", size);
-		size = vfs->write(fd, buf, strlen(buf));	//写两遍
+		/*size = vfs->write(fd, buf, strlen(buf));	//写两遍
 		if(size < 0){
 			printf("file1:write %s error!!\n", name);
 			vfs->close(fd);
 			continue;
 		}
-		printf("file1:second write size:%d\n", size);		
+		printf("file1:second write size:%d\n", size);*/		
 		offset = vfs->lseek(fd, 0, SEEK_SET);
 		if(offset < 0){
 			printf("file1:lseek %s error!!\n", name);
@@ -265,7 +265,7 @@ void file1()
 			continue;
 		}		
 		printf("file1:read size:%d\n", size); printf("content:\n%s", buf);
-		offset = vfs->lseek(fd, 0, SEEK_SET);
+		/*offset = vfs->lseek(fd, 0, SEEK_SET);
 		if(offset < 0){
 			printf("file1:lseek %s error!!\n", name);
 			vfs->close(fd);
@@ -277,7 +277,7 @@ void file1()
 			vfs->close(fd);
 			continue;
 		}
-		printf("file1:read size:%d\n", size); printf("content:\n%s\n", buf);
+		printf("file1:read size:%d\n", size); printf("content:\n%s\n", buf);*/
 		strcpy(buf, "");
 		vfs->close(fd);
 		kmt->spin_unlock(&lk);
