@@ -397,7 +397,7 @@ void file11()
 		}		
 		strcpy(buf, "this is /home/forty/4040\n");
 		size = vfs->write(fd, buf, strlen(buf));
-		printf("file1: size:%d 0x%08x\n", size, size);
+		printf("file1: size:%d\n", size);
 		if(size < 0){
 			printf("file1:write %s error!!\n", name);
 			vfs->close(fd);
@@ -440,7 +440,7 @@ void file11()
 		strcpy(buf, "");
 		vfs->close(fd);
 		kmt->spin_unlock(&lk);
-		printf("file1 end\n");
+		printf("file1 end\n\n");
 	}
 	pmm->free(buf); pmm->free(name);
 	return;
