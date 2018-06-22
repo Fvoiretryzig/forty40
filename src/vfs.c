@@ -19,13 +19,14 @@ static int close(int fd);
 static int inode_num_proc;// = 0;
 static int inode_num_dev;
 static int inode_num_kv;
-mountpath_t* procfs_p;
-mountpath_t* devfs_p;
-extern mountpath_t* kvfs_p;
-mountpath_t* kvfs_p;
+mountpath_t procfs_p;
+mountpath_t devfs_p;
+extern mountpath_t kvfs_p;
+mountpath_t kvfs_p;
 int fd[fd_cnt];
-file_t* file_table[file_cnt];
+file_t file_table[file_cnt];
 
+filesystem_t fs[3];	//fs[0]:procfs fs[1]:devfs fs[2]:kvfs
 int seed;
 
 spinlock_t vfs_lk;
@@ -45,135 +46,116 @@ MOD_DEF(vfs)
   /*====================================================================*/
  /*==============================vfs init==============================*/
 /*====================================================================*/
-static fsops_t *procfs_op;
-static fsops_t *devfs_op;
-static fsops_t *kvfs_op;
-void procfs_init(filesystem_t *fs, inode_t *dev)
+static fsops_t procfs_op;
+static fsops_t devfs_op;
+static fsops_t kvfs_op;
+void procfs_init(inode_t *dev)
 {
+	for(int i = 0; i<inode_cnt; i++){
+		fs[0].inode[i].if_write = 0; fs[0].inode[i].if_read = 0; fs[0].inode[i].if_exist = 0;
+		fs[0].inode[i].thread_cnt = 0; fs[0].inode[i].size = 0;
+	}
 	/*================cpuinfo================*/
 	if(inode_num_proc == inode_cnt){
 		printf("the inode is full in procfs\n");
 		return;
 	}
-	inode_t *cpuinfo = (inode_t *)pmm->alloc(sizeof(inode_t));
-	cpuinfo->if_exist = 1;
-	cpuinfo->if_write = 0; cpuinfo->if_read = 1;
-	strcpy(cpuinfo->name, "/proc");
-	strcat(cpuinfo->name, "/cpuinfo");
+	inode_t cpuinfo;
+	cpuinfo.if_exist = 1;
+	cpuinfo.if_write = 0; cpuinfo.if_read = 1;
+	strcpy(cpuinfo.name, "/proc");
+	strcat(cpuinfo.name, "/cpuinfo");
 	char* c_info = "My cpuinfo:remain to be done";
-	strcpy(cpuinfo->content, c_info);
-	cpuinfo->size = strlen(c_info);
-	fs->inode[inode_num_proc++] = cpuinfo;
-	pmm->free(cpuinfo);
+	strcpy(cpuinfo.content, c_info);
+	cpuinfo.size = strlen(c_info);
+	fs[0].inode[inode_num_proc++] = cpuinfo;
 	/*================meminfo================*/
 	if(inode_num_proc == inode_cnt){
 		printf("the inode is full in procfs\n");
 		return;
 	}		
-	inode_t *meminfo = (inode_t *)pmm->alloc(sizeof(inode_t));
-	//meminfo->inode_no = inode_num_proc; 
-	meminfo->if_exist = 1;
-	meminfo->if_write = 0; meminfo->if_read = 1;
-	strcpy(meminfo->name, "/proc");
-	strcat(meminfo->name, "/meminfo");
+	inode_t meminfo;
+	meminfo.if_exist = 1;
+	meminfo.if_write = 0; meminfo.if_read = 1;
+	strcpy(meminfo.name, "/proc");
+	strcat(meminfo.name, "/meminfo");
 	char* m_info = "My meminfo:remain to be done";
-	strcpy(meminfo->content, m_info);
-	meminfo->size = strlen(m_info);
-	fs->inode[inode_num_proc++] = meminfo;	
-	pmm->free(meminfo);
-	/*for(int i = inode_num_proc; i<inode_cnt; i++){
-		fs->inode[i]->if_exist = 0;
-		fs->inode[i]->if_read = 0;
-		fs->inode[i]->if_write = 0;
-		fs->inode[i]->thread_cnt = 0;
-	}*/		
+	strcpy(meminfo.content, m_info);
+	meminfo.size = strlen(m_info);
+	fs[0].inode[inode_num_proc++] = meminfo;	
 	return;
 }
-void devfs_init(filesystem_t *fs, inode_t *dev)
+void devfs_init(inode_t *dev)
 {
+	for(int i = 0; i<inode_cnt; i++){
+		fs[1].inode[i].if_write = 0; fs[1].inode[i].if_read = 0; fs[1].inode[i].if_exist = 0;
+		fs[1].inode[i].thread_cnt = 0; fs[1].inode[i].size = 0;
+	}
 	/*================null================*/	
 	if(inode_num_dev == inode_cnt){
 		printf("the inode is full in procfs\n");
 		return;
 	}
-	inode_t *null = (inode_t *)pmm->alloc(sizeof(inode_t));
-	//null->inode_no = inode_num_dev; 
-	null->if_exist = 1;
-	null->if_write = 1; null->if_read = 1; null->size = 0;
-	strcpy(null->name, "/dev");
-	strcat(null->name, "/null");
-	fs->inode[inode_num_dev++] = null;
-	pmm->free(null);
+	inode_t null;
+	null.if_exist = 1;
+	null.if_write = 1; null.if_read = 1; null.size = 0;
+	strcpy(null.name, "/dev");
+	strcat(null.name, "/null");
+	fs[1].inode[inode_num_dev++] = null;
+	pmm.free(null);
 	/*================zero================*/	
 	if(inode_num_dev == inode_cnt){
 		printf("the inode is full in procfs\n");
 		return;
 	}	
-	inode_t *zero = (inode_t *)pmm->alloc(sizeof(inode_t));
-	//zero->inode_no = inode_num_dev; 
-	zero->if_exist = 1;
-	zero->if_write = 1; zero->if_read = 1; zero->size = 0;
-	strcpy(zero->name, "/dev");
-	strcat(zero->name, "/zero");
-	fs->inode[inode_num_dev++] = zero;
-	pmm->free(zero);
+	inode_t zero;
+	zero.if_exist = 1;
+	zero.if_write = 1; zero.if_read = 1; zero.size = 0;
+	strcpy(zero.name, "/dev");
+	strcat(zero.name, "/zero");
+	fs[1].inode[inode_num_dev++] = zero;
 	/*================random================*/		
 	if(inode_num_dev == inode_cnt){
 		printf("the inode is full in procfs\n");
 		return;
 	}	
-	inode_t *random = (inode_t *)pmm->alloc(sizeof(inode_t));
-	//random->inode_no = inode_num_dev;
-	random->if_exist = 1; 
-	random->if_write = 1; random->if_read = 1; random->size = 0;	//不知道要初始成多大
-	strcpy(random->name,"/dev");
-	strcat(random->name, "/random");
-	fs->inode[inode_num_dev++] = random;
-	pmm->free(random);
-	/*for(int i = inode_num_dev; i<inode_cnt; i++){
-		fs->inode[i]->if_exist = 0;
-		fs->inode[i]->if_read = 0;
-		fs->inode[i]->if_write = 0;
-		fs->inode[i]->thread_cnt = 0;
-	}*/
+	inode_t random;
+	random.if_exist = 1; 
+	random.if_write = 1; random.if_read = 1; random.size = 0;
+	strcpy(random.name,"/dev");
+	strcat(random.name, "/random");
+	fs[1].inode[inode_num_dev++] = random;
 	return;		
 }
-void kvfs_init(filesystem_t *fs, inode_t *dev)
+void kvfs_init(inode_t *dev)
 {
 	//TODO();目前不知道这里kvfs如何初始化
-	/*for(int i = 0; i<inode_cnt ; i++){
-		fs->inode[i]->if_exist = 0;
-		fs->inode[i]->if_read = 0;
-		fs->inode[i]->if_write = 0;
-		fs->inode[i]->thread_cnt = 0;
-	}*/
+	for(int i = 0; i<inode_cnt; i++){
+		fs[2].inode[i].if_write = 0; fs[2].inode[i].if_read = 0; fs[2].inode[i].if_exist = 0;
+		fs[2].inode[i].thread_cnt = 0; fs[2].inode[i].size = 0;
+	}	
 	return;
 }
-void fs_init(filesystem_t *fs, const char *name, inode_t *dev)	//dev的作用
+void fs_init(const char *name, inode_t *dev)	//dev的作用
 {
-	for(int i = 0; i<inode_cnt; i++){
-		fs->inode[i] = NULL;
-	}
 	if(!strcmp(name, "procfs")){
-		procfs_init(fs, dev);		
+		procfs_init(dev);		
 	}
 	else if(!strcmp(name, "devfs")){
-		devfs_init(fs, dev);
+		devfs_init(dev);
 	}
 	else if(!strcmp(name, "kvfs")){
-		kvfs_init(fs, dev);
+		kvfs_init(dev);
 	}
 }
-inode_t *lookup(filesystem_t *fs, const char *path, int flag)
+int lookup(filesystem_t fs, const char *path, int flag)
 {	
 	printf("lookup:path:%s\n", path);
-	inode_t *ans = NULL;	//????????????????
-	int index = 0; int if_find = 0;
-	while(fs->inode[index] && index < inode_cnt){
-		if(fs->inode[index]->if_exist){
-			//printf("lookup: inode[%d]:name:%s\n",index, fs->inode[index]->name);
-			if(!strcmp(path, fs->inode[index]->name)){
-				//printf("lookup:inode[%d] if_read:%d if_write:%d\n", index, fs->inode[index]->if_read, fs->inode[index]->if_write);
+	int ret = -1;
+	int index = -1; int if_find = 0;
+	while(fs.inode[index] && index < inode_cnt){
+		if(fs.inode[index].if_exist){
+			if(!strcmp(path, fs.inode[index].name)){
 				if_find = 1;
 				break;
 			}			
@@ -181,80 +163,74 @@ inode_t *lookup(filesystem_t *fs, const char *path, int flag)
 		index++;
 	}
 	if(if_find && index < inode_cnt){
-		ans = fs->inode[index];	
+		ret = index;	
 	}
 	//printf("lookup:if_find:%d\n", if_find);
-	return ans;
+	return ret;
 }
-int fs_close(inode_t *inode)
+int fs_close(inode_t inode)
 {
 	//TODO()目前不知道这里要干什么
 	return 0;
 }
 void fsop_init()
 {
-	procfs_op = (fsops_t*)pmm->alloc(sizeof(fsops_t));
-	procfs_op->init = &fs_init;
-	procfs_op->lookup = &lookup;
-	procfs_op->close = &fs_close;
+	procfs_op.init = &fs_init;
+	procfs_op.lookup = &lookup;
+	procfs_op.close = &fs_close;
 	
-	devfs_op = (fsops_t*)pmm->alloc(sizeof(fsops_t));
-	devfs_op->init = &fs_init;
-	devfs_op->lookup = &lookup;
-	devfs_op->close = &fs_close;	
+	devfs_op.init = &fs_init;
+	devfs_op.lookup = &lookup;
+	devfs_op.close = &fs_close;	
 	
-	kvfs_op = (fsops_t*)pmm->alloc(sizeof(fsops_t));
-	kvfs_op->init = &fs_init;
-	kvfs_op->lookup = &lookup;
-	kvfs_op->close = &fs_close;		
+	kvfs_op.init = &fs_init;
+	kvfs_op.lookup = &lookup;
+	kvfs_op.close = &fs_close;		
 	
 	return;		
 }
-filesystem_t *create_procfs() 
+void create_procfs() 
 {
-	filesystem_t *fs = (filesystem_t *)pmm->alloc(sizeof(filesystem_t));
-	strcpy(fs->name, "procfs");
-	if (!fs) panic("procfs allocation failed");
-	fs->ops = procfs_op; // 你为procfs定义的fsops_t，包含函数的实现
-	fs->ops->init(fs, "procfs", NULL);
+	strcpy(fs[0].name, "procfs");
+	//if (!fs) panic("procfs allocation failed");
+	fs[0].ops = procfs_op; // 你为procfs定义的fsops_t，包含函数的实现
+	fs[0].ops.init("procfs", NULL);
 	
-	return fs;
+	return;
 }
-filesystem_t *create_devfs() 
+void create_devfs() 
 {
-	filesystem_t *fs = (filesystem_t *)pmm->alloc(sizeof(filesystem_t));
-	strcpy(fs->name, "devfs"); 
-	if (!fs) panic("devfs allocation failed");
-	fs->ops = devfs_op; // 你为procfs定义的fsops_t，包含函数的实现
-	fs->ops->init(fs, "devfs", NULL);
+	strcpy(fs[1].name, "devfs"); 
+	//if (!fs) panic("devfs allocation failed");
+	fs[1].ops = devfs_op; // 你为procfs定义的fsops_t，包含函数的实现
+	fs[1].ops.init("devfs", NULL);
 	
-	return fs;
+	return;
 }
-filesystem_t *create_kvfs() 
+void create_kvfs() 
 {
-	filesystem_t *fs = (filesystem_t *)pmm->alloc(sizeof(filesystem_t));
-	strcpy(fs->name, "kvfs"); 
+	strcpy(fs[2].name, "kvfs"); 
 	if (!fs) panic("fs allocation failed");
-	fs->ops = kvfs_op; // 你为procfs定义的fsops_t，包含函数的实现
-	fs->ops->init(fs, "kvfs", NULL);
-	return fs;
+	fs[2].ops = kvfs_op; // 你为procfs定义的fsops_t，包含函数的实现
+	fs[2].ops.init("kvfs", NULL);
+	return;
 }
-int mount(const char *path, filesystem_t *fs)
+int mount(const char *path)
 {
 	if(!strcmp(path, "/proc")){
-		strcpy(procfs_p->p, path);
-		procfs_p->fs = fs;
-		fs->path = procfs_p;
+		strcpy(procfs_p.p, path);
+		procfs_p.fs = fs[0];
+		fs[0].path = procfs_p;
 	}
 	else if(!strcmp(path, "/dev")){
-		strcpy(devfs_p->p, path);
-		devfs_p->fs = fs;
-		fs->path = devfs_p;
+		strcpy(devfs_p.p, path);
+		devfs_p.fs = fs[1];
+		fs[1].path = devfs_p;
 	}
 	else if(!strcmp(path, "/")){
-		strcpy(kvfs_p->p, path);
-		kvfs_p->fs = fs;
-		fs->path = kvfs_p;
+		strcpy(kvfs_p.p, path);
+		kvfs_p.fs = fs[2];
+		fs[2].path = kvfs_p;
 		
 	}
 	else{
@@ -267,13 +243,13 @@ int unmount(const char *path)
 {
 	//TODO!!!!!!!???????
 	if(!strcmp(path, "/proc")){
-		procfs_p->fs->path = NULL;
+		procfs_p.fs.path = NULL;
 	}
 	else if(!strcmp(path, "/dev")){
-		devfs_p->fs->path = NULL;
+		devfs_p.fs.path = NULL;
 	}
 	else if(!strcmp(path, "/")){
-		kvfs_p->fs->path = NULL;
+		kvfs_p.fs.path = NULL;
 	}
 	else{
 		printf("error when unmount %s\n", path);
@@ -283,9 +259,9 @@ int unmount(const char *path)
   /*====================================================================*/
  /*==============================file ops==============================*/
 /*====================================================================*/
-fileops_t *procfile_op;
-fileops_t *devfile_op;
-fileops_t *kvfile_op;
+fileops_t procfile_op;
+fileops_t devfile_op;
+fileops_t kvfile_op;
 int file_open(inode_t *inode, file_t *file, int flags)
 {
 	int current_fd = -1;
@@ -318,7 +294,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file->offset = 0;	
 			file->if_read = 1;
 			file->if_write = 0;									
-			file_table[current_fd] = file;
+			file_table[current_fd] = *file;
 			break;
 		case O_WRONLY:
 			if(!inode->if_exist){
@@ -347,7 +323,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file->offset = 0;	
 			file->if_read = 0;
 			file->if_write = 1;									
-			file_table[current_fd] = file;
+			file_table[current_fd] = *file;
 			break;
 		case O_RDWR:
 			if(!inode->if_exist){			
@@ -378,7 +354,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file->offset = 0;	
 			file->if_read = 1;
 			file->if_write = 1;									
-			file_table[current_fd] = file;	
+			file_table[current_fd] = *file;	
 			break;	
 		case O_CREATE:
 			if(inode->if_exist){
@@ -408,7 +384,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file->offset = 0;	
 			file->if_read = 1;
 			file->if_write = 0;									
-			file_table[current_fd] = file;
+			file_table[current_fd] = *file;
 			break;									
 		case O_CREATE|O_WRONLY:
 			if(inode->if_exist){
@@ -437,7 +413,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file->offset = 0;	
 			file->if_read = 0;
 			file->if_write = 1;									
-			file_table[current_fd] = file;
+			file_table[current_fd] = *file;
 			break;				
 		case O_CREATE|O_RDWR:
 			if(inode->if_exist){
@@ -467,7 +443,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file->offset = 0;	
 			file->if_read = 1;
 			file->if_write = 1;									
-			file_table[current_fd] = file;
+			file_table[current_fd] = *file;
 			//printf("file_open:current_fd:%d file->offset:%d",current_fd, file->offset);
 			break;				
 	}
@@ -582,31 +558,29 @@ int file_close(inode_t *inode, file_t *file)
 	int current_fd = file->fd;
 	printf("in file_close:fd:%d\n", current_fd);
 	fd[current_fd] = 0;
-	file_table[current_fd] = NULL;
+	file_table[current_fd].if_write = 0; file_table[current_fd].if_read = 0;
+	file_table[current_fd].fd = -1;
 	return 0;	//不知道什么时候会是-1
 }
 void fileop_init()
 {
-	procfile_op = (fileops_t*)pmm->alloc(sizeof(fileops_t));
-	procfile_op->open = &file_open;
-	procfile_op->read = &kvproc_file_read;
-	procfile_op->write = &kvproc_file_write;
-	procfile_op->lseek = &file_lseek;
-	procfile_op->close = &file_close;
+	procfile_op.open = &file_open;
+	procfile_op.read = &kvproc_file_read;
+	procfile_op.write = &kvproc_file_write;
+	procfile_op.lseek = &file_lseek;
+	procfile_op.close = &file_close;
 	
-	devfile_op = (fileops_t*)pmm->alloc(sizeof(fileops_t));
-	devfile_op->open = &file_open;
-	devfile_op->read = &dev_file_read;
-	devfile_op->write = &dev_file_write;
-	devfile_op->lseek = &file_lseek;
-	devfile_op->close = &file_close;
+	devfile_op.open = &file_open;
+	devfile_op.read = &dev_file_read;
+	devfile_op.write = &dev_file_write;
+	devfile_op.lseek = &file_lseek;
+	devfile_op.close = &file_close;
 	
-	kvfile_op = (fileops_t*)pmm->alloc(sizeof(fileops_t));
-	kvfile_op->open = &file_open;
-	kvfile_op->read = &kvproc_file_read;
-	kvfile_op->write = &kvproc_file_write;
-	kvfile_op->lseek = &file_lseek;
-	kvfile_op->close = &file_close;	
+	kvfile_op.open = &file_open;
+	kvfile_op.read = &kvproc_file_read;
+	kvfile_op.write = &kvproc_file_write;
+	kvfile_op.lseek = &file_lseek;
+	kvfile_op.close = &file_close;	
 	
 	return;		
 }
@@ -618,7 +592,8 @@ void vfs_init()
 		fd[i] = 0;
 	}
 	for(int i = 0; i<file_cnt; i++){
-		file_table[i] = NULL;		
+		file_table[i].if_write = 0; file_table[i].if_read = 0;
+		file_table[i].fd = -1;
 	}
 	/*========random seed init========*/
 	seed = 40;
@@ -629,14 +604,13 @@ void vfs_init()
 	inode_num_kv = 0;
 	fsop_init();
 	fileop_init();
-	procfs_p = pmm->alloc(sizeof(mountpath_t));
-	devfs_p = pmm->alloc(sizeof(mountpath_t));
-	kvfs_p = pmm->alloc(sizeof(mountpath_t));
-	mount("/proc", create_procfs());
-	mount("/dev", create_devfs());
-	mount("/", create_kvfs());
+	create_procfs(); create_devfs(); create_kvfs();
+
+	mount("/proc");
+	mount("/dev");
+	mount("/");
 	for(int i = 0; i<inode_cnt; i++){
-		procfs_p->fs->inode[i]->if_exist = 0;
+		procfs_p.fs.inode[i].if_exist = 0;
 	}
 	kmt->spin_init(&vfs_lk, "vfs_lk");
 	return;
@@ -650,24 +624,27 @@ int access(const char *path, int mode)
 	kmt->spin_lock(&vfs_lk);
 
 	/*=========================lock=========================*/
-	inode_t *temp = pmm->alloc(sizeof(inode_t));
-	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
-		temp = procfs_p->fs->ops->lookup(procfs_p->fs, path, mode);	//不知道是不是mode
+	int temp = -1; int fs_index = -1;//所在虚拟文件系统的索引号
+	if(!strncmp(path, procfs_p.p, strlen(procfs_p.p))){
+		fs_index = 0;
+		temp = procfs_p.fs.ops.lookup(fs[0], path, mode);	//不知道是不是mode
 	}
-	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
-		temp = devfs_p->fs->ops->lookup(devfs_p->fs, path, mode);
+	else if(!strncmp(path, devfs_p.p, strlen(devfs_p.p))){
+		fs_index = 1;
+		temp = devfs_p.fs.ops.lookup(fs[1], path, mode);
 	}
-	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
-		temp = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, mode);
+	else if(!strncmp(path, kvfs_p.p, strlen(kvfs_p.p))){
+		fs_index = 2;
+		temp = kvfs_p.fs.ops.lookup(fs[2], path, mode);
 	}
 	switch(mode){
 		case F_OK:
-			if(temp == NULL){
+			if(temp < 0){
 				printf("the file has not been created!!\n");
 				ret = -1;
 			}
 			else{
-				printf("access:temp name:%s\n", temp->name);
+				printf("access:temp name:%s\n", fs[fs_index].inode[temp].name);
 			}
 			break;
 		case X_OK:
@@ -676,37 +653,36 @@ int access(const char *path, int mode)
 			printf("remain to be done to support executable file\n");
 			break;
 		case W_OK:
-			if(temp == NULL){
+			if(temp < 0){
 				printf("the file has not been created!!\n");
 				ret = -1;
 			}
-			else if(!temp->if_write){
+			else if(!fs[fs_index].inode[temp].if_write){
 				printf("have no permission to write when check in access %s\n", path);
 				ret = -1;
 			}
 			break;
 		case R_OK:
-			if(temp == NULL){
+			if(temp < 0){
 				printf("the file has not been created!!\n");
 				ret = -1;
 			}		
-			else if(!temp->if_read){
+			else if(!fs[fs_index].inode[temp].if_read){
 				printf("have no permission to read when check in access %s\n", path);
 				ret = -1;
 			}
 			break;
 		case W_OK|R_OK:
-			if(temp == NULL){
+			if(temp < 0){
 				printf("the file has not been created!!\n");
 				ret = -1;
 			}		
-			else if(!temp->if_read || !temp->if_write){
+			else if(!fs[fs_index].inode[temp].if_read || !fs[fs_index].inode[temp].if_write){
 				printf("have no permission to read or write when check in access %s\n", path);
 				ret = -1;
 			}
 			break;
 	}
-	pmm->free(temp);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);
 	return ret;
@@ -715,81 +691,79 @@ int access(const char *path, int mode)
 int open(const char *path, int flags)
 {
 	kmt->spin_lock(&vfs_lk);
-	printf("OPEN:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);
 	/*=========================lock=========================*/
-	inode_t* node = NULL; 
-	file_t *FILE = (file_t*)pmm->alloc(sizeof(file_t));
-	printf("open: FILE address:0x%08x inode address:0x%08x\n", FILE, kvfs_p->fs->inode[0]); 
-	FILE->if_read = 0; FILE->if_write = 0;
-//printf("O_WRDR:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);	//有bug这里的if_read和if_write被修改了！	
-	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
-		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, flags);	//不知道是不是flag
-		FILE->ops = procfile_op;
-		if(node == NULL){
+	int temp_fd = -1;
+	int node_index = -1; int fs_index = -1;
+	file_t FILE; FILE.if_read = 0; FILE.if_write = 0; FILE.fd = -1; 
+	FILE.if_read = 0; FILE.if_write = 0;
+	if(!strncmp(path, procfs_p.p, strlen(procfs_p.p))){
+		fs_index = 0;
+		node_index = fs[0].ops.lookup(fs[0], path, flags);	//不知道是不是flag
+		FILE.ops = procfile_op;
+		if(node_index < 0){
 			if(inode_num_proc == inode_cnt){
 				printf("the file is not exisiting while open and there is no inode to allocate!\n");
 				return -1;
 			}
-			node = pmm->alloc(sizeof(inode_t));
-			node->if_exist = 0; node->if_read = 0; node->if_write = 0; node->thread_cnt = 0; node->size = 0;
-			procfs_p->fs->inode[inode_num_proc++] = node;
-			strcpy(node->name, path);
+			node.if_exist = 0; node.if_read = 0; node.if_write = 0; node.thread_cnt = 0; node.size = 0;
+			fs[0].inode[inode_num_proc] = node;
+			strcpy(node.name, path);
 		}
 		else{
 	/*=========================unlock=========================*/
 			kmt->spin_unlock(&vfs_lk);	
-			while(node->thread_cnt > 0);
+			while(node.thread_cnt > 0);
 			kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/						
 		}
+		temp_fd = FILE.ops.open(&fs[0].inode[inode_num_proc], &FILE, flags);	
+		inode_num_proc++;
 	}
-	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
-		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, flags);
-		FILE->ops = devfile_op;
-		if(node == NULL){
+	else if(!strncmp(path, devfs_p.p, strlen(devfs_p.p))){
+		node = fs[1].ops.lookup(fs[1], path, flags);
+		FILE.ops = devfile_op;
+		if(node.if_exist == 0){
 			if(inode_num_dev == inode_cnt){
 				printf("the file is not exisiting while open and there is no inode to allocate!\n");
 				return -1;
 			}
-			node = pmm->alloc(sizeof(inode_t));
-			node->if_exist = 0; node->if_read = 0; node->if_write = 0; node->thread_cnt = 0; node->size = 0;			
-			devfs_p->fs->inode[inode_num_dev++] = node;
-			strcpy(node->name, path);
+			node.if_exist = 0; node.if_read = 0; node.if_write = 0; node.thread_cnt = 0; node.size = 0;			
+			fs[1].inode[inode_num_dev] = node;
+			strcpy(node.name, path);
 		}
 		else{
 	/*=========================unlock=========================*/
 			kmt->spin_unlock(&vfs_lk);	
-			while(node->thread_cnt > 0);
+			while(node.thread_cnt > 0);
 			kmt->spin_lock(&vfs_lk);
-	/*=========================lock=========================*/						
-		}				
+	/*=========================lock=========================*/					
+		}
+		temp_fd = FILE.ops.open(&fs[0].inode[inode_num_dev], &FILE, flags);	
+		inode_num_dev++;			
 	}
-	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){	
-		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, flags);
-		FILE->ops = kvfile_op;
-		if(node == NULL){
+	else if(!strncmp(path, kvfs_p.p, strlen(kvfs_p.p))){	
+		node = fs[2].ops.lookup(fs[2], path, flags);
+		FILE.ops = kvfile_op;
+		if(node.if_exist == 0){
 			if(inode_num_kv == inode_cnt){
 				printf("the file is not exisiting while open and there is no inode to allocate!\n");
 				return -1;
 			}
-			node = pmm->alloc(sizeof(inode_t));
-			node->if_exist = 0; node->if_read = 0; node->if_write = 0; node->thread_cnt = 0; node->size = 0;
-			strcpy(node->name, path);
-			kvfs_p->fs->inode[inode_num_kv++] = node;
-			//printf("open:kvfs_p->fs->inode[%d]:%s\n",inode_num_kv-1, kvfs_p->fs->inode[inode_num_kv-1]->name);
+			node.if_exist = 0; node.if_read = 0; node.if_write = 0; node.thread_cnt = 0; node.size = 0;
+			strcpy(node.name, path);
+			fs[2].inode[inode_num_kv] = node;
 		}	
 		else{
 	/*=========================unlock=========================*/
 			kmt->spin_unlock(&vfs_lk);
-			//printf("open:node name:%s if_read:%d if_write:%d\n", node->name, node->if_read, node->if_write);	
-			while(node->thread_cnt > 0);
+			while(node.thread_cnt > 0);
 			kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/						
-		}			
+		}
+		temp_fd = FILE.ops.open(&fs[0].inode[inode_num_kv], &FILE, flags);	
+		inode_num_kv++;							
 	}
-	int temp_fd = FILE->ops->open(node, FILE, flags);
-	pmm->free(FILE); printf("kuaidianxiehaoba!!\n");pmm->free(node);
-	//printf("open:FILE->offset:%d\n", FILE->offset);
+	printf("kuaidianxiehaoba!!\n");
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
 	return temp_fd;
@@ -802,23 +776,23 @@ ssize_t read(int fd, void *buf, size_t nbyte)
 		printf("invalid fd:%d in read\n", fd);
 		return -1;
 	}
-	inode_t* node = NULL; 
-	file_t *FILE = file_table[fd];	//还未实现描述符为0、1、2的操作
-	char *path = FILE->name;
-	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
-		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, 0);
+	inode_t node; node.if_exist = 0; node.if_write = 0; node.if_read = 0;
+	file_t FILE = file_table[fd];	//还未实现描述符为0、1、2的操作
+	char *path = FILE.name;
+	if(!strncmp(path, procfs_p.p, strlen(procfs_p.p))){
+		node = fs[0].ops.lookup(fs[0], path, 0);
 	}
-	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
-		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, 0);
+	else if(!strncmp(path, devfs_p.p, strlen(devfs_p.p))){
+		node = fs[1].ops.lookup(fs[1], path, 0);
 	}
-	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
-		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, 0);
+	else if(!strncmp(path, kvfs_p.p, strlen(kvfs_p.p))){
+		node = fs[2].ops.lookup(fs[2], path, 0);
 	}
-	if(node == NULL){
+	if(node.if_exist == 0){
 		printf("invalid read for a non-exiting inode!\n");
 		return -1;
 	}	
-	ssize_t size = FILE->ops->read(node, FILE, buf, nbyte);
+	ssize_t size = FILE.ops.read(&node, &FILE, buf, nbyte);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
 	return size;
@@ -832,25 +806,25 @@ ssize_t write(int fd, void *buf, size_t nbyte)
 		printf("invalid fd:%d in read\n", fd);
 		return -1;
 	}
-	inode_t* node = NULL;
-	file_t *FILE = file_table[fd];
-	char *path = FILE->name;
-	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
-		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, 0);
+	inode_t node; node.if_exist = 0; node.if_write = 0; node.if_read = 0;
+	file_t FILE = file_table[fd];
+	char *path = FILE.name;
+	if(!strncmp(path, procfs_p.p, strlen(procfs_p.p))){
+		node = fs[0].ops.lookup(fs[0], path, 0);
 	}
-	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
-		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, 0);
+	else if(!strncmp(path, devfs_p.p, strlen(devfs_p.p))){
+		node = fs[1].ops.lookup(fs[1], path, 0);
 	}
-	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
+	else if(!strncmp(path, kvfs_p.p, strlen(kvfs_p.p))){
 		
-		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, 0);
+		node = fs[2].ops.lookup(fs[2], path, 0);
 	}
-	if(node == NULL){
+	if(node.if_exist == 0){
 		printf("invalid write for a non-exising inode!\n");
 		return -1;
 	}	
 	//printf("write:in before file_write size:%d\n", nbyte);
-	ssize_t size = FILE->ops->write(node, FILE, buf, nbyte);
+	ssize_t size = FILE.ops.write(&node, &FILE, buf, nbyte);
 	//printf("write:in after file_write size:%d\n", size);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);		
@@ -864,23 +838,24 @@ off_t lseek(int fd, off_t offset, int whence)
 		printf("invalid fd:%d in read\n", fd);
 		return -1;
 	}
-	inode_t* node = NULL;
-	file_t *FILE = file_table[fd];
-	char *path = FILE->name;
-	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
-		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, 0);
+	inode_t node; node.if_exist = 0; node.if_write = 0; node.if_read = 0;
+	file_t FILE = file_table[fd];
+	char *path = FILE.name;
+	if(!strncmp(path, procfs_p.p, strlen(procfs_p.p))){
+		node = fs[0].ops.lookup(fs[0], path, 0);
 	}
-	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
-		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, 0);
+	else if(!strncmp(path, devfs_p.p, strlen(devfs_p.p))){
+		node = fs[1].ops.lookup(fs[1], path, 0);
 	}
-	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
-		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, 0);
+	else if(!strncmp(path, kvfs_p.p, strlen(kvfs_p.p))){
+		
+		node = fs[2].ops.lookup(fs[2], path, 0);
 	}
-	if(node == NULL){
+	if(node.if_exist == 0){
 		printf("invalid lseek for a non-existing inode!\n");
 		return -1;
 	}	
-	off_t temp_offset = FILE->ops->lseek(node, FILE, offset, whence);	
+	off_t temp_offset = FILE.ops.lseek(&node, &FILE, offset, whence);	
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);		
 	return temp_offset;
@@ -893,23 +868,25 @@ int close(int fd)
 		printf("invalid fd:%d in read\n", fd);
 		return -1;
 	}
-	inode_t* node = NULL;
-	file_t *FILE = file_table[fd];
-	char *path = FILE->name;
-	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
-		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, 0);
+	inode_t node; node.if_exist = 0; node.if_write = 0; node.if_read = 0;
+	file_t FILE = file_table[fd];
+	char *path = FILE.name;
+	if(!strncmp(path, procfs_p.p, strlen(procfs_p.p))){
+		node = fs[0].ops.lookup(fs[0], path, 0);
 	}
-	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
-		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, 0);
+	else if(!strncmp(path, devfs_p.p, strlen(devfs_p.p))){
+		node = fs[1].ops.lookup(fs[1], path, 0);
 	}
-	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
-		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, 0);
+	else if(!strncmp(path, kvfs_p.p, strlen(kvfs_p.p))){
+		
+		node = fs[2].ops.lookup(fs[2], path, 0);
 	}
-	if(node == NULL){
-		printf("invalid close for a non-existing inode!\n");
+	if(node.if_exist == 0){
+		printf("invalid lseek for a non-existing inode!\n");
+		return -1;
 	}	
-	int ret = FILE->ops->close(node, FILE);	
-	node->thread_cnt--;	//不知道放锁里面还是外面
+	int ret = FILE.ops.close(&node, &FILE);	
+	node.thread_cnt--;	//不知道放锁里面还是外面
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);		
 	return ret;

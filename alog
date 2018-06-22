@@ -1,0 +1,295 @@
+gcc -std=c99 -O2 -MMD -Wall -Werror -ggdb -fno-builtin -fno-pic -fno-stack-protector -fno-omit-frame-pointer -m32 -march=i386 -I./am -I./framework -I./include -c -o build/src/test.o src/test.c
+ld -melf_i386 -Ttext 0x00100000  -o build/kernel build/src/libc/stdio.o build/src/libc/stdlib.o build/src/libc/string.o build/src/unistd.o build/src/kmt.o build/src/pmm.o build/src/test.o build/src/os.o build/src/vfs.o build/framework/main.o am/am-x86-qemu.a
+cat am/mbr build/kernel > build/os.img
+qemu-system-i386 -serial stdio build/os.img
+Hello, OS World!
+heap start:0x00200000 heap end:0x08000000
+strcpy:kvfs_p->fs->inode[0]: inode[1]:
+strcpy:kvfs_p->fs->inode[0]: inode[1]:
+strcpy:kvfs_p->fs->inode[0]: inode[1]:
+strcpy:kvfs_p->fs->inode[0]: inode[1]:
+strcpy:kvfs_p->fs->inode[0]: inode[1]:
+strcpy:kvfs_p->fs->inode[0]: inode[1]:
+strcpy:kvfs_p->fs->inode[0]: inode[1]:
+strcpy:kvfs_p->fs->inode[0]: inode[1]:
+strcpy:kvfs_p->fs->inode[0]: inode[1]:
+strcpy:kvfs_p->fs->inode[0]: inode[1]:
+strcpy:kvfs_p->fs->inode[0]: inode[1]:
+strcpy:kvfs_p->fs->inode[0]: inode[1]:
+strcpy:kvfs_p->fs->inode[0]: inode[1]:
+thread id:0
+in kmt thread_cnt:1
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup:if_find:0
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+file_open:inode->name:/proc/0
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+in file_write:name:/proc/0 buf:id:  size:4
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+in file_write:name:/proc/0 buf:0 size:1
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+in file_write:name:/proc/0 buf:
+ size:1
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+in file_write:name:/proc/0 buf:stack size:  size:12
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+in file_write:name:/proc/0 buf:262144 size:6
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+in file_write:name:/proc/0 buf:
+ size:1
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+in file_write:name:/proc/0 buf:stack start:  size:13
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+in file_write:name:/proc/0 buf:2149732 size:7
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+in file_write:name:/proc/0 buf:  size:1
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+in file_write:name:/proc/0 buf:stack end:  size:11
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+in file_write:name:/proc/0 buf:2411876 size:7
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+in file_write:name:/proc/0 buf:
+ size:1
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/proc/0
+lookup: inode[2]:name:/proc/0
+lookup:if_find:1
+in file_close:fd:3
+old id:0 current id:0
+this is irq_timer
+
+file11:this is file11
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+lookup:path:/home/vier
+lookup:if_find:0
+the file has not been created!!
+lookup:path:/home/vier
+lookup:if_find:0
+strcpy:kvfs_p->fs->inode[0]:Sÿ inode[1]:Sÿ
+open:kvfs_p->fs->inode[0]:/home/vier
+strcpy:kvfs_p->fs->inode[0]:/home/vier inode[1]:Sÿ
+file_open:inode->name:/home/vier
+strcpy:kvfs_p->fs->inode[0]:/home/vier inode[1]:Sÿ
+strcpy:kvfs_p->fs->inode[0]:/home/vier inode[1]:Sÿ
+file1:buf address:0x0024c940 inode[0] address:0x00311d14 inode[1] address:0x00000010
+hahah
+file11:fd:3
+strcpy:kvfs_p->fs->inode[0]:/home/vier inode[1]:Sÿ
+lookup:path:/home/vier
+lookup: inode[0]:name:/home/vier
+lookup:if_find:1
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+strcpy:kvfs_p->fs->inode[0]:/home/vier inode[1]:Sÿ
+file11size:19
+file11first write size:19
+file11:after_intr_read():0
+lookup:path:/home/vier
+lookup: inode[0]:name:/home/vier
+lookup:if_find:1
+lookup:path:/home/vier
+lookup: inode[0]:name:/home/vier
+lookup:if_find:1
+file11read size:19
+content:
+this is /home/vier
+strcpy:kvfs_p->fs->inode[0]:/home/vier inode[1]:Sÿ
+lookup:path:/home/vier
+lookup: inode[0]:name:/home/vier
+lookup:if_find:1
+in file_close:fd:3
+file11 end
+
+old id:0 current id:0
+this is irq_timer
+
+old id:0 current id:0
+request trap into kernal...
+
+file11:this is file11
+strcpy:kvfs_p->fs->inode[0]:/home/vier inode[1]:Sÿ
+lookup:path:/home/vier
+lookup: inode[0]:name:/home/vier
+lookup:if_find:1
+access:temp name:/home/vier
+lookup:path:/home/vier
+lookup: inode[0]:name:/home/vier
+lookup:if_find:1
+strcpy:kvfs_p->fs->inode[0]:/home/vier inode[1]:Sÿ
+strcpy:kvfs_p->fs->inode[0]:/home/vier inode[1]:Sÿ
+file1:buf address:0x0024c940 inode[0] address:0x00311d14 inode[1] address:0x00000010
+hahah
+file11:fd:3
+strcpy:kvfs_p->fs->inode[0]:/home/vier inode[1]:Sÿ
+lookup:path:/home/vier
+lookup: inode[0]:name:/home/vier
+lookup:if_find:1
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+strcpy:kvfs_p->fs->inode[0]:/home/vier inode[1]:Sÿ
+file11size:19
+file11first write size:19
+file11:after_intr_read():0
+lookup:path:/home/vier
+lookup: inode[0]:name:/home/vier
+lookup:if_find:1
+lookup:path:/home/vier
+lookup: inode[0]:name:/home/vier
+lookup:if_find:1
+file11read size:19
+content:
+this is /home/vier
+strcpy:kvfs_p->fs->inode[0]:/home/vier inode[1]:Sÿ
+lookup:path:/home/vier
+lookup: inode[0]:name:/home/vier
+lookup:if_find:1
+in file_close:fd:3
+file11 end
+
+old id:0 current id:0
+this is irq_timer
+
+old id:0 current id:0
+request trap into kernal...
+
+file11:this is file11
+strcpy:kvfs_p->fs->inode[0]:/home/vier inode[1]:Sÿ
+lookup:path:/home/vier
+lookup: inode[0]:name:/home/vier
+lookup:if_find:1
+access:temp name:/home/vier
+lookup:path:/home/vier
+lookup: inode[0]:name:/home/vier
+lookup:if_find:1
+strcpy:kvfs_p->fs->inode[0]:/home/vier inode[1]:Sÿ
+strcpy:kvfs_p->fs->inode[0]:/home/vier inode[1]:Sÿ
+file1:buf address:0x0024c940 inode[0] address:0x00311d14 inode[1] address:0x00000010
+hahah
+file11:fd:3
+strcpy:kvfs_p->fs->inode[0]:/home/vier inode[1]:Sÿ
+lookup:path:/home/vier
+lookup: inode[0]:name:/home/vier
+lookup:if_find:1
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+strcpy:kvfs_p->fs->inode[0]:/home/vier inode[1]:Sÿ
+file11size:19
+file11first write size:19
+file11:after_intr_read():0
+lookup:path:/home/vier
+lookup: inode[0]:name:/home/vier
+lookup:if_find:1
+lookup:path:/home/vier
+lookup: inode[0]:name:/home/vier
+lookup:if_find:1
+file11read size:19
+content:
+this is /home/vier
+strcpy:kvfs_p->fs->inode[0]:/home/vier inode[1]:Sÿ
+lookup:path:/home/vier
+lookup: inode[0]:name:/home/vier
+lookup:if_find:1
+in file_close:fd:3
+file11 end
+
+old id:0 current id:0
+request trap into kernal...
+
+file11:this is file11
+strcpy:kvfs_p->fs->inode[0]:/home/vier inode[1]:Sÿ
+lookup:path:/home/vier
+lookup: inode[0]:name:/home/vier
+lookup:if_find:1
+access:temp name:/home/vier
+lookup:path:/home/vier
+lookup: inode[0]:name:/home/vier
+lookup:if_find:1
+open mode error: have no permission to write or read /home/vier
+file1:buf address:0x0024c940 inode[0] address:0x00311d14 inode[1] address:0x00000010
+hahah
+file11:fd:-1
+file11:open /home/vier error!!

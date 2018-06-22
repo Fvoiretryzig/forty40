@@ -1,0 +1,61 @@
+qemu-system-i386 -serial stdio build/os.img
+Hello, OS World!
+heap start:0x00200000 heap end:0x08000000
+in pmm alloc:ret address:0x00200014 program_break:0x00200088
+in pmm alloc:ret address:0x0020009c program_break:0x00200110
+in pmm alloc:ret address:0x00200124 program_break:0x00200198
+in pmm alloc:ret address:0x002001ac program_break:0x00200240
+in pmm alloc:ret address:0x00200254 program_break:0x002002e8
+in pmm alloc:ret address:0x002002fc program_break:0x00200390
+in pmm alloc:ret address:0x002003a4 program_break:0x002004f8
+in pmm alloc:ret address:0x0020050c program_break:0x00200660
+in pmm alloc:ret address:0x00200674 program_break:0x002007c8
+in pmm alloc:ret address:0x002007dc program_break:0x00202a40
+in pmm alloc:ret address:0x00202a54 program_break:0x00203ce8
+free_unsafe:current->size:0x00000496
+1-1:program_break:0x00203ce8
+1-2:program_break:0x00203852
+in pmm alloc:ret address:0x00203866 program_break:0x00204afa
+free_unsafe:current->size:0x00000496
+1-1:program_break:0x00204afa
+1-2:program_break:0x00204664
+in pmm alloc:ret address:0x00204678 program_break:0x002068dc
+in pmm alloc:ret address:0x002068f0 program_break:0x00207b84
+free_unsafe:current->size:0x00000496
+1-1:program_break:0x00207b84
+1-2:program_break:0x002076ee
+in pmm alloc:ret address:0x00207702 program_break:0x00208996
+free_unsafe:current->size:0x00000496
+1-1:program_break:0x00208996
+1-2:program_break:0x00208500
+in pmm alloc:ret address:0x00208514 program_break:0x002097a8
+Hello, OS World!
+heap start:0x00200000 heap end:0x08000000
+in pmm alloc:ret address:0x00200014 program_break:0x00200088
+in pmm alloc:ret address:0x0020009c program_break:0x00200110
+in pmm alloc:ret address:0x00200124 program_break:0x00200198
+in pmm alloc:ret address:0x002001ac program_break:0x00200240
+in pmm alloc:ret address:0x00200254 program_break:0x002002e8
+in pmm alloc:ret address:0x002002fc program_break:0x00200390
+in pmm alloc:ret address:0x002003a4 program_break:0x002004f8
+in pmm alloc:ret address:0x0020050c program_break:0x00200660
+in pmm alloc:ret address:0x00200674 program_break:0x002007c8
+in pmm alloc:ret address:0x002007dc program_break:0x00202a40
+in pmm alloc:ret address:0x00202a54 program_break:0x00203ce8
+free_unsafe:current->size:0x00000496
+1-1:program_break:0x00203ce8
+1-2:program_break:0x00203852
+in pmm alloc:ret address:0x00203866 program_break:0x00204afa
+free_unsafe:current->size:0x00000496
+1-1:program_break:0x00204afa
+1-2:program_break:0x00204664
+in pmm alloc:ret address:0x00204678 program_break:0x002068dc
+in pmm alloc:ret address:0x002068f0 program_break:0x00207b84
+free_unsafe:current->size:0x00000496
+1-1:program_break:0x00207b84
+1-2:program_break:0x002076ee
+in pmm alloc:ret address:0x00207702 program_break:0x00208996
+free_unsafe:current->size:0x00000496
+1-1:program_break:0x00208996
+1-2:program_break:0x00208500
+Makefile:18: recipe for target 'run' failed

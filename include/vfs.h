@@ -40,12 +40,12 @@ struct file
 {
 	int if_read;
 	int if_write;
-	inode_t* f_inode;
+	inode_t f_inode;
 	int offset; //文件当前偏移量
 	char content[file_content_maxn];
 	char name[name_len];
 	int fd;
-	fileops_t *ops;
+	fileops_t ops;
 };
 struct fsops 
 {
@@ -56,13 +56,13 @@ struct fsops
 struct filesystem
 {
 	char name[name_len];
-	mountpath_t* path;
-	inode_t *inode[inode_cnt];
-	fsops_t *ops;
+	mountpath_t path;
+	inode_t inode[inode_cnt];
+	fsops_t ops;
 };
 struct mount_path
 {
 	char p[64];
-	filesystem_t* fs;
+	filesystem_t fs;
 };
 #endif
