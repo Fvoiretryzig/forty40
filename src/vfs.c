@@ -743,11 +743,12 @@ int open(const char *path, int flags)
 				return -1;
 			}
 			node = pmm->alloc(sizeof(inode_t));
+			printf("in open\nnode if_exist:%d\n", node->if_exist);
 			kvfs_p->fs->inode[inode_num_kv++] = node;
 			strcpy(node->name, path);
-			for(int i = 0; i<inode_cnt; i++){
+			/*for(int i = 0; i<inode_cnt; i++){
 				printf("in open\ninode %d if_exist:%d\n", i, kvfs_p->fs->inode[i]->if_exist);
-			}
+			}*/
 		}	
 		else{
 	/*=========================unlock=========================*/
