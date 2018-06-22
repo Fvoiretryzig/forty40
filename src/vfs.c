@@ -817,7 +817,7 @@ ssize_t write(int fd, void *buf, size_t nbyte)
 		return -1;
 	}	
 	ssize_t size = FILE->ops->write(node, FILE, buf, nbyte);
-	//printf("size:%d\n", size);
+	printf("in write size:%d\n", size);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);		
 	return size;
