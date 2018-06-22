@@ -168,10 +168,10 @@ inode_t *lookup(filesystem_t *fs, const char *path, int flag)
 	while(fs->inode[index] && index < inode_cnt){
 		if(fs->inode[index]->if_exist){
 			printf("lookup: inode[%d]:name:%s\n",index, fs->inode[index]->name);
-		if(!strcmp(path, fs->inode[index]->name)){
-			if_find = 1;
-			break;
-		}			
+			if(!strcmp(path, fs->inode[index]->name)){
+				if_find = 1;
+				break;
+			}			
 		}
 		index++;
 	}
@@ -638,7 +638,7 @@ int access(const char *path, int mode)
 	int ret = 0;
 	kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/
-	inode_t *temp = NULL;
+	inode_t *temp = pmm->alloc(sizeof(inode_t));
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
 		temp = procfs_p->fs->ops->lookup(procfs_p->fs, path, mode);	//不知道是不是mode
 	}
@@ -692,6 +692,7 @@ int access(const char *path, int mode)
 			}
 			break;
 	}
+	pmm->free(temp);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);
 	return ret;
