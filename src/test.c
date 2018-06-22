@@ -330,7 +330,7 @@ while(1){
 		//kmt->spin_lock(&lk);
 		int offset = 0;
 		//fd = vfs->open(name, O_RDWR);
-		printf("file1:kvfs_p->fs->inode[0]:%s\n",, kvfs_p->fs->inode[0]->name);
+		printf("file1:kvfs_p->fs->inode[0]:%s\n", kvfs_p->fs->inode[0]->name);
 		printf("file1:fd:%d\n", fd);
 		if(fd < 0){
 			printf("file1:open %s error!!\n", name);
