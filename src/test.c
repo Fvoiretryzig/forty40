@@ -226,10 +226,10 @@ void file1()
 		fd = vfs->open(name, O_CREATE|O_RDWR);
 		vfs->close(fd);
 	}	
-	printf("_intr_read():%d\n",_intr_read());
-	printf("this is before yield\n");
+	printf("file1:_intr_read():%d\n",_intr_read());
+	printf("file1:this is before yield\n");
 	_yield();
-	printf("this is after yield\n");
+	printf("file1:this is after yield\n");
 	//kmt->spin_unlock(&lk);
 	while(1){
 		kmt->spin_lock(&lk);
@@ -300,7 +300,7 @@ void file2()
 	if(vfs->access(name, F_OK) < 0){
 		fd = vfs->open(name, O_CREATE|O_RDWR);
 		vfs->close(fd);
-	}
+	}	
 	//kmt->spin_unlock(&lk);
 	while(1){
 		printf("this is file2 begin");
@@ -384,11 +384,15 @@ void file11()
 	printf("this is file1\n");
 	char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
 	int size = 0; int fd = -1;
-	strcpy(name, "/home/forty/40");
+	strcpy(name, "/home/40/forty");
 	if(vfs->access(name, F_OK) < 0){
 		fd = vfs->open(name, O_CREATE|O_RDWR);
 		vfs->close(fd);
 	}	
+	printf("file11:_intr_read():%d\n",_intr_read());
+	printf("file11:this is before yield\n");
+	_yield();
+	printf("file11:this is after yield\n");	
 	//kmt->spin_unlock(&lk);
 	while(1){
 		kmt->spin_lock(&lk);
