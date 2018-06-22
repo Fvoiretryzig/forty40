@@ -759,6 +759,7 @@ int open(const char *path, int flags)
 		}			
 	}
 	int temp_fd = FILE->ops->open(node, FILE, flags);
+	printf("in open: name:%s\n", node->name);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
 	return temp_fd;
