@@ -28,14 +28,14 @@ struct inode
 	char content[file_content_maxn];
 	int size;	//文件大小
 };
-struct fileops 
+/*struct fileops 
 {
 	int (*open)(inode_t *inode, file_t *file, int flags);
 	ssize_t (*read)(inode_t *inode, file_t *file, char *buf, size_t size);
 	ssize_t (*write)(inode_t *inode, file_t *file, const char *buf, size_t size);
 	off_t (*lseek)(inode_t *inode, file_t *file, off_t offset, int whence);
 	int (*close)(inode_t *inode, file_t *file);
-};
+};*/
 struct file
 {
 	int if_read;
@@ -45,14 +45,14 @@ struct file
 	char content[file_content_maxn];
 	char name[name_len];
 	int fd;
-	fileops_t ops;
+	//fileops_t ops;
 };
-struct fsops 
+/*struct fsops 
 {
 	void (*init)(struct filesystem *fs, const char *name, inode_t *dev);
 	inode_t *(*lookup)(struct filesystem *fs, const char *path, int flags);
 	int (*close)(inode_t *inode);
-};
+};*/
 struct mount_path
 {
 	char p[64];
@@ -62,7 +62,7 @@ struct filesystem
 	char name[name_len];
 	mountpath_t path;
 	inode_t inode[inode_cnt];
-	fsops_t ops;
+	//fsops_t ops;
 };
 
 #endif
