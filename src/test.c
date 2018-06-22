@@ -216,7 +216,7 @@ void single_thread_test()
 }
 void file1()
 {
-	printf("this is file1");
+	printf("this is file1\n");
 	char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
 	int size = 0; int fd = -1;
 	strcpy(name, "/home/forty/4040");
