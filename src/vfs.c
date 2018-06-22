@@ -766,7 +766,6 @@ int open(const char *path, int flags)
 	}
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){	
 		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, flags);
-		printf("kuaidianxiehaoba!!\n");
 		FILE->ops = kvfile_op;
 		if(node == NULL){
 			if(inode_num_kv == inode_cnt){
@@ -784,6 +783,7 @@ int open(const char *path, int flags)
 			kmt->spin_unlock(&vfs_lk);
 			//printf("open:node name:%s if_read:%d if_write:%d\n", node->name, node->if_read, node->if_write);	
 			while(node->thread_cnt > 0);
+			printf("kuaidianxiehaoba!!\n");
 			kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/						
 		}			
