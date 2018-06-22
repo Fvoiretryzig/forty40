@@ -203,9 +203,7 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 			pmm->free(path); pmm->free(buf);			
 			return -1;
 		}		
-		
 		vfs->close(fd);
-		printf("hahah\n");
 		pmm->free(path); pmm->free(buf);	
 		spin_unlock(&lk);					
 		return 0;
