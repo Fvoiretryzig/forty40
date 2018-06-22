@@ -764,7 +764,7 @@ int open(const char *path, int flags)
 			node->if_exist = 0; node->if_read = 0; node->if_write = 0; node->thread_cnt = 0; node->size = 0;
 			strcpy(node->name, path);
 			kvfs_p->fs->inode[inode_num_kv++] = node;
-			printf("open:kvfs_p->fs->inode[inode_num_kv++]:%s\n", kvfs_p->fs->inode[inode_num_kv-1]->name);
+			printf("open:kvfs_p->fs->inode[%d]:%s\n",inode_num_kv-1, kvfs_p->fs->inode[inode_num_kv-1]->name);
 		}	
 		else{
 	/*=========================unlock=========================*/
