@@ -8,8 +8,8 @@
 //typedef struct file file_t;
 static void vfs_init();
 static int access(const char *path, int mode);
-static int mount(const char *path);
-static int unmount(const char *path, filesystem_t* fs);
+static int mount(const char *path, filesystem_t* fs);
+static int unmount(const char *path);
 static int open(const char *path, int flags);
 static ssize_t read(int fd, void *buf, size_t nbyte);
 static ssize_t write(int fd, void *buf, size_t nbyte);
