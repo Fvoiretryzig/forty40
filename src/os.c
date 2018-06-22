@@ -42,7 +42,7 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	//printf("last thread regs: eax:0x%08x ebx:0x%08x ecx:0x%08x edx:0x%08x edi:0x%08x esi:0x%08x\n",regs->eax, regs->ebx, regs->ecx, regs->edx, regs->edx, regs->edi, regs->esi);
 	thread_t* t = kmt->schedule();
 	last_thread = t->id;
-	//printf("in os_interrupt eip:0x%08x\n", regs->eip);
+	printf("in os_interrupt eip:0x%08x\n", regs->eip);
 	if(ev.event == _EVENT_IRQ_TIMER){
 		printf("this is irq_timer\n\n");
 	}//时钟中断???????????；

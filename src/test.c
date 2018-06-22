@@ -430,14 +430,14 @@ while(1){
 		}		
 		strcpy(buf, "this is /home/vier\n");
 		size = vfs->write(fd, buf, strlen(buf));
-		printf("file11size:%d\n", size);
+		printf("file11:size:%d\n", size);
 		if(size < 0){
 			printf("file11write %s error!!\n", name);
 			vfs->close(fd);
 			continue;
 		}		
 		printf("file11first write size:%d\n", size);
-		printf("file11:after_intr_read():%d\n",_intr_read());
+		//printf("file11:after_intr_read():%d\n",_intr_read());
 		/*size = vfs->write(fd, buf, strlen(buf));	//写两遍
 		if(size < 0){
 			printf("file1:write %s error!!\n", name);

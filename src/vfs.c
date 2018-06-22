@@ -715,7 +715,7 @@ int access(const char *path, int mode)
 int open(const char *path, int flags)
 {
 	kmt->spin_lock(&vfs_lk);
-	//printf("O_WRDR:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);
+	printf("OPEN:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);
 	/*=========================lock=========================*/
 	inode_t* node = NULL; 
 	file_t *FILE = (file_t*)pmm->alloc(sizeof(file_t));
