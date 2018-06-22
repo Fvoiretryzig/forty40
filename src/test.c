@@ -330,13 +330,13 @@ while(1){
 		//kmt->spin_lock(&lk);
 		int offset = 0;
 		//fd = vfs->open(name, O_RDWR);
-		printf("file1:kvfs_p->fs->inode[0]:%s\n", kvfs_p->fs->inode[0]->name);
+		
 		printf("file1:fd:%d\n", fd);
 		if(fd < 0){
 			printf("file1:open %s error!!\n", name);
 			continue;
-		}		
-		strcpy(buf, "this is /home/forty/4040\n");
+		}		printf("open:kvfs_p->fs->inode[%d]:%s\n",inode_num_kv-1, kvfs_p->fs->inode[inode_num_kv-1]->name);
+		strcpy(buf, "this is /home/forty/4040\n");printf("file1:kvfs_p->fs->inode[0]:%s\n", kvfs_p->fs->inode[0]->name);
 		size = vfs->write(fd, buf, strlen(buf));
 		//printf("file1: size:%d\n", size);
 		if(size < 0){
