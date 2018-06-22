@@ -1,5 +1,6 @@
 #include<libc.h>
 
+mountpath_t* kvfs_p;
 void *memset(void *b, int c, size_t n)
 {
 	if(b == NULL || n < 0){
@@ -40,7 +41,9 @@ size_t strlen(const char* s)
 char *strcpy(char *dst, const char *src)
 {
 	char *temp_dst = dst;
+	printf("file1:kvfs_p->fs->inode[0]:%s\n", kvfs_p->fs->inode[0]->name);
 	while((*temp_dst++ = *src++)!='\0');
+	printf("file1:kvfs_p->fs->inode[0]:%s\n", kvfs_p->fs->inode[0]->name);
 	return dst;
 }
 char *strncpy(char *dst, const char *src, size_t n)
