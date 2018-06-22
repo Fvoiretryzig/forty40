@@ -717,13 +717,13 @@ int open(const char *path, int flags)
 		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, flags);
 		FILE->ops = kvfile_op;
 		if(node == NULL){
-			printf("path in open /:%s\n",path);
 			if(inode_num_kv == inode_cnt){
 				printf("the file is not exisiting while open and there is no inode to allocate!\n");
 				return -1;
 			}
 			node = pmm->alloc(sizeof(inode_t));
 			kvfs_p->fs->inode[inode_num_kv++] = node;
+			printf("in open node:if_exist:%d\n", if_exist);
 			strcpy(node->name, path);
 		}	
 		else{
