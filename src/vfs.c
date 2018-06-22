@@ -391,7 +391,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			}
 			inode->if_exist = 1; inode->if_read = 1; inode->if_write = 0;
 			inode->thread_cnt++;
-			inode->size = 0; inode->content[0] = '\0';
+			inode->size = 0; inode->content = "";
 			
 			file->fd = current_fd;
 			strcpy(file->name, inode->name);
@@ -419,7 +419,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 				return -1;
 			}
 			inode->if_exist = 1; inode->if_read = 0; inode->if_write = 1;
-			inode->size = 0; inode->content[0] = '\0';
+			inode->size = 0; inode->content = "";
 			
 			file->fd = current_fd;
 			strcpy(file->name, inode->name);
@@ -771,7 +771,7 @@ int open(const char *path, int flags)
 		}			
 	}
 	int temp_fd = FILE->ops->open(node, FILE, flags);
-	printf("open:FILE->offset:%d\n", FILE->offset);
+	//printf("open:FILE->offset:%d\n", FILE->offset);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
 	return temp_fd;
