@@ -219,17 +219,17 @@ int mount(const char *path)
 {
 	if(!strcmp(path, "/proc")){
 		strcpy(procfs_p.p, path);
-		procfs_p.fs = fs[0];
+		//procfs_p.fs = fs[0];
 		fs[0].path = procfs_p;
 	}
 	else if(!strcmp(path, "/dev")){
 		strcpy(devfs_p.p, path);
-		devfs_p.fs = fs[1];
+		//devfs_p.fs = fs[1];
 		fs[1].path = devfs_p;
 	}
 	else if(!strcmp(path, "/")){
 		strcpy(kvfs_p.p, path);
-		kvfs_p.fs = fs[2];
+		//kvfs_p.fs = fs[2];
 		fs[2].path = kvfs_p;
 		
 	}
@@ -243,13 +243,13 @@ int unmount(const char *path)
 {
 	//TODO!!!!!!!???????
 	if(!strcmp(path, "/proc")){
-		procfs_p.fs.path = NULL;
+		//procfs_p.fs.path = NULL;
 	}
 	else if(!strcmp(path, "/dev")){
-		devfs_p.fs.path = NULL;
+		//devfs_p.fs.path = NULL;
 	}
 	else if(!strcmp(path, "/")){
-		kvfs_p.fs.path = NULL;
+		//kvfs_p.fs.path = NULL;
 	}
 	else{
 		printf("error when unmount %s\n", path);
@@ -609,9 +609,6 @@ void vfs_init()
 	mount("/proc");
 	mount("/dev");
 	mount("/");
-	for(int i = 0; i<inode_cnt; i++){
-		procfs_p.fs.inode[i].if_exist = 0;
-	}
 	kmt->spin_init(&vfs_lk, "vfs_lk");
 	return;
 }
@@ -627,15 +624,15 @@ int access(const char *path, int mode)
 	int temp = -1; int fs_index = -1;//所在虚拟文件系统的索引号
 	if(!strncmp(path, procfs_p.p, strlen(procfs_p.p))){
 		fs_index = 0;
-		temp = procfs_p.fs.ops.lookup(fs[0], path, mode);	//不知道是不是mode
+		temp = fs[0].ops.lookup(fs[0], path, mode);	//不知道是不是mode
 	}
 	else if(!strncmp(path, devfs_p.p, strlen(devfs_p.p))){
 		fs_index = 1;
-		temp = devfs_p.fs.ops.lookup(fs[1], path, mode);
+		temp = fs[1].ops.lookup(fs[1], path, mode);
 	}
 	else if(!strncmp(path, kvfs_p.p, strlen(kvfs_p.p))){
 		fs_index = 2;
-		temp = kvfs_p.fs.ops.lookup(fs[2], path, mode);
+		temp = fs[2].ops.lookup(fs[2], path, mode);
 	}
 	switch(mode){
 		case F_OK:

@@ -56,7 +56,6 @@ struct fsops
 struct mount_path
 {
 	char p[64];
-	filesystem_t fs;
 };
 struct filesystem
 {
