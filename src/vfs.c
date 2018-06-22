@@ -649,6 +649,7 @@ int access(const char *path, int mode)
 				printf("the file has not been created!!\n");
 				ret = -1;
 			}
+			printf("access:temp name:%s\n", temp->name);
 			break;
 		case X_OK:
 		case X_OK|W_OK:
