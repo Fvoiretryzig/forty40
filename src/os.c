@@ -44,7 +44,7 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	last_thread = t->id;
 	printf("in os_interrupt eip:0x%08x\n", regs->eip);
 	if(ev.event == _EVENT_IRQ_TIMER){
-		//!@#$printf("this is irq_timer\n");
+		printf("this is irq_timer\n");
 	}//时钟中断???????????；
 	if(ev.event == _EVENT_IRQ_IODEV){
 		printf("this is _EVENT_IRQ_IODEV\n");	
