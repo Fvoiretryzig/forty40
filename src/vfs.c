@@ -191,8 +191,8 @@ int fs_close(inode_t inode)
 void create_procfs() 
 {
 	strcpy(fs[0].name, "procfs");
-	//if (!fs) panic("procfs allocation failed");
-	fs[0].ops = procfs_op; // 你为procfs定义的fsops_t，包含函数的实现
+	if (!fs) panic("procfs allocation failed");
+	//fs[0].ops = procfs_op; // 你为procfs定义的fsops_t，包含函数的实现
 	fs_init("procfs", NULL);
 	
 	return;
@@ -200,8 +200,8 @@ void create_procfs()
 void create_devfs() 
 {
 	strcpy(fs[1].name, "devfs"); 
-	//if (!fs) panic("devfs allocation failed");
-	fs[1].ops = devfs_op; // 你为procfs定义的fsops_t，包含函数的实现
+	if (!fs) panic("devfs allocation failed");
+	//fs[1].ops = devfs_op; // 你为procfs定义的fsops_t，包含函数的实现
 	fs_init("devfs", NULL);
 	
 	return;
@@ -210,7 +210,7 @@ void create_kvfs()
 {
 	strcpy(fs[2].name, "kvfs"); 
 	if (!fs) panic("fs allocation failed");
-	fs[2].ops = kvfs_op; // 你为procfs定义的fsops_t，包含函数的实现
+	//fs[2].ops = kvfs_op; // 你为procfs定义的fsops_t，包含函数的实现
 	fs_init("kvfs", NULL);
 	return;
 }
