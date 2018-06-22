@@ -135,7 +135,7 @@ void free_unsafe(void *ptr)
 					current->prev = NULL;
 					int new_addr = brk(0)-current->size;
 					if(brk((void*)new_addr) == -1){
-						printf("brk(new_addr) == -1\n");
+						printf("1:brk(new_addr) == -1 new_addr:0x%08x\n", new_addr);
 						return;
 					}
 				}				
@@ -144,7 +144,7 @@ void free_unsafe(void *ptr)
 					tail = NULL;
 					int new_addr = brk(0)-current->size;
 					if(brk((void*)new_addr) == -1){
-						printf("brk(new_addr) == -1\n");
+						printf("2:brk(new_addr) == -1 new_addr:0x%08x\n", new_addr);
 						return;
 					}
 				}
@@ -156,7 +156,7 @@ void free_unsafe(void *ptr)
 					current->next = NULL;
 					int new_addr = brk(0)-current->size;
 					if(brk((void*)new_addr) == -1){
-						printf("brk(new_addr) == -1\n");
+						printf("3:brk(new_addr) == -1 new_addr:0x%08x\n", new_addr);
 						return;
 					}
 				}
