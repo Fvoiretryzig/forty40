@@ -712,10 +712,12 @@ int access(const char *path, int mode)
 int open(const char *path, int flags)
 {
 	kmt->spin_lock(&vfs_lk);
+	printf("O_WRDR:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);
 	/*=========================lock=========================*/
 	inode_t* node = NULL; 
 	file_t *FILE = (file_t*)pmm->alloc(sizeof(file_t)); 
 	FILE->if_read = 0; FILE->if_write = 0;
+printf("O_WRDR:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);	
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
 		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, flags);	//不知道是不是flag
 		FILE->ops = procfile_op;
@@ -758,8 +760,7 @@ int open(const char *path, int flags)
 	/*=========================lock=========================*/						
 		}				
 	}
-	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
-		printf("O_WRDR:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);	
+	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){	
 		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, flags);
 		
 		FILE->ops = kvfile_op;
