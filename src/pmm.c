@@ -112,7 +112,7 @@ void free_unsafe(void *ptr)
 	struct block* current = NULL;
 	if(valid_addr(ptr)){
 		current = get_block(ptr);
-		current->if_free = 1; int if_merge = 0;
+		current->if_free = 1; /*int if_merge = 0;
 		if(current->next){
 			if(current->next->if_free){
 				merge(current);
@@ -126,8 +126,8 @@ void free_unsafe(void *ptr)
 				if_merge = 1;
 			}
 				
-		}
-		if(!if_merge){
+		}*/
+		//if(!if_merge){
 			if(current->next == NULL){//this is the last block
 				if(current->prev){
 					tail = current->prev;
@@ -161,7 +161,17 @@ void free_unsafe(void *ptr)
 					}
 				}
 			}
-		}
+			else{
+				current->next->prev = current->prev;
+				current->prev->next = current->next;
+				current->next = NULL; current->prev = NULL;
+				int new_addr = brk(0)-current->size;
+				if(brk((void*)new_addr) == -1){
+					printf("3:brk(new_addr) == -1 new_addr:0x%08x\n", new_addr);
+					return;
+				}				
+			}
+		//}
 	}
 	return;
 }
