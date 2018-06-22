@@ -392,10 +392,10 @@ while(1){
 	
 	return;
 }
-int lock_cnt = 1;
+//int lock_cnt = 1;
 void file11()
 {
-_intr_write(0);	
+//_intr_write(0);	
 while(1){
 		
 		kmt->spin_lock(&lk);
