@@ -226,7 +226,9 @@ void file1()
 		fd = vfs->open(name, O_CREATE|O_RDWR);
 		vfs->close(fd);
 	}	
+	printf("this is before yield\n");
 	_yield();
+	printf("this is after yield\n");
 	//kmt->spin_unlock(&lk);
 	while(1){
 		kmt->spin_lock(&lk);
