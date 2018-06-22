@@ -303,6 +303,7 @@ void file2()
 	pmm->free(buf); pmm->free(name);
 	return;
 }
+mountpath_t* kvfs_p;
 void file1()
 {
 while(1){
@@ -329,11 +330,13 @@ while(1){
 		//kmt->spin_lock(&lk);
 		int offset = 0;
 		//fd = vfs->open(name, O_RDWR);
+		printf("file1:kvfs_p->fs->inode[0]:%s\n",, kvfs_p->fs->inode[0]->name);
 		printf("file1:fd:%d\n", fd);
 		if(fd < 0){
 			printf("file1:open %s error!!\n", name);
 			continue;
 		}		
+		printf
 		strcpy(buf, "this is /home/forty/4040\n");
 		size = vfs->write(fd, buf, strlen(buf));
 		//printf("file1: size:%d\n", size);

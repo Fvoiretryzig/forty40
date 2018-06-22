@@ -21,6 +21,7 @@ static int inode_num_dev;
 static int inode_num_kv;
 mountpath_t* procfs_p;
 mountpath_t* devfs_p;
+extern mountpath_t* kvfs_p;
 mountpath_t* kvfs_p;
 int fd[fd_cnt];
 file_t* file_table[file_cnt];
@@ -810,7 +811,7 @@ ssize_t read(int fd, void *buf, size_t nbyte)
 	return size;
 }
 ssize_t write(int fd, void *buf, size_t nbyte)
-{printf("write:kvfs_p->fs->inode[0]->name:%s\n",kvfs_p->fs->inode[0]->name);
+{
 	kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/
 	
