@@ -407,6 +407,7 @@ while(1){
 			//vfs->close(fd);
 		}
 		else{
+			printf("file11:xixi not create!!\n");
 			fd = vfs->open(name, O_RDWR);
 		}
 		//printf("file11:before_intr_read():%d\n",_intr_read());

@@ -643,6 +643,7 @@ int access(const char *path, int mode)
 {
 	int ret = 0;
 	kmt->spin_lock(&vfs_lk);
+
 	/*=========================lock=========================*/
 	inode_t *temp = pmm->alloc(sizeof(inode_t));
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
@@ -660,8 +661,9 @@ int access(const char *path, int mode)
 				printf("the file has not been created!!\n");
 				ret = -1;
 			}
-			else
-			printf("access:temp name:%s\n", temp->name);
+			else{
+				printf("access:temp name:%s\n", temp->name);
+			}
 			break;
 		case X_OK:
 		case X_OK|W_OK:
