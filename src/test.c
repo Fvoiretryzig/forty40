@@ -217,7 +217,7 @@ void single_thread_test()
 void file1()
 {
 	char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
-	int size = 0;
+	int size = 0; int fd = -1;
 	strcpy(name, "/home/forty/4040");
 	//int fd = vfs->open(name, O_CREATE|O_RDWR); int offset = 0;
 	//vfs->close(fd);
