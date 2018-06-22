@@ -217,7 +217,7 @@ void single_thread_test()
 }
 void file1()
 {
-	kmt->spin_lock(&lk);
+	//kmt->spin_lock(&lk);
 	printf("this is file1\n");
 	char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
 	int size = 0; int fd = -1;
@@ -226,7 +226,7 @@ void file1()
 		fd = vfs->open(name, O_CREATE|O_RDWR);
 		vfs->close(fd);
 	}	
-	kmt->spin_unlock(&lk);
+	//kmt->spin_unlock(&lk);
 	while(1){
 		kmt->spin_lock(&lk);
 		int offset = 0;
@@ -288,7 +288,7 @@ void file1()
 }
 void file2()
 {
-	kmt->spin_lock(&lk);
+	//kmt->spin_lock(&lk);
 	printf("this is file2\n");
 	char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
 	int size = 0; int fd = 0; 
@@ -297,7 +297,7 @@ void file2()
 		fd = vfs->open(name, O_CREATE|O_RDWR);
 		vfs->close(fd);
 	}
-	kmt->spin_unlock(&lk);
+	//kmt->spin_unlock(&lk);
 	while(1){
 		printf("this is file2 begin");
 		kmt->spin_lock(&lk);
@@ -376,7 +376,7 @@ void file2()
 }
 void file11()
 {
-	kmt->spin_lock(&lk);
+	//kmt->spin_lock(&lk);
 	printf("this is file1\n");
 	char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
 	int size = 0; int fd = -1;
@@ -385,7 +385,7 @@ void file11()
 		fd = vfs->open(name, O_CREATE|O_RDWR);
 		vfs->close(fd);
 	}	
-	kmt->spin_unlock(&lk);
+	//kmt->spin_unlock(&lk);
 	while(1){
 		kmt->spin_lock(&lk);
 		int offset = 0;
