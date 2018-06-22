@@ -299,6 +299,7 @@ void file2()
 	}
 	kmt->spin_unlock(&lk);
 	while(1){
+		printf("this is file2 begin");
 		kmt->spin_lock(&lk);
 		fd = vfs->open(name, O_RDWR);
 		int offset = 0;
@@ -368,7 +369,7 @@ void file2()
 		strcpy(buf, "");			
 		vfs->close(fd);
 		kmt->spin_unlock(&lk);
-		for(int i = 0; i<1024; i++);
+		printf("this is file2 end\n");
 	}
 	pmm->free(buf); pmm->free(name);
 	return;
