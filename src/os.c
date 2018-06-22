@@ -37,7 +37,7 @@ static void os_run() {
 }
 spinlock_t lk;
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
-	spin_lock(&lk);
+	kmt->spin_lock(&lk);
 	if(last_thread != -1){
 		work[last_thread].thread_reg = regs;
 	}
@@ -68,6 +68,6 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 		printf("call system...\n");
 		//__asm__ __volatile__("int $0x80"); 
 	}
-	spin_lock(&lk);
+	kmt->spin_lock(&lk);
   return t->thread_reg;
 }
