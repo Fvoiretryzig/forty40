@@ -368,6 +368,7 @@ void file2()
 		strcpy(buf, "");			
 		vfs->close(fd);
 		kmt->spin_unlock(&lk);
+		for(int i = 0; i<1024; i++);
 	}
 	pmm->free(buf); pmm->free(name);
 	return;
