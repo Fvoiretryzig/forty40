@@ -112,22 +112,8 @@ void free_unsafe(void *ptr)
 	struct block* current = NULL;
 	if(valid_addr(ptr)){
 		current = get_block(ptr);
-		current->if_free = 1; /*int if_merge = 0;
-		if(current->next){
-			if(current->next->if_free){
-				merge(current);
-				if_merge = 1;
-			}
-				
-		}
-		else if(current->prev){
-			if(current->prev->if_free){
-				merge(current->prev);
-				if_merge = 1;
-			}
-				
-		}*/
-		//if(!if_merge){
+		current->if_free = 1; 
+		printf("free_unsafe:current->size:0x%08x\n", current->size);
 			if(current->next == NULL){//this is the last block
 				if(current->prev){
 					tail = current->prev;
