@@ -122,6 +122,7 @@ void free_unsafe(void *ptr)
 				merge(current->prev);
 		}
 		else if(current->next == NULL){	//this is the last block
+			printf("in pmm alloc:IN THE ELSE IF CURRENT->NEXT == NULL!!!\n");
 			if(current->prev){
 				tail = current->prev;
 				current->prev->next = NULL;
