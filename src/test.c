@@ -305,7 +305,7 @@ void file2()
 }
 void file1()
 {
-	kmt->spin_lock(&lk);
+	//kmt->spin_lock(&lk);
 	printf("this is file1\n");
 	char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
 	int size = 0; int fd = -1;
@@ -313,7 +313,7 @@ void file1()
 	if(vfs->access(name, F_OK) < 0){
 		fd = vfs->open(name, O_CREATE|O_RDWR);
 		vfs->close(fd);
-	}kmt->spin_unlock(&lk);	
+	}//kmt->spin_unlock(&lk);	
 	printf("heiheihei\n");
 	//printf("file1:before_intr_read():%d\n",_intr_read());
 	//printf("file1:this is before yield\n");
@@ -322,7 +322,7 @@ void file1()
 	//printf("file1:this is after yield\n");
 	
 	while(1){
-		kmt->spin_lock(&lk);
+		//kmt->spin_lock(&lk);
 		int offset = 0;
 		fd = vfs->open(name, O_RDWR);
 		printf("file1:fd:%d\n", fd);
@@ -374,7 +374,7 @@ void file1()
 		printf("file1:read size:%d\n", size); printf("content:\n%s\n", buf);*/
 		strcpy(buf, "");
 		vfs->close(fd);
-		kmt->spin_unlock(&lk);
+		//kmt->spin_unlock(&lk);
 		printf("file1 end\n\n");
 	}
 	pmm->free(buf); pmm->free(name);
@@ -382,7 +382,7 @@ void file1()
 }
 void file11()
 {
-	kmt->spin_lock(&lk);
+	//kmt->spin_lock(&lk);
 	printf("file11:this is file11\n");
 	char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
 	int size = 0; int fd = -1;
@@ -390,14 +390,14 @@ void file11()
 	if(vfs->access(name, F_OK) < 0){
 		fd = vfs->open(name, O_CREATE|O_RDWR);
 		vfs->close(fd);
-	}kmt->spin_unlock(&lk);	
+	}//kmt->spin_unlock(&lk);	
 	//printf("file11:before_intr_read():%d\n",_intr_read());
 	//_yield();
 	//printf("file11:after_intr_read():%d\n",_intr_read());
 	printf("hahah\n");
 	while(1){
 		
-		kmt->spin_lock(&lk);
+		//kmt->spin_lock(&lk);
 		int offset = 0;
 		fd = vfs->open(name, O_RDWR);
 		printf("file11:fd:%d\n", fd);
@@ -449,7 +449,7 @@ void file11()
 		printf("file1:read size:%d\n", size); printf("content:\n%s\n", buf);*/
 		strcpy(buf, "");
 		vfs->close(fd);
-		kmt->spin_unlock(&lk);
+		//kmt->spin_unlock(&lk);
 		printf("file11 end\n\n");
 	}
 	pmm->free(buf); pmm->free(name);
