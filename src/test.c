@@ -221,6 +221,7 @@ void file1()
 	int size = 0; int fd = -1;
 	strcpy(name, "/home/forty/4040");
 	if(vfs->access(name, F_OK) < 0){
+		printf("haha\n");
 		fd = vfs->open(name, O_CREATE|O_RDWR);
 		vfs->close(fd);
 	}	
