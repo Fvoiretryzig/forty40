@@ -537,7 +537,6 @@ off_t file_lseek(inode_t *inode, file_t *file, off_t offset, int whence)
 				printf("cannot set offset larger than file_content_maxn in SEEK_END %s\n", file->name);
 				return -1;
 			}
-			printf("this is inode->size in SEEK_END:%d\n", inode->size);
 			file->offset = inode->size + offset;
 			break;
 	}
