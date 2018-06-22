@@ -209,6 +209,9 @@ filesystem_t *create_kvfs()
 	if (!fs) panic("fs allocation failed");
 	fs->ops = kvfs_op; // 你为procfs定义的fsops_t，包含函数的实现
 	fs->ops->init(fs, "kvfs", NULL);
+	for(int i = 0; i<inode_cnt; i++){
+		printf("kvfs %d:%d\n", i, fs->inode[i]->if_exist);
+	}
 	return fs;
 }
 int mount(const char *path, filesystem_t *fs)
@@ -597,6 +600,9 @@ void vfs_init()
 	mount("/proc", create_procfs());
 	mount("/dev", create_devfs());
 	mount("/", create_kvfs());
+	for(int i = 0; i<inode_cnt; i++){
+		procfs_p->fs->inode[i]->if_exist = 0;
+	}
 	kmt->spin_init(&vfs_lk, "vfs_lk");
 	return;
 }
@@ -723,10 +729,6 @@ int open(const char *path, int flags)
 			}
 			node = pmm->alloc(sizeof(inode_t));
 			kvfs_p->fs->inode[inode_num_kv++] = node;
-			printf("in kvfs inode if_exist\n");
-			for(int i = 0; i<inode_cnt; i++){
-				printf("inode %d:%d ", i, kvfs_p->fs->inode[i]->if_exist);
-			}
 			strcpy(node->name, path);
 		}	
 		else{
