@@ -460,6 +460,7 @@ void file11()
 void multi_thread_test()
 {
 	kmt->create(&t4, &file1, NULL);
+	printf("between two thread\n");
 	kmt->create(&t5, &file11, NULL);
 }
 void test_file()
