@@ -813,13 +813,14 @@ ssize_t write(int fd, void *buf, size_t nbyte)
 {
 	kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/
+	printf("write:kvfs_p->fs->inode[0]->name:%s\n",kvfs_p->fs->inode[0]->name);
 	if(fd < 0){
 		printf("invalid fd:%d in read\n", fd);
 		return -1;
 	}
 	inode_t* node = NULL;
 	file_t *FILE = file_table[fd];
-	char *path = FILE->name;printf("write:kvfs_p->fs->inode[0]->name:%s\n",kvfs_p->fs->inode[0]->name);
+	char *path = FILE->name;
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
 		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, 0);
 	}
