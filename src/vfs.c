@@ -289,7 +289,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file->fd = current_fd;
 			strcpy(file->name, inode->name);
 			strcpy(file->content, inode->content);
-			file->f_inode = *node;
+			file->f_inode = *inode;
 			file->offset = 0;	
 			file->if_read = 1;
 			file->if_write = 0;									
@@ -694,7 +694,7 @@ int open(const char *path, int flags)
 	kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/
 	int temp_fd = -1;
-	int node_index = -1; int fs_index = -1;
+	int node_index = -1;
 	file_t FILE; FILE.if_read = 0; FILE.if_write = 0; FILE.fd = -1; 
 	FILE.if_read = 0; FILE.if_write = 0;
 	if(!strncmp(path, procfs_p.p, strlen(procfs_p.p))){
@@ -717,7 +717,7 @@ int open(const char *path, int flags)
 		else{
 	/*=========================unlock=========================*/
 			kmt->spin_unlock(&vfs_lk);	
-			while(node.thread_cnt > 0);
+			while(fs[0].inode[node_index].thread_cnt > 0);
 			kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/						
 		}
@@ -744,7 +744,7 @@ int open(const char *path, int flags)
 		else{
 	/*=========================unlock=========================*/
 			kmt->spin_unlock(&vfs_lk);	
-			while(node.thread_cnt > 0);
+			while(fs[1].inode[node_index].thread_cnt > 0);
 			kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/					
 		}
@@ -770,7 +770,7 @@ int open(const char *path, int flags)
 		else{
 	/*=========================unlock=========================*/
 			kmt->spin_unlock(&vfs_lk);
-			while(node.thread_cnt > 0);
+			while(fs[2].inode[node_index].thread_cnt > 0);
 			kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/						
 		}
@@ -920,7 +920,6 @@ int close(int fd)
 		fs[0].inode[node_index].thread_cnt--;
 	}
 	else if(!strncmp(path, devfs_p.p, strlen(devfs_p.p))){
-		fs_index = 1;
 		node_index = lookup(fs[1], path, 0);
 		if(node_index < 0){
 			printf("invalid close for a non-exiting inode!\n");
@@ -930,7 +929,6 @@ int close(int fd)
 		fs[1].inode[node_index].thread_cnt--;
 	}
 	else if(!strncmp(path, kvfs_p.p, strlen(kvfs_p.p))){
-		fs_index = 2;
 		node_index = lookup(fs[2], path, 0);
 		if(node_index < 0){
 			printf("invalid close for a non-exiting inode!\n");
