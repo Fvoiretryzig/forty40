@@ -57,9 +57,10 @@ static void kmt_init()
   /*===================================*/
  /*==========deal with thread=========*/
 /*===================================*/
+spinlock_t lk;
 static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 {
-	
+	spin_lock(&lk);
 	void *fence1_addr = pmm->alloc(FC_SZ);
 	void *addr = pmm->alloc(STK_SZ);
 	void *fence2_addr = pmm->alloc(FC_SZ);
@@ -205,10 +206,12 @@ static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 		
 		vfs->close(fd);
 		printf("hahah\n");
-		pmm->free(path); pmm->free(buf);						
+		pmm->free(path); pmm->free(buf);	
+		spin_unlock(&lk);					
 		return 0;
 	}
 	printf("error while alloc for thread stack in create\n");
+	spin_unlock(&lk);
 	return -1;
 }
 static void teardown(thread_t *thread)
