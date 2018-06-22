@@ -705,9 +705,13 @@ int open(const char *path, int flags)
 				printf("the file is not exisiting while open and there is no inode to allocate!\n");
 				return -1;
 			}
-			node.if_exist = 0; node.if_read = 0; node.if_write = 0; node.thread_cnt = 0; node.size = 0;
-			fs[0].inode[inode_num_proc] = node;
-			strcpy(node.name, path);
+			fs[0].inode[inode_num_proc].if_exist = 0; 
+			fs[0].inode[inode_num_proc].if_read = 0;
+			fs[0].inode[inode_num_proc].if_write = 0;
+			fs[0].inode[inode_num_proc].thread_cnt = 0;
+			strcpy(fs[0].inode[inode_num_proc].name, path);
+			node_index = inode_num_proc;
+			inode_num_proc++;
 		}
 		else{
 	/*=========================unlock=========================*/
@@ -716,20 +720,25 @@ int open(const char *path, int flags)
 			kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/						
 		}
-		temp_fd = FILE.ops.open(&fs[0].inode[inode_num_proc], &FILE, flags);	
-		inode_num_proc++;
+		temp_fd = FILE.ops.open(&fs[0].inode[node_index], &FILE, flags);	
+		
 	}
 	else if(!strncmp(path, devfs_p.p, strlen(devfs_p.p))){
-		node = fs[1].ops.lookup(fs[1], path, flags);
+		fs_index = 1;
 		FILE.ops = devfile_op;
-		if(node.if_exist == 0){
+		node_index = fs[1].ops.lookup(fs[1], path, flags);		
+		if(node_index < 0){
 			if(inode_num_dev == inode_cnt){
 				printf("the file is not exisiting while open and there is no inode to allocate!\n");
 				return -1;
 			}
-			node.if_exist = 0; node.if_read = 0; node.if_write = 0; node.thread_cnt = 0; node.size = 0;			
-			fs[1].inode[inode_num_dev] = node;
-			strcpy(node.name, path);
+			fs[1].inode[inode_num_dev].if_exist = 0; 
+			fs[1].inode[inode_num_dev].if_read = 0;
+			fs[1].inode[inode_num_dev].if_write = 0;
+			fs[1].inode[inode_num_dev].thread_cnt = 0;
+			strcpy(fs[1].inode[inode_num_dev].name, path);
+			node_index = inode_num_dev;
+			inode_num_dev++;
 		}
 		else{
 	/*=========================unlock=========================*/
@@ -738,20 +747,24 @@ int open(const char *path, int flags)
 			kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/					
 		}
-		temp_fd = FILE.ops.open(&fs[0].inode[inode_num_dev], &FILE, flags);	
-		inode_num_dev++;			
+		temp_fd = FILE.ops.open(&fs[1].inode[node_index], &FILE, flags);			
 	}
 	else if(!strncmp(path, kvfs_p.p, strlen(kvfs_p.p))){	
-		node = fs[2].ops.lookup(fs[2], path, flags);
-		FILE.ops = kvfile_op;
+		fs_index = 2;
+		FILE.ops = devfile_op;
+		node_index = fs[2].ops.lookup(fs[2], path, flags);
 		if(node.if_exist == 0){
 			if(inode_num_kv == inode_cnt){
 				printf("the file is not exisiting while open and there is no inode to allocate!\n");
 				return -1;
 			}
-			node.if_exist = 0; node.if_read = 0; node.if_write = 0; node.thread_cnt = 0; node.size = 0;
-			strcpy(node.name, path);
-			fs[2].inode[inode_num_kv] = node;
+			fs[2].inode[inode_num_kv].if_exist = 0; 
+			fs[2].inode[inode_num_kv].if_read = 0;
+			fs[2].inode[inode_num_kv].if_write = 0;
+			fs[2].inode[inode_num_kv].thread_cnt = 0;
+			strcpy(fs[2].inode[inode_num_kv].name, path);
+			node_index = inode_num_kv;
+			inode_num_kv++;
 		}	
 		else{
 	/*=========================unlock=========================*/
@@ -760,8 +773,7 @@ int open(const char *path, int flags)
 			kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/						
 		}
-		temp_fd = FILE.ops.open(&fs[0].inode[inode_num_kv], &FILE, flags);	
-		inode_num_kv++;							
+		temp_fd = FILE.ops.open(&fs[2].inode[node_index], &FILE, flags);						
 	}
 	printf("kuaidianxiehaoba!!\n");
 	/*=========================unlock=========================*/
@@ -776,23 +788,26 @@ ssize_t read(int fd, void *buf, size_t nbyte)
 		printf("invalid fd:%d in read\n", fd);
 		return -1;
 	}
-	inode_t node; node.if_exist = 0; node.if_write = 0; node.if_read = 0;
+	int node_index; int fs_index;
 	file_t FILE = file_table[fd];	//还未实现描述符为0、1、2的操作
 	char *path = FILE.name;
 	if(!strncmp(path, procfs_p.p, strlen(procfs_p.p))){
-		node = fs[0].ops.lookup(fs[0], path, 0);
+		fs_index = 0;
+		node_index = fs[0].ops.lookup(fs[0], path, 0);
 	}
 	else if(!strncmp(path, devfs_p.p, strlen(devfs_p.p))){
-		node = fs[1].ops.lookup(fs[1], path, 0);
+		fs_index = 1;
+		node_index = fs[1].ops.lookup(fs[1], path, 0);
 	}
 	else if(!strncmp(path, kvfs_p.p, strlen(kvfs_p.p))){
-		node = fs[2].ops.lookup(fs[2], path, 0);
+		fs_index = 2;
+		node_index = fs[2].ops.lookup(fs[2], path, 0);
 	}
-	if(node.if_exist == 0){
+	if(node_index < 0){
 		printf("invalid read for a non-exiting inode!\n");
 		return -1;
 	}	
-	ssize_t size = FILE.ops.read(&node, &FILE, buf, nbyte);
+	ssize_t size = FILE.ops.read(&fs[fs_index].inode[node_index], &FILE, buf, nbyte);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
 	return size;
@@ -806,26 +821,26 @@ ssize_t write(int fd, void *buf, size_t nbyte)
 		printf("invalid fd:%d in read\n", fd);
 		return -1;
 	}
-	inode_t node; node.if_exist = 0; node.if_write = 0; node.if_read = 0;
-	file_t FILE = file_table[fd];
+	int node_index; int fs_index;
+	file_t FILE = file_table[fd];	//还未实现描述符为0、1、2的操作
 	char *path = FILE.name;
 	if(!strncmp(path, procfs_p.p, strlen(procfs_p.p))){
-		node = fs[0].ops.lookup(fs[0], path, 0);
+		fs_index = 0;
+		node_index = fs[0].ops.lookup(fs[0], path, 0);
 	}
 	else if(!strncmp(path, devfs_p.p, strlen(devfs_p.p))){
-		node = fs[1].ops.lookup(fs[1], path, 0);
+		fs_index = 1;
+		node_index = fs[1].ops.lookup(fs[1], path, 0);
 	}
 	else if(!strncmp(path, kvfs_p.p, strlen(kvfs_p.p))){
-		
-		node = fs[2].ops.lookup(fs[2], path, 0);
+		fs_index = 2;
+		node_index = fs[2].ops.lookup(fs[2], path, 0);
 	}
-	if(node.if_exist == 0){
-		printf("invalid write for a non-exising inode!\n");
+	if(node_index < 0){
+		printf("invalid read for a non-exiting inode!\n");
 		return -1;
 	}	
-	//printf("write:in before file_write size:%d\n", nbyte);
-	ssize_t size = FILE.ops.write(&node, &FILE, buf, nbyte);
-	//printf("write:in after file_write size:%d\n", size);
+	ssize_t size = FILE.ops.write(&fs[fs_index].inode[node_index], &FILE, buf, nbyte);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);		
 	return size;
@@ -838,24 +853,26 @@ off_t lseek(int fd, off_t offset, int whence)
 		printf("invalid fd:%d in read\n", fd);
 		return -1;
 	}
-	inode_t node; node.if_exist = 0; node.if_write = 0; node.if_read = 0;
-	file_t FILE = file_table[fd];
+	int node_index; int fs_index;
+	file_t FILE = file_table[fd];	//还未实现描述符为0、1、2的操作
 	char *path = FILE.name;
 	if(!strncmp(path, procfs_p.p, strlen(procfs_p.p))){
-		node = fs[0].ops.lookup(fs[0], path, 0);
+		fs_index = 0;
+		node_index = fs[0].ops.lookup(fs[0], path, 0);
 	}
 	else if(!strncmp(path, devfs_p.p, strlen(devfs_p.p))){
-		node = fs[1].ops.lookup(fs[1], path, 0);
+		fs_index = 1;
+		node_index = fs[1].ops.lookup(fs[1], path, 0);
 	}
 	else if(!strncmp(path, kvfs_p.p, strlen(kvfs_p.p))){
-		
-		node = fs[2].ops.lookup(fs[2], path, 0);
+		fs_index = 2;
+		node_index = fs[2].ops.lookup(fs[2], path, 0);
 	}
-	if(node.if_exist == 0){
-		printf("invalid lseek for a non-existing inode!\n");
+	if(node_index < 0){
+		printf("invalid read for a non-exiting inode!\n");
 		return -1;
 	}	
-	off_t temp_offset = FILE.ops.lseek(&node, &FILE, offset, whence);	
+	off_t temp_offset = FILE.ops.lseek(&fs[fs_index].inode[node_index], &FILE, offset, whence);	
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);		
 	return temp_offset;
@@ -872,21 +889,23 @@ int close(int fd)
 	file_t FILE = file_table[fd];
 	char *path = FILE.name;
 	if(!strncmp(path, procfs_p.p, strlen(procfs_p.p))){
-		node = fs[0].ops.lookup(fs[0], path, 0);
+		fs_index = 0;
+		node_index = fs[0].ops.lookup(fs[0], path, 0);
 	}
 	else if(!strncmp(path, devfs_p.p, strlen(devfs_p.p))){
-		node = fs[1].ops.lookup(fs[1], path, 0);
+		fs_index = 1;
+		node_index = fs[1].ops.lookup(fs[1], path, 0);
 	}
 	else if(!strncmp(path, kvfs_p.p, strlen(kvfs_p.p))){
-		
-		node = fs[2].ops.lookup(fs[2], path, 0);
+		fs_index = 2;
+		node_index = fs[2].ops.lookup(fs[2], path, 0);
 	}
-	if(node.if_exist == 0){
-		printf("invalid lseek for a non-existing inode!\n");
+	if(node_index < 0){
+		printf("invalid read for a non-exiting inode!\n");
 		return -1;
 	}	
-	int ret = FILE.ops.close(&node, &FILE);	
-	node.thread_cnt--;	//不知道放锁里面还是外面
+	int ret = FILE.ops.close(&fs[fs_index].inode[node_index], &FILE);	
+	fs[fs_index].inode[node_index].thread_cnt--;	//不知道放锁里面还是外面
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);		
 	return ret;
