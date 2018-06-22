@@ -380,7 +380,7 @@ void file11()
 	printf("this is file1\n");
 	char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
 	int size = 0; int fd = -1;
-	strcpy(name, "/home/forty/4040");
+	strcpy(name, "/home/forty/40");
 	if(vfs->access(name, F_OK) < 0){
 		fd = vfs->open(name, O_CREATE|O_RDWR);
 		vfs->close(fd);
