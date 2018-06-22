@@ -173,7 +173,7 @@ inode_t *lookup(filesystem_t *fs, const char *path, int flag)
 		if(fs->inode[index]->if_exist){
 			//printf("lookup: inode[%d]:name:%s\n",index, fs->inode[index]->name);
 			if(!strcmp(path, fs->inode[index]->name)){
-				printf("lookup:inode[%d] if_read:%d if_write:%d\n", index, fs->inode[index]->if_read, fs->inode[index]->if_write);
+				//printf("lookup:inode[%d] if_read:%d if_write:%d\n", index, fs->inode[index]->if_read, fs->inode[index]->if_write);
 				if_find = 1;
 				break;
 			}			
@@ -715,13 +715,13 @@ int access(const char *path, int mode)
 int open(const char *path, int flags)
 {
 	kmt->spin_lock(&vfs_lk);
-	printf("O_WRDR:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);
+	//printf("O_WRDR:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);
 	/*=========================lock=========================*/
 	inode_t* node = NULL; 
 	file_t *FILE = (file_t*)pmm->alloc(sizeof(file_t));
-	printf("open: FILE address:0x%08x inode address:0x%08x\n", FILE, kvfs_p->fs->inode[0]); 
+	//printf("open: FILE address:0x%08x inode address:0x%08x\n", FILE, kvfs_p->fs->inode[0]); 
 	FILE->if_read = 0; FILE->if_write = 0;
-printf("O_WRDR:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);	//有bug这里的if_read和if_write被修改了！	
+//printf("O_WRDR:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);	//有bug这里的if_read和if_write被修改了！	
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
 		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, flags);	//不知道是不是flag
 		FILE->ops = procfile_op;
@@ -777,12 +777,12 @@ printf("O_WRDR:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->in
 			node->if_exist = 0; node->if_read = 0; node->if_write = 0; node->thread_cnt = 0; node->size = 0;
 			strcpy(node->name, path);
 			kvfs_p->fs->inode[inode_num_kv++] = node;
-			printf("open:kvfs_p->fs->inode[%d]:%s\n",inode_num_kv-1, kvfs_p->fs->inode[inode_num_kv-1]->name);
+			//printf("open:kvfs_p->fs->inode[%d]:%s\n",inode_num_kv-1, kvfs_p->fs->inode[inode_num_kv-1]->name);
 		}	
 		else{
 	/*=========================unlock=========================*/
 			kmt->spin_unlock(&vfs_lk);
-			printf("open:node name:%s if_read:%d if_write:%d\n", node->name, node->if_read, node->if_write);	
+			//printf("open:node name:%s if_read:%d if_write:%d\n", node->name, node->if_read, node->if_write);	
 			while(node->thread_cnt > 0);
 			kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/						
