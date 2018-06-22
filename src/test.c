@@ -326,6 +326,7 @@ void file2()
 			vfs->close(fd);
 			continue;
 		}
+		printf("file2:secon write size:%d\n", size);
 		offset = vfs->lseek(fd, 0, SEEK_SET);
 		if(offset < 0){
 			printf("file2:lseek %s error!!\n", name);
