@@ -64,6 +64,7 @@ void procfs_init(filesystem_t *fs, inode_t *dev)
 	strcpy(cpuinfo->content, c_info);
 	cpuinfo->size = strlen(c_info);
 	fs->inode[inode_num_proc++] = cpuinfo;
+	pmm->free(cpuinfo);
 	/*================meminfo================*/
 	if(inode_num_proc == inode_cnt){
 		printf("the inode is full in procfs\n");
@@ -79,7 +80,7 @@ void procfs_init(filesystem_t *fs, inode_t *dev)
 	strcpy(meminfo->content, m_info);
 	meminfo->size = strlen(m_info);
 	fs->inode[inode_num_proc++] = meminfo;	
-
+	pmm->free(meminfo);
 	/*for(int i = inode_num_proc; i<inode_cnt; i++){
 		fs->inode[i]->if_exist = 0;
 		fs->inode[i]->if_read = 0;
@@ -102,6 +103,7 @@ void devfs_init(filesystem_t *fs, inode_t *dev)
 	strcpy(null->name, "/dev");
 	strcat(null->name, "/null");
 	fs->inode[inode_num_dev++] = null;
+	pmm->free(null);
 	/*================zero================*/	
 	if(inode_num_dev == inode_cnt){
 		printf("the inode is full in procfs\n");
@@ -114,6 +116,7 @@ void devfs_init(filesystem_t *fs, inode_t *dev)
 	strcpy(zero->name, "/dev");
 	strcat(zero->name, "/zero");
 	fs->inode[inode_num_dev++] = zero;
+	pmm->free(zero);
 	/*================random================*/		
 	if(inode_num_dev == inode_cnt){
 		printf("the inode is full in procfs\n");
@@ -126,7 +129,7 @@ void devfs_init(filesystem_t *fs, inode_t *dev)
 	strcpy(random->name,"/dev");
 	strcat(random->name, "/random");
 	fs->inode[inode_num_dev++] = random;
-	
+	pmm->free(random);
 	/*for(int i = inode_num_dev; i<inode_cnt; i++){
 		fs->inode[i]->if_exist = 0;
 		fs->inode[i]->if_read = 0;
@@ -786,8 +789,7 @@ printf("O_WRDR:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->in
 		}			
 	}
 	int temp_fd = FILE->ops->open(node, FILE, flags);
-	pmm->free(FILE);
-	
+	pmm->free(FILE); pmm->free(node);
 	//printf("open:FILE->offset:%d\n", FILE->offset);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
