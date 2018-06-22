@@ -79,12 +79,12 @@ void procfs_init(filesystem_t *fs, inode_t *dev)
 	meminfo->size = strlen(m_info);
 	fs->inode[inode_num_proc++] = meminfo;	
 
-	for(int i = inode_num_proc; i<inode_cnt; i++){
+	/*for(int i = inode_num_proc; i<inode_cnt; i++){
 		fs->inode[i]->if_exist = 0;
 		fs->inode[i]->if_read = 0;
 		fs->inode[i]->if_write = 0;
 		fs->inode[i]->thread_cnt = 0;
-	}		
+	}*/		
 	return;
 }
 void devfs_init(filesystem_t *fs, inode_t *dev)
@@ -126,23 +126,23 @@ void devfs_init(filesystem_t *fs, inode_t *dev)
 	strcat(random->name, "/random");
 	fs->inode[inode_num_dev++] = random;
 	
-	for(int i = inode_num_dev; i<inode_cnt; i++){
+	/*for(int i = inode_num_dev; i<inode_cnt; i++){
 		fs->inode[i]->if_exist = 0;
 		fs->inode[i]->if_read = 0;
 		fs->inode[i]->if_write = 0;
 		fs->inode[i]->thread_cnt = 0;
-	}
+	}*/
 	return;		
 }
 void kvfs_init(filesystem_t *fs, inode_t *dev)
 {
 	//TODO();目前不知道这里kvfs如何初始化
-	for(int i = 0; i<inode_cnt ; i++){
+	/*for(int i = 0; i<inode_cnt ; i++){
 		fs->inode[i]->if_exist = 0;
 		fs->inode[i]->if_read = 0;
 		fs->inode[i]->if_write = 0;
 		fs->inode[i]->thread_cnt = 0;
-	}
+	}*/
 	return;
 }
 void fs_init(filesystem_t *fs, const char *name, inode_t *dev)	//dev的作用
@@ -703,6 +703,7 @@ int open(const char *path, int flags)
 				return -1;
 			}
 			node = pmm->alloc(sizeof(inode_t));
+			node->if_exist = 0; node->if_read = 0; node->if_write = 0; node->thread_cnt = 0; node->size = 0;
 			procfs_p->fs->inode[inode_num_proc++] = node;
 			strcpy(node->name, path);
 		}
@@ -723,6 +724,7 @@ int open(const char *path, int flags)
 				return -1;
 			}
 			node = pmm->alloc(sizeof(inode_t));
+			node->if_exist = 0; node->if_read = 0; node->if_write = 0; node->thread_cnt = 0; node->size = 0;			
 			devfs_p->fs->inode[inode_num_dev++] = node;
 			strcpy(node->name, path);
 		}
@@ -743,12 +745,10 @@ int open(const char *path, int flags)
 				return -1;
 			}
 			node = pmm->alloc(sizeof(inode_t));
+			node->if_exist = 0; node->if_read = 0; node->if_write = 0; node->thread_cnt = 0; node->size = 0;
 			printf("in open\nnode if_exist:%d\n", node->if_exist);
 			kvfs_p->fs->inode[inode_num_kv++] = node;
 			strcpy(node->name, path);
-			/*for(int i = 0; i<inode_cnt; i++){
-				printf("in open\ninode %d if_exist:%d\n", i, kvfs_p->fs->inode[i]->if_exist);
-			}*/
 		}	
 		else{
 	/*=========================unlock=========================*/
