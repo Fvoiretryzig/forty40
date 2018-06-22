@@ -366,9 +366,11 @@ int file_open(inode_t *inode, file_t *file, int flags)
 				printf("open fd error: there isn't enough fd left in read&write!\n");
 				return -1;
 			}
+			printf("O_WRDR:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);
 			file->fd = current_fd;
 			strcpy(file->name, inode->name);
 			strcpy(file->content, inode->content);
+			printf("O_WRDR:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);
 			file->f_inode = inode;
 			file->offset = 0;	
 			file->if_read = 1;

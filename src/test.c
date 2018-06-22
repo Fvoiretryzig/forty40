@@ -408,7 +408,7 @@ while(1){
 		}
 		else{
 			printf("file11:xixi not create!!\n");
-			printf("file11:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);
+			//printf("file11:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);
 			fd = vfs->open(name, O_RDWR);
 		}
 		//printf("file11:before_intr_read():%d\n",_intr_read());
