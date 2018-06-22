@@ -215,82 +215,6 @@ void single_thread_test()
 	kmt->create(&t2, &kv_test, NULL);
 	kmt->create(&t3, &proc_test, NULL);	
 }
-void file1()
-{
-	kmt->spin_lock(&lk);
-	printf("this is file1\n");
-	char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
-	int size = 0; int fd = -1;
-	strcpy(name, "/home/forty/4040");
-	if(vfs->access(name, F_OK) < 0){
-		fd = vfs->open(name, O_CREATE|O_RDWR);
-		vfs->close(fd);
-	}kmt->spin_unlock(&lk);	
-	printf("heiheihei\n");
-	printf("file1:_intr_read():%d\n",_intr_read());
-	//printf("file1:this is before yield\n");
-	//_yield();
-	//printf("file1:this is after yield\n");
-	
-	while(1){
-		kmt->spin_lock(&lk);
-		int offset = 0;
-		fd = vfs->open(name, O_RDWR);
-		printf("file1:fd:%d\n", fd);
-		if(fd < 0){
-			printf("file1:open %s error!!\n", name);
-			continue;
-		}		
-		strcpy(buf, "this is /home/forty/4040\n");
-		size = vfs->write(fd, buf, strlen(buf));
-		//printf("file1: size:%d\n", size);
-		if(size < 0){
-			printf("file1:write %s error!!\n", name);
-			vfs->close(fd);
-			continue;
-		}		
-		printf("file1:first write size:%d\n", size);
-		/*size = vfs->write(fd, buf, strlen(buf));	//写两遍
-		if(size < 0){
-			printf("file1:write %s error!!\n", name);
-			vfs->close(fd);
-			continue;
-		}
-		printf("file1:second write size:%d\n", size);*/		
-		offset = vfs->lseek(fd, 0, SEEK_SET);
-		if(offset < 0){
-			printf("file1:lseek %s error!!\n", name);
-			vfs->close(fd);
-			continue;
-		}
-		size = vfs->read(fd, buf, strlen(buf));
-		if(size < 0){
-			printf("file1:read %s error!!\n", name);
-			vfs->close(fd);
-			continue;
-		}		
-		printf("file1:read size:%d\n", size); printf("content:\n%s", buf);
-		/*offset = vfs->lseek(fd, 0, SEEK_SET);
-		if(offset < 0){
-			printf("file1:lseek %s error!!\n", name);
-			vfs->close(fd);
-			continue;
-		}
-		size = vfs->read(fd, buf, strlen(buf)*2);
-		if(size < 0){
-			printf("file1:read %s error!!\n", name);
-			vfs->close(fd);
-			continue;
-		}
-		printf("file1:read size:%d\n", size); printf("content:\n%s\n", buf);*/
-		strcpy(buf, "");
-		vfs->close(fd);
-		kmt->spin_unlock(&lk);
-		printf("file1 end\n\n");
-	}
-	pmm->free(buf); pmm->free(name);
-	return;
-}
 void file2()
 {
 	//kmt->spin_lock(&lk);
@@ -375,6 +299,82 @@ void file2()
 		vfs->close(fd);
 		kmt->spin_unlock(&lk);
 		printf("this is file2 end\n");
+	}
+	pmm->free(buf); pmm->free(name);
+	return;
+}
+void file1()
+{
+	kmt->spin_lock(&lk);
+	printf("this is file1\n");
+	char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
+	int size = 0; int fd = -1;
+	strcpy(name, "/home/forty/4040");
+	if(vfs->access(name, F_OK) < 0){
+		fd = vfs->open(name, O_CREATE|O_RDWR);
+		vfs->close(fd);
+	}kmt->spin_unlock(&lk);	
+	printf("heiheihei\n");
+	printf("file1:_intr_read():%d\n",_intr_read());
+	//printf("file1:this is before yield\n");
+	//_yield();
+	//printf("file1:this is after yield\n");
+	
+	while(1){
+		kmt->spin_lock(&lk);
+		int offset = 0;
+		fd = vfs->open(name, O_RDWR);
+		printf("file1:fd:%d\n", fd);
+		if(fd < 0){
+			printf("file1:open %s error!!\n", name);
+			continue;
+		}		
+		strcpy(buf, "this is /home/forty/4040\n");
+		size = vfs->write(fd, buf, strlen(buf));
+		//printf("file1: size:%d\n", size);
+		if(size < 0){
+			printf("file1:write %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}		
+		printf("file1:first write size:%d\n", size);
+		/*size = vfs->write(fd, buf, strlen(buf));	//写两遍
+		if(size < 0){
+			printf("file1:write %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}
+		printf("file1:second write size:%d\n", size);*/		
+		offset = vfs->lseek(fd, 0, SEEK_SET);
+		if(offset < 0){
+			printf("file1:lseek %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}
+		size = vfs->read(fd, buf, strlen(buf));
+		if(size < 0){
+			printf("file1:read %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}		
+		printf("file1:read size:%d\n", size); printf("content:\n%s", buf);
+		/*offset = vfs->lseek(fd, 0, SEEK_SET);
+		if(offset < 0){
+			printf("file1:lseek %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}
+		size = vfs->read(fd, buf, strlen(buf)*2);
+		if(size < 0){
+			printf("file1:read %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}
+		printf("file1:read size:%d\n", size); printf("content:\n%s\n", buf);*/
+		strcpy(buf, "");
+		vfs->close(fd);
+		kmt->spin_unlock(&lk);
+		printf("file1 end\n\n");
 	}
 	pmm->free(buf); pmm->free(name);
 	return;

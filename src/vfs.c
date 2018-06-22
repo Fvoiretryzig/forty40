@@ -816,6 +816,7 @@ ssize_t write(int fd, void *buf, size_t nbyte)
 		printf("invalid write for a non-exising inode!\n");
 		return -1;
 	}	
+	printf("in write size:%d\n", size);
 	ssize_t size = FILE->ops->write(node, FILE, buf, nbyte);
 	printf("in write size:%d\n", size);
 	/*=========================unlock=========================*/
