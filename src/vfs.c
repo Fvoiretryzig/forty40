@@ -786,6 +786,8 @@ printf("O_WRDR:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->in
 		}			
 	}
 	int temp_fd = FILE->ops->open(node, FILE, flags);
+	pmm->free(FILE);
+	
 	//printf("open:FILE->offset:%d\n", FILE->offset);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
