@@ -8,7 +8,7 @@
 //typedef struct file file_t;
 static void vfs_init();
 static int access(const char *path, int mode);
-static int mount(const char *path, filesystem_t *fs);
+static int mount(const char *path);
 static int unmount(const char *path);
 static int open(const char *path, int flags);
 static ssize_t read(int fd, void *buf, size_t nbyte);
@@ -191,7 +191,7 @@ int fs_close(inode_t inode)
 void create_procfs() 
 {
 	strcpy(fs[0].name, "procfs");
-	if (!fs) panic("procfs allocation failed");
+	//if (!fs) panic("procfs allocation failed");
 	//fs[0].ops = procfs_op; // 你为procfs定义的fsops_t，包含函数的实现
 	fs_init("procfs", NULL);
 	
@@ -200,7 +200,7 @@ void create_procfs()
 void create_devfs() 
 {
 	strcpy(fs[1].name, "devfs"); 
-	if (!fs) panic("devfs allocation failed");
+	//if (!fs) panic("devfs allocation failed");
 	//fs[1].ops = devfs_op; // 你为procfs定义的fsops_t，包含函数的实现
 	fs_init("devfs", NULL);
 	
@@ -209,7 +209,7 @@ void create_devfs()
 void create_kvfs() 
 {
 	strcpy(fs[2].name, "kvfs"); 
-	if (!fs) panic("fs allocation failed");
+	//if (!fs) panic("fs allocation failed");
 	//fs[2].ops = kvfs_op; // 你为procfs定义的fsops_t，包含函数的实现
 	fs_init("kvfs", NULL);
 	return;
@@ -289,7 +289,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file->fd = current_fd;
 			strcpy(file->name, inode->name);
 			strcpy(file->content, inode->content);
-			file->f_inode = inode;
+			file->f_inode = *node;
 			file->offset = 0;	
 			file->if_read = 1;
 			file->if_write = 0;									
@@ -318,7 +318,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file->fd = current_fd;
 			strcpy(file->name, inode->name);
 			strcpy(file->content, inode->content);
-			file->f_inode = inode;
+			file->f_inode = *inode;
 			file->offset = 0;	
 			file->if_read = 0;
 			file->if_write = 1;									
@@ -349,7 +349,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			strcpy(file->name, inode->name);
 			strcpy(file->content, inode->content);
 
-			file->f_inode = inode;
+			file->f_inode = *inode;
 			file->offset = 0;	
 			file->if_read = 1;
 			file->if_write = 1;									
@@ -379,7 +379,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file->fd = current_fd;
 			strcpy(file->name, inode->name);
 			strcpy(file->content, inode->content);
-			file->f_inode = inode;
+			file->f_inode = *inode;
 			file->offset = 0;	
 			file->if_read = 1;
 			file->if_write = 0;									
@@ -408,7 +408,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file->fd = current_fd;
 			strcpy(file->name, inode->name);
 			strcpy(file->content, inode->content);
-			file->f_inode = inode;
+			file->f_inode = *inode;
 			file->offset = 0;	
 			file->if_read = 0;
 			file->if_write = 1;									
@@ -438,7 +438,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file->fd = current_fd;
 			strcpy(file->name, inode->name);
 			strcpy(file->content, inode->content);
-			file->f_inode = inode;
+			file->f_inode = *inode;
 			file->offset = 0;	
 			file->if_read = 1;
 			file->if_write = 1;									
@@ -455,7 +455,7 @@ ssize_t kvproc_file_read(inode_t *inode, file_t *file, char *buf, size_t size)
 		printf("read permission error: cannot read %s\n", file->name);
 		return -1;
 	}
-	if(size > file->f_inode->size - file->offset){
+	if(size > file->f_inode.size - file->offset){
 		size = inode->size - file->offset;
 	}
 	strncpy(buf, file->content+file->offset, size);
@@ -469,16 +469,16 @@ ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
 		printf("read permission error: cannot read %s\n", file->name);
 		return -1;
 	}
-	if(size > file->f_inode->size - file->offset){
+	if(size > file->f_inode.size - file->offset){
 		size = inode->size - file->offset;
 	}	
-	if(!strcmp(inode->name+strlen(devfs_p->p), "/zero")){
+	if(!strcmp(inode->name+strlen(devfs_p.p), "/zero")){
 		strcpy(buf, "");
 	}
-	else if(!strcmp(inode->name+strlen(devfs_p->p), "/null")){
+	else if(!strcmp(inode->name+strlen(devfs_p.p), "/null")){
 		strcpy(buf, "");
 	}
-	else if(!strcmp(inode->name+strlen(devfs_p->p), "/random")){	
+	else if(!strcmp(inode->name+strlen(devfs_p.p), "/random")){	
 		int num = rand() % 8192;
 		strncpy(buf, itoa(num), 4);
 	}
@@ -514,9 +514,9 @@ ssize_t dev_file_write(inode_t *inode, file_t *file, const char *buf, size_t siz
 		printf("write permmison error: cannot write %s\n", file->name);
 		return -1;
 	}
-	if(!strcmp(inode->name+strlen(devfs_p->p), "/zero")
-	|| !strcmp(inode->name+strlen(devfs_p->p), "/null")
-	|| !strcmp(inode->name+strlen(devfs_p->p), "/random")){
+	if(!strcmp(inode->name+strlen(devfs_p.p), "/zero")
+	|| !strcmp(inode->name+strlen(devfs_p.p), "/null")
+	|| !strcmp(inode->name+strlen(devfs_p.p), "/random")){
 		return size;	//这几个文件写了也没用
 	}
 	else if(file->offset + size >= file_content_maxn){
