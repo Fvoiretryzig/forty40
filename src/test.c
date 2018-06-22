@@ -235,6 +235,7 @@ void file1()
 		}		
 		strcpy(buf, "this is /home/forty/4040\n");
 		size = vfs->write(fd, buf, strlen(buf));
+		printf("file1: size:%d\n", size);
 		if(size < 0){
 			printf("file1:write %s error!!\n", name);
 			vfs->close(fd);
@@ -368,7 +369,7 @@ void file2()
 void multi_thread_test()
 {
 	kmt->create(&t4, &file1, NULL);
-	//kmt->create(&t5, &file2, NULL);
+	kmt->create(&t5, &file2, NULL);
 }
 void test_file()
 {
