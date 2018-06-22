@@ -819,7 +819,7 @@ ssize_t write(int fd, void *buf, size_t nbyte)
 	}
 	inode_t* node = NULL;
 	file_t *FILE = file_table[fd];
-	char *path = FILE->name;
+	char *path = FILE->name;printf("write:kvfs_p->fs->inode[0]->name:%s\n",kvfs_p->fs->inode[0]->name);
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
 		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, 0);
 	}
@@ -827,7 +827,7 @@ ssize_t write(int fd, void *buf, size_t nbyte)
 		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, 0);
 	}
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){
-		printf("write:kvfs_p->fs->inode[0]->name:%s\n",kvfs_p->fs->inode[0]->name);
+		
 		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, 0);
 	}
 	if(node == NULL){
