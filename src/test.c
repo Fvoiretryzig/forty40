@@ -310,10 +310,11 @@ void file1()
 	char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
 	int size = 0; int fd = -1;
 	strcpy(name, "/home/forty/4040");
+	//kmt->spin_lock(&lk);
 	if(vfs->access(name, F_OK) < 0){
 		fd = vfs->open(name, O_CREATE|O_RDWR);
 		vfs->close(fd);
-	}//kmt->spin_unlock(&lk);	
+	}kmt->spin_unlock(&lk);	
 	printf("heiheihei\n");
 	//printf("file1:before_intr_read():%d\n",_intr_read());
 	//printf("file1:this is before yield\n");
@@ -346,6 +347,7 @@ void file1()
 			continue;
 		}
 		printf("file1:second write size:%d\n", size);*/		
+		printf("file1:_intr_read():%d\n",_intr_read());
 		offset = vfs->lseek(fd, 0, SEEK_SET);
 		if(offset < 0){
 			printf("file1:lseek %s error!!\n", name);
@@ -414,6 +416,7 @@ void file11()
 			continue;
 		}		
 		printf("file11first write size:%d\n", size);
+		printf("file11:after_intr_read():%d\n",_intr_read());
 		/*size = vfs->write(fd, buf, strlen(buf));	//写两遍
 		if(size < 0){
 			printf("file1:write %s error!!\n", name);
