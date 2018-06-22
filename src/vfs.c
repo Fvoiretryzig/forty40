@@ -452,7 +452,7 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			file->if_read = 1;
 			file->if_write = 1;									
 			file_table[current_fd] = file;
-			printf("file_open:current_fd:%d file->offset:%d file_table[current_fd]->offset:%d\n",current_fd, file->offset, file_table[current_fd]->offset);
+			printf("file_open:current_fd:%d file->offset:%d",current_fd, file->offset);
 			break;				
 	}
 	return file->fd;
@@ -762,6 +762,7 @@ int open(const char *path, int flags)
 		}			
 	}
 	int temp_fd = FILE->ops->open(node, FILE, flags);
+	printf("open:FILE->offset:%d", FILE->offset);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
 	return temp_fd;
