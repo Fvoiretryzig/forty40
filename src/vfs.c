@@ -783,13 +783,12 @@ int open(const char *path, int flags)
 			kmt->spin_unlock(&vfs_lk);
 			//printf("open:node name:%s if_read:%d if_write:%d\n", node->name, node->if_read, node->if_write);	
 			while(node->thread_cnt > 0);
-			printf("kuaidianxiehaoba!!\n");
 			kmt->spin_lock(&vfs_lk);
 	/*=========================lock=========================*/						
 		}			
 	}
 	int temp_fd = FILE->ops->open(node, FILE, flags);
-	pmm->free(FILE); pmm->free(node);
+	pmm->free(FILE); pmm->free(node);printf("kuaidianxiehaoba!!\n");
 	//printf("open:FILE->offset:%d\n", FILE->offset);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
