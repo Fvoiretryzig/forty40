@@ -281,7 +281,7 @@ void file1()
 		strcpy(buf, "");
 		vfs->close(fd);
 		kmt->spin_unlock(&lk);
-		printf("file1 end\n");
+		printf("file1 end\n\n");
 	}
 	pmm->free(buf); pmm->free(name);
 	return;
