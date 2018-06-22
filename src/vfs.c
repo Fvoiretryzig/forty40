@@ -277,7 +277,6 @@ int file_open(inode_t *inode, file_t *file, int flags)
 				if(fd[i] == 0){
 					fd[i] = 1;
 					current_fd = i;
-					
 					break;
 				}
 			}
