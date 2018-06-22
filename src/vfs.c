@@ -502,11 +502,12 @@ ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t 
 		printf("write permission error: cannot write %s\n", file->name);
 		return -1;
 	}
+	printf("file_write:before renew size:%d\n", size);
 	if((file->offset + size) >= file_content_maxn){
 		size = file_content_maxn - file->offset;
 	}
 	printf("file_write:before strncpy size:%d\n", size);
-	strncpy(inode->content + file->offset, buf, size);printf("file_write:after strncpy size:%d\n", size);
+	strncpy(inode->content + file->offset, buf, size);
 	strcpy(file->content, inode->content);	//先拷贝到inode再到文件
 	inode->size = file->offset + size;
 	file->offset += size;
