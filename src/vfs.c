@@ -391,7 +391,8 @@ int file_open(inode_t *inode, file_t *file, int flags)
 			}
 			inode->if_exist = 1; inode->if_read = 1; inode->if_write = 0;
 			inode->thread_cnt++;
-			inode->size = 0; inode->content = "";
+			inode->size = 0; //inode->content = "";
+			strcpy(inode->content, "");
 			
 			file->fd = current_fd;
 			strcpy(file->name, inode->name);
@@ -419,7 +420,8 @@ int file_open(inode_t *inode, file_t *file, int flags)
 				return -1;
 			}
 			inode->if_exist = 1; inode->if_read = 0; inode->if_write = 1;
-			inode->size = 0; inode->content = "";
+			inode->size = 0; //inode->content = "";
+			strcpy(inode->content, "");
 			
 			file->fd = current_fd;
 			strcpy(file->name, inode->name);
@@ -447,7 +449,8 @@ int file_open(inode_t *inode, file_t *file, int flags)
 				return -1;
 			}
 			inode->if_exist = 1; inode->if_read = 1; inode->if_write = 1;
-			inode->size = 0; inode->content[0] = '\0';
+			inode->size = 0; //inode->content[0] = '\0';
+			strcpy(inode->content, "");
 			printf("file_open:inode->name:%s\n", inode->name);			
 			
 			file->fd = current_fd;
@@ -759,8 +762,9 @@ int open(const char *path, int flags)
 			}
 			node = pmm->alloc(sizeof(inode_t));
 			node->if_exist = 0; node->if_read = 0; node->if_write = 0; node->thread_cnt = 0; node->size = 0;
-			kvfs_p->fs->inode[inode_num_kv++] = node;
 			strcpy(node->name, path);
+			kvfs_p->fs->inode[inode_num_kv++] = node;
+			printf("open:kvfs_p->fs->inode[inode_num_kv++]:%s\n", kvfs_p->fs->inode[inode_num_kv-1]->name);
 		}	
 		else{
 	/*=========================unlock=========================*/
