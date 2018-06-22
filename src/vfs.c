@@ -78,8 +78,13 @@ void procfs_init(filesystem_t *fs, inode_t *dev)
 	strcpy(meminfo->content, m_info);
 	meminfo->size = strlen(m_info);
 	fs->inode[inode_num_proc++] = meminfo;	
-	
-	//线程？？
+
+	for(int i = inode_num_proc; i<inode_cnt; i++){
+		fs->inode[i]->if_exist = 0;
+		fs->inode[i]->if_read = 0;
+		fs->inode[i]->if_write = 0;
+		fs->inode[i]->thread_cnt = 0;
+	}		
 	return;
 }
 void devfs_init(filesystem_t *fs, inode_t *dev)
@@ -121,11 +126,24 @@ void devfs_init(filesystem_t *fs, inode_t *dev)
 	strcat(random->name, "/random");
 	fs->inode[inode_num_dev++] = random;
 	
+	for(int i = inode_num_dev; i<inode_cnt; i++){
+		fs->inode[i]->if_exist = 0;
+		fs->inode[i]->if_read = 0;
+		fs->inode[i]->if_write = 0;
+		fs->inode[i]->thread_cnt = 0;
+	}
 	return;		
 }
 void kvfs_init(filesystem_t *fs, inode_t *dev)
 {
 	//TODO();目前不知道这里kvfs如何初始化
+	for(int i = 0; i<inode_cnt ; i++){
+		fs->inode[i]->if_exist = 0;
+		fs->inode[i]->if_read = 0;
+		fs->inode[i]->if_write = 0;
+		fs->inode[i]->thread_cnt = 0;
+	}
+	return;
 }
 void fs_init(filesystem_t *fs, const char *name, inode_t *dev)	//dev的作用
 {
@@ -209,9 +227,6 @@ filesystem_t *create_kvfs()
 	if (!fs) panic("fs allocation failed");
 	fs->ops = kvfs_op; // 你为procfs定义的fsops_t，包含函数的实现
 	fs->ops->init(fs, "kvfs", NULL);
-	for(int i = 0; i<inode_cnt; i++){
-		printf("kvfs %d:%d\n", i, fs->inode[i]->if_exist);
-	}
 	return fs;
 }
 int mount(const char *path, filesystem_t *fs)
