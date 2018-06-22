@@ -715,9 +715,10 @@ int open(const char *path, int flags)
 	printf("O_WRDR:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);
 	/*=========================lock=========================*/
 	inode_t* node = NULL; 
-	file_t *FILE = (file_t*)pmm->alloc(sizeof(file_t)); 
+	file_t *FILE = (file_t*)pmm->alloc(sizeof(file_t));
+	printf("open: FILE address:0x%08x inode address:0x%08x\n", FILE, kvfs_p->fs->inode[0]); 
 	FILE->if_read = 0; FILE->if_write = 0;
-printf("O_WRDR:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);	
+printf("O_WRDR:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);	//有bug这里的if_read和if_write被修改了！	
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
 		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, flags);	//不知道是不是flag
 		FILE->ops = procfile_op;
