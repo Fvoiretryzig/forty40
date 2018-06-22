@@ -310,7 +310,7 @@ void file2()
 			vfs->close(fd);
 			continue;
 		}		
-		printf("file2:read size:%d ", size); printf("content:\n%s\n", buf);
+		printf("file2:read size:%d ", size); printf("content:\n%s", buf);
 		strcpy(buf, "");	
 		offset = vfs->lseek(fd, 0, SEEK_END);
 		if(offset < 0){
