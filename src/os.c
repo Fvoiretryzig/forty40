@@ -36,6 +36,11 @@ static void os_run() {
   while (1) ; // should never return
 }
 static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
+
+	if(ev.event == _EVENT_IRQ_TIMER){
+		printf("this is irq_timer\n\n");
+		return regs;
+	}
 	if(last_thread != -1){
 		work[last_thread].thread_reg = regs;
 	}
@@ -43,9 +48,9 @@ static _RegSet *os_interrupt(_Event ev, _RegSet *regs) {
 	thread_t* t = kmt->schedule();
 	last_thread = t->id;
 	printf("in os_interrupt eip:0x%08x\n", regs->eip);
-	if(ev.event == _EVENT_IRQ_TIMER){
-		printf("this is irq_timer\n\n");
-	}//时钟中断???????????；
+	//if(ev.event == _EVENT_IRQ_TIMER){
+	//	printf("this is irq_timer\n\n");
+	//}//时钟中断???????????；
 	if(ev.event == _EVENT_IRQ_IODEV){
 		printf("this is _EVENT_IRQ_IODEV\n");	
 	}//设备中断；
