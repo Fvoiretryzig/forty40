@@ -497,7 +497,7 @@ ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
 }
 ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t size)
 {
-	//printf("in file_write:name:%s size:%d inode_size:%d offset:%d\n", file->name,size,inode->size, file->offset);
+	printf("name:%s buf:%s\nsize:%d\n", inode->name, buf, size);
 	if(!inode->if_write){
 		printf("write permission error: cannot write %s\n", file->name);
 		return -1;
@@ -815,7 +815,6 @@ ssize_t write(int fd, void *buf, size_t nbyte)
 		printf("invalid write for a non-exising inode!\n");
 		return -1;
 	}	
-	//printf("before file write: buf:%s nbyte:%d\n", buf, nbyte);
 	ssize_t size = FILE->ops->write(node, FILE, buf, nbyte);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);		
