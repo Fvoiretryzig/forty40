@@ -444,15 +444,16 @@ void file11()
 		strcpy(buf, "");
 		vfs->close(fd);
 		kmt->spin_unlock(&lk);
-		printf("file1 end\n\n");
+		printf("file11 end\n\n");
 	}
 	pmm->free(buf); pmm->free(name);
 	return;
 }
 void multi_thread_test()
 {
-	kmt->create(&t5, &file11, NULL);
 	kmt->create(&t4, &file1, NULL);
+	kmt->create(&t5, &file11, NULL);
+	
 	
 }
 void test_file()
