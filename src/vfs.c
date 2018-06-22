@@ -505,11 +505,12 @@ ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t 
 	if((file->offset + size) >= file_content_maxn){
 		size = file_content_maxn - file->offset;
 	}
-	strncpy(inode->content + file->offset, buf, size);
+	//printf("file_write:before strncpy size:%d\n", size);
+	strncpy(inode->content + file->offset, buf, size);//printf("file_write:after strncpy size:%d\n", size);
 	strcpy(file->content, inode->content);	//先拷贝到inode再到文件
 	inode->size = file->offset + size;
 	file->offset += size;
-	printf("file_write:size:%d\n", size);
+	//printf("file_write:size:%d\n", size);
 	return size;
 }
 ssize_t dev_file_write(inode_t *inode, file_t *file, const char *buf, size_t size)

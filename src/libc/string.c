@@ -45,10 +45,11 @@ char *strcpy(char *dst, const char *src)
 }
 char *strncpy(char *dst, const char *src, size_t n)
 {
+	int temp_n = n;
 	char *temp_dst = dst;
 	while(n-- && (*temp_dst++ = *src++));
-	if(n)
-		while(--n)
+	if(temp_n)
+		while(--temp_n)
 			*temp_dst = '\0';
 	return dst;
 }
