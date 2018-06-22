@@ -403,7 +403,7 @@ void file11()
 			printf("file1:open %s error!!\n", name);
 			continue;
 		}		
-		strcpy(buf, "this is /home/forty/4040\n");
+		strcpy(buf, "this is /home/40/forty\n");
 		size = vfs->write(fd, buf, strlen(buf));
 		printf("file1: size:%d\n", size);
 		if(size < 0){
