@@ -102,7 +102,6 @@ void devfs_init(inode_t *dev)
 	strcpy(null.name, "/dev");
 	strcat(null.name, "/null");
 	fs[1].inode[inode_num_dev++] = null;
-	pmm.free(null);
 	/*================zero================*/	
 	if(inode_num_dev == inode_cnt){
 		printf("the inode is full in procfs\n");
@@ -153,7 +152,7 @@ int lookup(filesystem_t fs, const char *path, int flag)
 	printf("lookup:path:%s\n", path);
 	int ret = -1;
 	int index = -1; int if_find = 0;
-	while(fs.inode[index] && index < inode_cnt){
+	while(index < inode_cnt){
 		if(fs.inode[index].if_exist){
 			if(!strcmp(path, fs.inode[index].name)){
 				if_find = 1;
@@ -175,7 +174,7 @@ int fs_close(inode_t inode)
 }
 void fsop_init()
 {
-	procfs_op.init = &fs_init;
+	procfs_op.init = fs_init;
 	procfs_op.lookup = &lookup;
 	procfs_op.close = &fs_close;
 	
