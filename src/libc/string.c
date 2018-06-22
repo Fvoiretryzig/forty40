@@ -42,7 +42,6 @@ size_t strlen(const char* s)
 char *strcpy(char *dst, const char *src)
 {
 	char *temp_dst = dst;
-	printf("strcpy:kvfs_p->fs->inode[0]:%s\n", kvfs_p->fs->inode[0]->name);
 	while((*temp_dst++ = *src++)!='\0');
 	printf("strcpy:kvfs_p->fs->inode[0]:%s\n", kvfs_p->fs->inode[0]->name);
 	return dst;

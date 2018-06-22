@@ -309,7 +309,7 @@ void file1()
 while(1){
 		kmt->spin_lock(&lk);
 		printf("this is file1\n");
-		char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
+		char buf[1024]; char name[1024];
 		int size = 0; int fd = -1;
 		strcpy(name, "/home/forty/4040");
 		//kmt->spin_lock(&lk);
@@ -382,7 +382,7 @@ while(1){
 		printf("file1:read size:%d\n", size); printf("content:\n%s\n", buf);*/
 		strcpy(buf, "");
 		vfs->close(fd);
-		printf("file1 end\n\n");pmm->free(buf); pmm->free(name);
+		printf("file1 end\n\n");
 		kmt->spin_unlock(&lk);
 		_yield();
 	}
