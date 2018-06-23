@@ -113,30 +113,30 @@ void free_unsafe(void *ptr)
 	if(valid_addr(ptr)){
 		current = get_block(ptr);
 		current->if_free = 1; 
-		printf("free_unsafe:current->size:0x%08x\n", current->size);
+		//printf("free_unsafe:current->size:0x%08x\n", current->size);
 			if(current->next == NULL){//this is the last block
 				if(current->prev){
 					tail = current->prev;
 					current->prev->next = NULL;
 					current->prev = NULL;
 					int new_addr = (uint32_t)sbrk(0)-current->size;
-					printf("1-1:program_break:0x%08x\n",program_break);
+					//printf("1-1:program_break:0x%08x\n",program_break);
 					if(brk((void*)new_addr) == -1){
-						printf("1:brk(new_addr) == -1 new_addr:0x%08x\n", new_addr);
+						//printf("1:brk(new_addr) == -1 new_addr:0x%08x\n", new_addr);
 						return;
 					}
-					printf("1-2:program_break:0x%08x\n",program_break);
+					//printf("1-2:program_break:0x%08x\n",program_break);
 				}				
 				else{
 					head = NULL;
 					tail = NULL;
 					int new_addr = (uint32_t)sbrk(0)-current->size;
-					printf("2-1:program_break:0x%08x\n",program_break);
+					//printf("2-1:program_break:0x%08x\n",program_break);
 					if(brk((void*)new_addr) == -1){
-						printf("2:brk(new_addr) == -1 new_addr:0x%08x\n", new_addr);
+						//printf("2:brk(new_addr) == -1 new_addr:0x%08x\n", new_addr);
 						return;
 					}
-					printf("2-2:program_break:0x%08x\n",program_break);
+					//printf("2-2:program_break:0x%08x\n",program_break);
 				}
 			}
 			else if(current->prev == NULL){
@@ -145,12 +145,12 @@ void free_unsafe(void *ptr)
 					current->next->prev = NULL;
 					current->next = NULL;
 					int new_addr = (uint32_t)sbrk(0)-current->size;
-					printf("3-1:program_break:0x%08x\n",program_break);
+					//printf("3-1:program_break:0x%08x\n",program_break);
 					if(brk((void*)new_addr) == -1){
-						printf("3:brk(new_addr) == -1 new_addr:0x%08x\n", new_addr);
+						//printf("3:brk(new_addr) == -1 new_addr:0x%08x\n", new_addr);
 						return;
 					}
-					printf("3-2:program_break:0x%08x\n",program_break);
+					//printf("3-2:program_break:0x%08x\n",program_break);
 				}
 			}
 			else{
@@ -158,12 +158,12 @@ void free_unsafe(void *ptr)
 				current->prev->next = current->next;
 				current->next = NULL; current->prev = NULL;
 				int new_addr = (uint32_t)sbrk(0)-current->size;
-				printf("4-1:program_break:0x%08x\n",program_break);
+				//printf("4-1:program_break:0x%08x\n",program_break);
 				if(brk((void*)new_addr) == -1){
-					printf("3:brk(new_addr) == -1 new_addr:0x%08x\n", new_addr);
+					//printf("3:brk(new_addr) == -1 new_addr:0x%08x\n", new_addr);
 					return;
 				}			
-				printf("4-2:program_break:0x%08x\n",program_break);	
+				//printf("4-2:program_break:0x%08x\n",program_break);	
 			}
 		//}
 	}
@@ -187,7 +187,7 @@ static void* pmm_alloc(size_t size)	//TODO():thread unsafe
 {
 	kmt->spin_lock(&pmm_lk);
 	void* ret = malloc_unsafe(size);
-	printf("in pmm alloc:ret address:0x%08x program_break:0x%08x\n", ret, program_break);
+	//printf("in pmm alloc:ret address:0x%08x program_break:0x%08x\n", ret, program_break);
 	kmt->spin_unlock(&pmm_lk);
 	return ret;
 }
