@@ -533,6 +533,7 @@ ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t 
 }
 ssize_t dev_file_write(inode_t *inode, file_t *file, const char *buf, size_t size)
 {
+	printf("in file_write:name:%s buf:%s size:%d\n", inode->name, buf, size);
 	if(!inode->if_write){
 		printf("write permmison error: cannot write %s\n", file->name);
 		return -1;
@@ -581,7 +582,7 @@ off_t file_lseek(inode_t *inode, file_t *file, off_t offset, int whence)
 int file_close(inode_t *inode, file_t *file)
 {
 	int current_fd = file->fd;
-	//printf("in file_close:fd:%d\n", current_fd);
+	printf("in file_close:fd:%d\n", current_fd);
 	fd[current_fd] = 0;
 	file_table[current_fd] = NULL;
 	return 0;	//不知道什么时候会是-1
