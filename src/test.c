@@ -217,9 +217,9 @@ void kv_test()
 }
 void single_thread_test()
 {
-	kmt->create(&t1, &dev_test, NULL);
+	//kmt->create(&t1, &dev_test, NULL);
 	kmt->create(&t2, &kv_test, NULL);
-	kmt->create(&t3, &proc_test, NULL);	
+	//kmt->create(&t3, &proc_test, NULL);	
 }
 mountpath_t* kvfs_p;
 void file22()
@@ -417,8 +417,8 @@ void test_file()
 {
 	kmt->spin_init(&lk, "filetest_lk");
 	kmt->spin_init(&lk, "multithread_lk");
-	//single_thread_test();
-	multi_thread_test();
+	single_thread_test();
+	//multi_thread_test();
 	return;
 }
 
