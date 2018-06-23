@@ -161,7 +161,7 @@ void proc_test()
 		vfs->close(proc_fd);
 		printf("proc_test:end\n\n");
 		kmt->spin_unlock(&lk);
-		_yiled();
+		_yield();
 	}
 	return;
 }
