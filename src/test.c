@@ -166,8 +166,9 @@ void proc_test()
 }
 void kv_test()
 {		
-	char *buf = pmm->alloc(1024); int size = 0;
-	char *name = pmm->alloc(64);		
+while(1){
+	char buf[1024]; int size = 0;
+	char name[64];		
 	strcpy(name, "/forty/40c");
 	int fd = vfs->open(name, O_CREATE|O_RDWR);
 	vfs->close(fd);
@@ -206,7 +207,7 @@ void kv_test()
 		vfs->close(fd);
 		kmt->spin_unlock(&lk);	
 	}	
-	pmm->free(buf); pmm->free(name);
+	}
 	return;
 }
 void single_thread_test()
@@ -425,6 +426,15 @@ while(1){
 		}		
 		printf("file22:first write size:%d\n", size);
 		offset = vfs->lseek(fd, 0, SEEK_SET);
+		offset = vfs->lseek(fd, 0, SEEK_END);
+		size = vfs->write(fd, buf, strlen(buf));	//写两遍
+		if(size < 0){
+			printf("file22:write %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}
+		printf("file22:second write size:%d\n", size);
+		offset = vfs->lseek(fd, 0, SEEK_SET);
 		if(offset < 0){
 			printf("file22:lseek %s error!!\n", name);
 			vfs->close(fd);
@@ -437,6 +447,19 @@ while(1){
 			continue;
 		}		
 		printf("file22:read size:%d\n", size); printf("content:\n%s", buf);
+		offset = vfs->lseek(fd, 0, SEEK_SET);
+		if(offset < 0){
+			printf("file1:lseek %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}
+		size = vfs->read(fd, buf, strlen(buf)*2);
+		if(size < 0){
+			printf("file22:read %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}
+		printf("file22:read size:%d\n", size); printf("content:\n%s\n", buf);
 		strcpy(buf, "");
 		vfs->close(fd);
 		printf("file22:end\n\n");pmm->free(buf); pmm->free(name);
@@ -557,8 +580,8 @@ void multi_thread_test()
 {
 	kmt->spin_lock(&lk_multhread);
 	kmt->create(&t4, &file22, NULL);
-	kmt->create(&t5, &file11, NULL);
-	kmt->create(&t6, &file11fuben, NULL);
+	//kmt->create(&t5, &file11, NULL);
+	//kmt->create(&t6, &file11fuben, NULL);
 	kmt->spin_unlock(&lk_multhread);
 }
 void test_file()
