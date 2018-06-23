@@ -166,7 +166,7 @@ void fs_init(filesystem_t *fs, const char *name, inode_t *dev)	//dev的作用
 }
 inode_t *lookup(filesystem_t *fs, const char *path, int flag)
 {	
-	printf("lookup:path:%s\n", path);
+	//printf("lookup:path:%s\n", path);
 	inode_t *ans = NULL;	//????????????????
 	int index = 0; int if_find = 0;
 	while(fs->inode[index] && index < inode_cnt){
@@ -720,7 +720,7 @@ int open(const char *path, int flags)
 	inode_t* node = NULL; 
 	file_t *FILE = (file_t*)pmm->alloc(sizeof(file_t));
 	//file_t FILE;
-	printf("open: FILE address:0x%08x inode address:0x%08x\n", &FILE, kvfs_p->fs->inode[0]); 
+	//printf("open: FILE address:0x%08x inode address:0x%08x\n", &FILE, kvfs_p->fs->inode[0]); 
 	FILE->if_read = 0; FILE->if_write = 0;
 //printf("O_WRDR:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);	//有bug这里的if_read和if_write被修改了！	
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
@@ -790,7 +790,8 @@ int open(const char *path, int flags)
 	}
 	int temp_fd = FILE->ops->open(node, FILE, flags);
 	//pmm->free(FILE); 
-	printf("kuaidianxiehaoba!!\n");pmm->free(node);
+	//printf("kuaidianxiehaoba!!\n");
+	pmm->free(node);
 	//printf("open:FILE->offset:%d\n", FILE->offset);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
