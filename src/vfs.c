@@ -26,7 +26,7 @@ mountpath_t kvfs_p;
 int fd[fd_cnt];
 file_t file_table[file_cnt];
 
-filesystem_t fs[3];	//fs[0]:procfs fs[1]:devfs fs[2]:kvfs
+filesystem_t fs[2];	//fs[0]:procfs fs[1]:devfs fs[2]:kvfs
 int seed;
 
 spinlock_t vfs_lk;
