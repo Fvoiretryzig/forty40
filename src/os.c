@@ -22,6 +22,7 @@ MOD_DEF(os)
 
 static void os_init() 
 {
+printf("heap start:0x%08x heap end:0x%08x\n", _heap.start, _heap.end);
   printf("Hello, OS World!\n");
   printf("heap start:0x%08x heap end:0x%08x\n", _heap.start, _heap.end);
   last_thread = -1;
