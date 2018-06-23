@@ -497,7 +497,59 @@ while(1){
 		kmt->spin_unlock(&lk);
 		_yield();
 	}
-	
+	return;
+}
+void file11fuben()
+{	
+while(1){
+		kmt->spin_lock(&lk);
+		printf("file11fuben:this is file11\n");
+		char buf[1024]; char name[64];
+		int size = 0; int fd = -1;
+		strcpy(name, "/home/vier");
+		if(vfs->access(name, F_OK) < 0){
+			printf("file11fuben:hahah create!!!\n");
+			fd = vfs->open(name, O_CREATE|O_RDWR);
+		}
+		else{
+			printf("file11fuben:xixi not create!!\n");
+			fd = vfs->open(name, O_RDWR);
+		}
+		
+		int offset = 0;
+		printf("file11fuben:fd:%d\n", fd);
+		if(fd < 0){
+			printf("file11fuben:open %s error!!\n", name);
+			continue;
+		}		
+		strcpy(buf, "this is /home/vier\n");
+		size = vfs->write(fd, buf, strlen(buf));
+		printf("file11fuben:size:%d\n", size);
+		if(size < 0){
+			printf("file11fuben:write %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}		
+		printf("file11fuben:first write size:%d\n", size);
+		offset = vfs->lseek(fd, 0, SEEK_SET);
+		if(offset < 0){
+			printf("file11fuben:lseek %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}
+		size = vfs->read(fd, buf, strlen(buf));
+		if(size < 0){
+			printf("file11fuben:read %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}		
+		printf("file11fuben:read size:%d\n", size); printf("content:\n%s", buf);
+		strcpy(buf, "");
+		vfs->close(fd);
+		printf("file11fuben:end\n\n");pmm->free(buf); pmm->free(name);
+		kmt->spin_unlock(&lk);
+		_yield();
+	}
 	return;
 }
 spinlock_t lk_multhread;
