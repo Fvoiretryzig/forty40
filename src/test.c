@@ -504,9 +504,8 @@ spinlock_t lk_multhread;
 void multi_thread_test()
 {
 	kmt->spin_lock(&lk_multhread);
-	//kmt->create(&t4, &file1, NULL);
-	//printf("between two thread\n");
-	kmt->create(&t5, &file11, NULL);
+	kmt->create(&t4, &file22, NULL);
+	//kmt->create(&t5, &file11, NULL);
 	kmt->spin_unlock(&lk_multhread);
 }
 void test_file()
