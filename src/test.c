@@ -312,16 +312,18 @@ while(1){
 		char buf[1024]; char name[1024];
 		int size = 0; int fd = -1;
 		strcpy(name, "/home/forty/4040");
+		//kmt->spin_lock(&lk);
 		if(vfs->access(name, F_OK) < 0){
 			fd = vfs->open(name, O_CREATE|O_RDWR);
+			//vfs->close(fd);
 		}
 		else{
 			fd = vfs->open(name, O_RDWR);
 		}
-		//char *s0 = kvfs_p->fs->inode[0]->name;
-		//char *s = kvfs_p->fs->inode[1]->name;
-		//printf("file1:buf address:0x%08x inode[0] address:0x%08x inode[1] address:0x%08x\n", buf, s0,s);
-		//printf("heiheihei\n");
+		char *s0 = kvfs_p->fs->inode[0]->name;
+		char *s = kvfs_p->fs->inode[1]->name;
+		printf("file1:buf address:0x%08x inode[0] address:0x%08x inode[1] address:0x%08x\n", buf, s0,s);
+		printf("heiheihei\n");
 		//printf("file1:before_intr_read():%d\n",_intr_read());
 		//printf("file1:this is before yield\n");
 		//_yield();
@@ -393,20 +395,37 @@ while(1){
 //int lock_cnt = 1;
 void file11()
 {
+//_intr_write(0);	
 while(1){
+		
 		kmt->spin_lock(&lk);
 		printf("file11:this is file11\n");
+		//char* buf = pmm->alloc(1024); char* name = pmm->alloc(64);
 		char buf[1024]; char name[64];
-		int size = 0; int fd = -1;int offset = 0;
+		int size = 0; int fd = -1;
 		strcpy(name, "/home/vier");
 		if(vfs->access(name, F_OK) < 0){
 			printf("file11:hahah create!!!\n");
 			fd = vfs->open(name, O_CREATE|O_RDWR);
+			//vfs->close(fd);
 		}
 		else{
 			printf("file11:xixi not create!!\n");
+			//printf("file11:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);
 			fd = vfs->open(name, O_RDWR);
 		}
+		//printf("file11:before_intr_read():%d\n",_intr_read());
+		//_yield();
+		//printf("file11:after_intr_read():%d\n",_intr_read());
+		//char *s0 = kvfs_p->fs->inode[0]->name;
+		//char *s = kvfs_p->fs->inode[1]->name;
+		//printf("file11:buf address:0x%08x inode[0] address:0x%08x inode[1] address:0x%08x\n", buf, s0,s);		
+		printf("hahah\n");
+	
+		
+		//kmt->spin_lock(&lk);
+		int offset = 0;
+		//fd = vfs->open(name, O_RDWR);
 		printf("file11:fd:%d\n", fd);
 		if(fd < 0){
 			printf("file11:open %s error!!\n", name);
@@ -420,7 +439,15 @@ while(1){
 			vfs->close(fd);
 			continue;
 		}		
-		printf("file11first write size:%d\n", size);	
+		printf("file11first write size:%d\n", size);
+		//printf("file11:after_intr_read():%d\n",_intr_read());
+		/*size = vfs->write(fd, buf, strlen(buf));	//写两遍
+		if(size < 0){
+			printf("file1:write %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}
+		printf("file1:second write size:%d\n", size);*/		
 		offset = vfs->lseek(fd, 0, SEEK_SET);
 		if(offset < 0){
 			printf("file11lseek %s error!!\n", name);
@@ -434,6 +461,19 @@ while(1){
 			continue;
 		}		
 		printf("file11read size:%d\n", size); printf("content:\n%s", buf);
+		/*offset = vfs->lseek(fd, 0, SEEK_SET);
+		if(offset < 0){
+			printf("file1:lseek %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}
+		size = vfs->read(fd, buf, strlen(buf)*2);
+		if(size < 0){
+			printf("file1:read %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}
+		printf("file1:read size:%d\n", size); printf("content:\n%s\n", buf);*/
 		strcpy(buf, "");
 		vfs->close(fd);
 		printf("file11 end\n\n");pmm->free(buf); pmm->free(name);
@@ -460,4 +500,5 @@ void test_file()
 	multi_thread_test();
 	return;
 }
+
 
