@@ -716,7 +716,7 @@ int access(const char *path, int mode)
 int open(const char *path, int flags)
 {
 	kmt->spin_lock(&vfs_lk);
-	printf("fs->inode[0]->name:%s if_exist:%d\n",fs->inode[0]->name,fs->inode[0]->if_exist);
+	printf("procfs_p->fs->inode[0]->name:%s if_exist:%d\n",procfs_p->fs->inode[0]->name,procfs_p->fs->inode[0]->if_exist);
 	printf("OPEN:procfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", procfs_p->fs->inode[0]->name,procfs_p->fs->inode[0]->if_read, procfs_p->fs->inode[0]->if_write);
 	/*=========================lock=========================*/
 	inode_t* node = NULL; 
