@@ -227,7 +227,7 @@ void file22()
 {	
 while(1){
 		kmt->spin_lock(&lk);
-		printf("file22:this is file11\n");
+		printf("file22:this is file22\n");
 		char buf[1024]; char name[64];
 		int size = 0; int fd = -1;
 		strcpy(name, "/home/4040");
@@ -303,7 +303,7 @@ void file2()
 {	
 while(1){
 		kmt->spin_lock(&lk);
-		printf("file2:this is file11\n");
+		printf("file2:this is file2\n");
 		char buf[1024]; char name[64];
 		int size = 0; int fd = -1;
 		strcpy(name, "/home/4040");
@@ -431,7 +431,7 @@ void file1()
 {	
 while(1){
 		kmt->spin_lock(&lk);
-		printf("file1:this is file11\n");
+		printf("file1:this is file1\n");
 		char buf[1024]; char name[64];
 		int size = 0; int fd = -1;
 		strcpy(name, "/home/vier");
