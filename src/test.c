@@ -106,6 +106,7 @@ void dev_test()
 		vfs->close(random_fd);
 		printf("dev_test:end\n\n");
 		kmt->spin_unlock(&lk);
+		_yield();
 	}		
 	return;
 }
