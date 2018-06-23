@@ -391,6 +391,60 @@ while(1){
 	}
 	
 	return;
+}*/
+void file22()
+{	
+while(1){
+		kmt->spin_lock(&lk);
+		printf("file22:this is file11\n");
+		char buf[1024]; char name[64];
+		int size = 0; int fd = -1;
+		strcpy(name, "/home/4040");
+		if(vfs->access(name, F_OK) < 0){
+			printf("file22:hahah create!!!\n");
+			fd = vfs->open(name, O_CREATE|O_RDWR);
+		}
+		else{
+			printf("file22:xixi not create!!\n");
+			fd = vfs->open(name, O_RDWR);
+		}
+		
+		int offset = 0;
+		printf("file22:fd:%d\n", fd);
+		if(fd < 0){
+			printf("file22:open %s error!!\n", name);
+			continue;
+		}		
+		strcpy(buf, "this is /home/4040\n");
+		size = vfs->write(fd, buf, strlen(buf));
+		printf("file22:size:%d\n", size);
+		if(size < 0){
+			printf("file22:write %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}		
+		printf("file22:first write size:%d\n", size);
+		offset = vfs->lseek(fd, 0, SEEK_SET);
+		if(offset < 0){
+			printf("file22:lseek %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}
+		size = vfs->read(fd, buf, strlen(buf));
+		if(size < 0){
+			printf("file22:read %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}		
+		printf("file22:read size:%d\n", size); printf("content:\n%s", buf);
+		strcpy(buf, "");
+		vfs->close(fd);
+		printf("file22:end\n\n");pmm->free(buf); pmm->free(name);
+		kmt->spin_unlock(&lk);
+		_yield();
+	}
+	
+	return;
 }
 void file11()
 {	
@@ -419,27 +473,27 @@ while(1){
 		size = vfs->write(fd, buf, strlen(buf));
 		printf("file11:size:%d\n", size);
 		if(size < 0){
-			printf("file11write %s error!!\n", name);
+			printf("file11:write %s error!!\n", name);
 			vfs->close(fd);
 			continue;
 		}		
-		printf("file11first write size:%d\n", size);
+		printf("file11:first write size:%d\n", size);
 		offset = vfs->lseek(fd, 0, SEEK_SET);
 		if(offset < 0){
-			printf("file11lseek %s error!!\n", name);
+			printf("file11:lseek %s error!!\n", name);
 			vfs->close(fd);
 			continue;
 		}
 		size = vfs->read(fd, buf, strlen(buf));
 		if(size < 0){
-			printf("file11read %s error!!\n", name);
+			printf("file11:read %s error!!\n", name);
 			vfs->close(fd);
 			continue;
 		}		
-		printf("file11read size:%d\n", size); printf("content:\n%s", buf);
+		printf("file11:read size:%d\n", size); printf("content:\n%s", buf);
 		strcpy(buf, "");
 		vfs->close(fd);
-		printf("file11 end\n\n");pmm->free(buf); pmm->free(name);
+		printf("file11:end\n\n");pmm->free(buf); pmm->free(name);
 		kmt->spin_unlock(&lk);
 		_yield();
 	}
