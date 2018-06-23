@@ -62,7 +62,7 @@ spinlock_t lk;
 static int create(thread_t *thread, void (*entry)(void *arg), void *arg)
 {
 	spin_lock(&lk);
-	printf("thread id:%d\n", thread->id);
+	//printf("thread id:%d\n", thread->id);
 	void *fence1_addr = pmm->alloc(FC_SZ);
 	void *addr = pmm->alloc(STK_SZ);
 	void *fence2_addr = pmm->alloc(FC_SZ);
