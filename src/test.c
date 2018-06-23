@@ -5,6 +5,7 @@
 /*=======================================================*/
 extern spinlock_t lk;
 spinlock_t lk;
+spinlock_t lk_thread;
 void producer()
 {
 	while (1) {
@@ -519,7 +520,7 @@ while(1){
 	}
 	return;
 }
-spinlock_t lk_thread;
+
 void multi_thread_test()
 {
 	kmt->spin_lock(&lk_thread);
