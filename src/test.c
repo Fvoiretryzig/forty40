@@ -51,62 +51,62 @@ void test_run()
 /*=======================================================*/
 void dev_test()
 {
-	char *buf = pmm->alloc(1024); int size = 0;
 	while(1){
 		kmt->spin_lock(&lk);
+		char buf[1024]; int size = 0;	
 		/*========================random========================*/
 		int random_fd = vfs->open("/dev/random", O_RDONLY);
-		printf("dev:random fd:%d\n", random_fd);
+		printf("dev_test:random fd:%d\n", random_fd);
 		size = vfs->read(random_fd, buf, 0);
 		if(size < 0){
-			printf("dev:error read /dev/random in dev_test\n");
+			printf("dev_test:error read /dev/random in dev_test\n");
 			vfs->close(random_fd);
 			continue;
 		}
-		printf("dev:this is the random number return by /dev/random:%s size:%d\n", buf, size);
+		printf("dev_test:this is the random number return by /dev/random:%s size:%d\n", buf, size);
 		size = vfs->read(random_fd, buf, 0);
 			if(size < 0){
-			printf("dev:error read /dev/random in dev_test\n");
+			printf("dev_test:error read /dev/random in dev_test\n");
 			vfs->close(random_fd);
 			continue;
 		}
-		printf("dev:this is the random number return by /dev/random:%s size:%d\n\n", buf, size);
+		printf("dev_test:this is the random number return by /dev/random:%s size:%d\n\n", buf, size);
 		/*========================null========================*/
 		int null_fd = vfs->open("/dev/null", O_RDWR);
-			printf("dev:null fd:%d\n", null_fd);
+			printf("dev_test:null fd:%d\n", null_fd);
 		strcpy(buf, "40404040");
 		size = vfs->write(null_fd, buf, strlen(buf));
 		if(size < 0){
-			printf("dev:error write /dev/null\n");
+			printf("dev_test:error write /dev/null\n");
 			vfs->close(null_fd);
 			continue;
 		}
-		printf("dev:this is the writing /dev/null operation return value:%d\n", size);
+		printf("dev_test:this is the writing /dev/null operation return value:%d\n", size);
 		size = vfs->read(null_fd, buf, 0);
 		if(size < 0){
-			printf("dev:error read /dev/null\n");
+			printf("dev_test:error read /dev/null\n");
 			vfs->close(null_fd);;
 			continue;
 		}
-		printf("dev:after read /dev/null buf:%d\n\n", *buf);
+		printf("dev_test:after read /dev/null buf:%d\n\n", *buf);
 		vfs->close(null_fd);
 		/*========================zero========================*/
 		int zero_fd = vfs->open("/dev/zero", O_RDONLY);
-		printf("dev:zero fd:%d\n", zero_fd);
+		printf("dev_test:zero fd:%d\n", zero_fd);
 		strcpy(buf, "40404040");
-		printf("dev:this is buf in zero before read buf:%s\n", buf);
+		printf("dev_test:this is buf in zero before read buf:%s\n", buf);
 		size = vfs->read(zero_fd, buf, 0);
 		if(size < 0){
-			printf("dev:error read /dev/zero\n");
+			printf("dev_test:error read /dev/zero\n");
 			vfs->close(zero_fd);
 			continue;
 		}	
-		printf("dev:after read /dev/zero buf:%d\n\n", *buf);
+		printf("dev_test:after read /dev/zero buf:%d\n\n", *buf);
 		vfs->close(zero_fd);
 		vfs->close(random_fd);
+		printf("")
 		kmt->spin_unlock(&lk);
 	}		
-	pmm->free(buf);
 	return;
 }
 void proc_test()
