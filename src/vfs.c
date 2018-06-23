@@ -166,14 +166,14 @@ void fs_init(filesystem_t *fs, const char *name, inode_t *dev)	//dev的作用
 }
 inode_t *lookup(filesystem_t *fs, const char *path, int flag)
 {	
-	//printf("lookup:path:%s\n", path);
+	printf("lookup:path:%s\n", path);
 	inode_t *ans = NULL;	//????????????????
 	int index = 0; int if_find = 0;
 	while(fs->inode[index] && index < inode_cnt){
 		if(fs->inode[index]->if_exist){
-			//printf("lookup: inode[%d]:name:%s\n",index, fs->inode[index]->name);
+			printf("lookup: inode[%d]:name:%s\n",index, fs->inode[index]->name);
 			if(!strcmp(path, fs->inode[index]->name)){
-				//printf("lookup:inode[%d] if_read:%d if_write:%d\n", index, fs->inode[index]->if_read, fs->inode[index]->if_write);
+				printf("lookup:inode[%d] if_read:%d if_write:%d\n", index, fs->inode[index]->if_read, fs->inode[index]->if_write);
 				if_find = 1;
 				break;
 			}			
@@ -727,7 +727,6 @@ int open(const char *path, int flags)
 		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, flags);	//不知道是不是flag
 		FILE->ops = procfile_op;
 		if(node == NULL){
-			printf("haha\n");
 			if(inode_num_proc == inode_cnt){
 				printf("the file is not exisiting while open and there is no inode to allocate!\n");
 				return -1;
