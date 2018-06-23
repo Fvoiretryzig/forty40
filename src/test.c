@@ -61,14 +61,16 @@ void dev_test()
 		if(size < 0){
 			printf("dev_test:error read /dev/random in dev_test\n");
 			vfs->close(random_fd);
-			continue;
+			kmt->spin_unlock(&lk);
+			_yield();
 		}
 		printf("dev_test:this is the random number return by /dev/random:%s size:%d\n", buf, size);
 		size = vfs->read(random_fd, buf, 0);
 			if(size < 0){
 			printf("dev_test:error read /dev/random in dev_test\n");
 			vfs->close(random_fd);
-			continue;
+			kmt->spin_unlock(&lk);
+			_yield();
 		}
 		printf("dev_test:this is the random number return by /dev/random:%s size:%d\n\n", buf, size);
 		/*========================null========================*/
@@ -79,14 +81,16 @@ void dev_test()
 		if(size < 0){
 			printf("dev_test:error write /dev/null\n");
 			vfs->close(null_fd);
-			continue;
+			kmt->spin_unlock(&lk);
+			_yield();
 		}
 		printf("dev_test:this is the writing /dev/null operation return value:%d\n", size);
 		size = vfs->read(null_fd, buf, 0);
 		if(size < 0){
 			printf("dev_test:error read /dev/null\n");
 			vfs->close(null_fd);;
-			continue;
+			kmt->spin_unlock(&lk);
+			_yield();
 		}
 		printf("dev_test:after read /dev/null buf:%d\n\n", *buf);
 		vfs->close(null_fd);
@@ -99,7 +103,8 @@ void dev_test()
 		if(size < 0){
 			printf("dev_test:error read /dev/zero\n");
 			vfs->close(zero_fd);
-			continue;
+			kmt->spin_unlock(&lk);
+			_yield();
 		}	
 		printf("dev_test:after read /dev/zero buf:%d\n", *buf);
 		vfs->close(zero_fd);
@@ -120,14 +125,16 @@ void proc_test()
 		printf("proc_test: the cpu fd is %d\n", cpu_fd);
 		if(cpu_fd < 0){
 			printf("proc_test:open cpuinfo error!\n");
-			continue;
+			kmt->spin_unlock(&lk);
+			_yield();
 		}
 		
 		size = vfs->read(cpu_fd, buf, 1024);
 		if(size < 0){
 			printf("proc_test:read error while read cpuinfo\n");
 			vfs->close(cpu_fd);
-			continue;
+			kmt->spin_unlock(&lk);
+			_yield();
 		}
 		printf("proc_test:the read result:\nsize:%d\ncontent:\n%s\n\n", size, buf);
 		vfs->close(cpu_fd);
@@ -135,14 +142,16 @@ void proc_test()
 		int mem_fd = vfs->open("/proc/meminfo", O_RDONLY);
 		if(mem_fd < 0){
 			printf("proc_test:open meminfo error!\n");
-			continue;
+			kmt->spin_unlock(&lk);
+			_yield();
 		}
 		printf("proc_test: the mem fd is %d\n", mem_fd);
 		size = vfs->read(mem_fd, buf, 1024);
 		if(size < 0){
 			printf("proc_test:read error while read meminfo\n");
 			vfs->close(mem_fd);
-			continue;
+			kmt->spin_unlock(&lk);
+			_yield();
 		}
 		printf("proc_test:size:%d\ncontent:\n%s\n\n", size, buf);
 		vfs->close(mem_fd);
@@ -150,14 +159,16 @@ void proc_test()
 		int proc_fd = vfs->open("/proc/0", O_RDONLY);
 		if(proc_fd < 0){
 			printf("proc_test:open /proc/0 error!\n");
-			continue;
+			kmt->spin_unlock(&lk);
+			_yield();
 		}
 		printf("proc_test: the process fd is %d\n", proc_fd);
 		size = vfs->read(proc_fd, buf, 1024);
 		if(size < 0){
 			printf("proc_test:read error while read process\n");
 			vfs->close(proc_fd);
-			continue;
+			kmt->spin_unlock(&lk);
+			_yield();
 		}
 		printf("proc_test:size:%d\ncontent:\n%s\n", size, buf);
 		vfs->close(proc_fd);
@@ -185,28 +196,32 @@ void kv_test()
 		printf("kv_test:fd for %s:%d\n", name, fd);
 		if(fd < 0){
 			printf("kv_test:open %s error!!\n", name);
-			continue;
+			kmt->spin_unlock(&lk);
+			_yield();
 		}
 		strcpy(buf, "forty-forty\nthis is a test for kvdb\n40404040\n");
 		size = vfs->write(fd, buf, strlen(buf));
 		if(size < 0){
 				printf("kv_test:write %s error!!\n", name);
 			vfs->close(fd);
-			continue;
+			kmt->spin_unlock(&lk);
+			_yield();
 		}
 		printf("kv_test:write %s size:%d\n", name, size);
 		offset = vfs->lseek(fd, 0, SEEK_SET);
 		if(offset < 0){
 			printf("kv_test:lseek %s error!!\n", name);
 			vfs->close(fd);
-			continue;
+			kmt->spin_unlock(&lk);
+			_yield();
 		}
 		strcpy(buf, " ");
 		size = vfs->read(fd, buf, 64);
 		if(size < 0){
 			printf("kv_test:read %s error!!\n", name);
 			vfs->close(fd);	
-			continue;
+			kmt->spin_unlock(&lk);
+			_yield();
 		}
 		printf("kv_test:read %s size:%d\ncontent:\n%s", name, size, buf);
 		strcpy(buf, "");
