@@ -222,7 +222,6 @@ void single_thread_test()
 	kmt->create(&t2, &kv_test, NULL);
 	kmt->create(&t3, &proc_test, NULL);	
 }
-mountpath_t* kvfs_p;
 void file22()
 {	
 while(1){
@@ -299,6 +298,81 @@ while(1){
 	
 	return;
 }
+void file2()
+{	
+while(1){
+		kmt->spin_lock(&lk);
+		printf("file2:this is file11\n");
+		char buf[1024]; char name[64];
+		int size = 0; int fd = -1;
+		strcpy(name, "/home/4040");
+		if(vfs->access(name, F_OK) < 0){
+			printf("file2:hahah create!!!\n");
+			fd = vfs->open(name, O_CREATE|O_RDWR);
+		}
+		else{
+			printf("file2:xixi not create!!\n");
+			fd = vfs->open(name, O_RDWR);
+		}
+		
+		int offset = 0;
+		printf("file2:fd:%d\n", fd);
+		if(fd < 0){
+			printf("file2:open %s error!!\n", name);
+			continue;
+		}		
+		strcpy(buf, "this is /home/4040\n");
+		size = vfs->write(fd, buf, strlen(buf));
+		printf("file2:size:%d\n", size);
+		if(size < 0){
+			printf("file2:write %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}		
+		printf("file2:first write size:%d\n", size);
+		offset = vfs->lseek(fd, 0, SEEK_SET);
+		offset = vfs->lseek(fd, 0, SEEK_END);
+		size = vfs->write(fd, buf, strlen(buf));	//写两遍
+		if(size < 0){
+			printf("file2:write %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}
+		printf("file2:second write size:%d\n", size);
+		offset = vfs->lseek(fd, 0, SEEK_SET);
+		if(offset < 0){
+			printf("file2:lseek %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}
+		size = vfs->read(fd, buf, strlen(buf));
+		if(size < 0){
+			printf("file2:read %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}		
+		printf("file2:read size:%d\n", size); printf("content:\n%s", buf);
+		offset = vfs->lseek(fd, 0, SEEK_SET);
+		if(offset < 0){
+			printf("file2:lseek %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}
+		size = vfs->read(fd, buf, strlen(buf)*2);
+		if(size < 0){
+			printf("file2:read %s error!!\n", name);
+			vfs->close(fd);
+			continue;
+		}
+		printf("file2:read size:%d\n", size); printf("content:\n%s\n", buf);
+		strcpy(buf, "");
+		vfs->close(fd);
+		printf("file2:end\n\n");
+		kmt->spin_unlock(&lk);
+		_yield();
+	}
+	return;
+}
 void file11()
 {	
 while(1){
@@ -352,54 +426,54 @@ while(1){
 	}
 	return;
 }
-void file11fuben()
+void file1()
 {	
 while(1){
 		kmt->spin_lock(&lk);
-		printf("file11fuben:this is file11\n");
+		printf("file1:this is file11\n");
 		char buf[1024]; char name[64];
 		int size = 0; int fd = -1;
 		strcpy(name, "/home/vier");
 		if(vfs->access(name, F_OK) < 0){
-			printf("file11fuben:hahah create!!!\n");
+			printf("file1:hahah create!!!\n");
 			fd = vfs->open(name, O_CREATE|O_RDWR);
 		}
 		else{
-			printf("file11fuben:xixi not create!!\n");
+			printf("file1:xixi not create!!\n");
 			fd = vfs->open(name, O_RDWR);
 		}
 		
 		int offset = 0;
-		printf("file11fuben:fd:%d\n", fd);
+		printf("file1:fd:%d\n", fd);
 		if(fd < 0){
-			printf("file11fuben:open %s error!!\n", name);
+			printf("file1:open %s error!!\n", name);
 			continue;
 		}		
 		strcpy(buf, "this is /home/vier\n");
 		size = vfs->write(fd, buf, strlen(buf));
-		printf("file11fuben:size:%d\n", size);
+		printf("file1:size:%d\n", size);
 		if(size < 0){
-			printf("file11fuben:write %s error!!\n", name);
+			printf("file1:write %s error!!\n", name);
 			vfs->close(fd);
 			continue;
 		}		
-		printf("file11fuben:first write size:%d\n", size);
+		printf("file1:first write size:%d\n", size);
 		offset = vfs->lseek(fd, 0, SEEK_SET);
 		if(offset < 0){
-			printf("file11fuben:lseek %s error!!\n", name);
+			printf("file1:lseek %s error!!\n", name);
 			vfs->close(fd);
 			continue;
 		}
 		size = vfs->read(fd, buf, strlen(buf));
 		if(size < 0){
-			printf("file11fuben:read %s error!!\n", name);
+			printf("file1:read %s error!!\n", name);
 			vfs->close(fd);
 			continue;
 		}		
-		printf("file11fuben:read size:%d\n", size); printf("content:\n%s", buf);
+		printf("file1:read size:%d\n", size); printf("content:\n%s", buf);
 		strcpy(buf, "");
 		vfs->close(fd);
-		printf("file11fuben:end\n\n");
+		printf("file1:end\n\n");
 		kmt->spin_unlock(&lk);
 		_yield();
 	}
@@ -409,9 +483,8 @@ spinlock_t lk_multhread;
 void multi_thread_test()
 {
 	kmt->spin_lock(&lk_multhread);
-	kmt->create(&t4, &file22, NULL);
-	kmt->create(&t5, &file11, NULL);
-	kmt->create(&t6, &file11fuben, NULL);
+	kmt->create(&t4, &file2, NULL);kmt->create(&t5, &file22, NULL);
+	kmt->create(&t6, &file1, NULL);kmt->create(&t7, &file11, NULL);
 	kmt->spin_unlock(&lk_multhread);
 }
 void test_file()
