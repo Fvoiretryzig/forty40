@@ -718,13 +718,14 @@ int open(const char *path, int flags)
 	printf("OPEN:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);
 	/*=========================lock=========================*/
 	inode_t* node = NULL; 
-	file_t *FILE = (file_t*)pmm->alloc(sizeof(file_t));
-	printf("open: FILE address:0x%08x inode address:0x%08x\n", FILE, kvfs_p->fs->inode[0]); 
-	FILE->if_read = 0; FILE->if_write = 0;
+	//file_t *FILE = (file_t*)pmm->alloc(sizeof(file_t));
+	file_t FILE;
+	printf("open: FILE address:0x%08x inode address:0x%08x\n", &FILE, kvfs_p->fs->inode[0]); 
+	FILE.if_read = 0; FILE.if_write = 0;
 //printf("O_WRDR:kvfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", kvfs_p->fs->inode[0]->name,kvfs_p->fs->inode[0]->if_read, kvfs_p->fs->inode[0]->if_write);	//有bug这里的if_read和if_write被修改了！	
 	if(!strncmp(path, procfs_p->p, strlen(procfs_p->p))){
 		node = procfs_p->fs->ops->lookup(procfs_p->fs, path, flags);	//不知道是不是flag
-		FILE->ops = procfile_op;
+		FILE.ops = procfile_op;
 		if(node == NULL){
 			if(inode_num_proc == inode_cnt){
 				printf("the file is not exisiting while open and there is no inode to allocate!\n");
@@ -745,7 +746,7 @@ int open(const char *path, int flags)
 	}
 	else if(!strncmp(path, devfs_p->p, strlen(devfs_p->p))){
 		node = devfs_p->fs->ops->lookup(devfs_p->fs, path, flags);
-		FILE->ops = devfile_op;
+		FILE.ops = devfile_op;
 		if(node == NULL){
 			if(inode_num_dev == inode_cnt){
 				printf("the file is not exisiting while open and there is no inode to allocate!\n");
@@ -766,7 +767,7 @@ int open(const char *path, int flags)
 	}
 	else if(!strncmp(path, kvfs_p->p, strlen(kvfs_p->p))){	
 		node = kvfs_p->fs->ops->lookup(kvfs_p->fs, path, flags);
-		FILE->ops = kvfile_op;
+		FILE.ops = kvfile_op;
 		if(node == NULL){
 			if(inode_num_kv == inode_cnt){
 				printf("the file is not exisiting while open and there is no inode to allocate!\n");
@@ -787,8 +788,9 @@ int open(const char *path, int flags)
 	/*=========================lock=========================*/						
 		}			
 	}
-	int temp_fd = FILE->ops->open(node, FILE, flags);
-	pmm->free(FILE); printf("kuaidianxiehaoba!!\n");pmm->free(node);
+	int temp_fd = FILE.ops->open(node, &FILE, flags);
+	//pmm->free(FILE); 
+	printf("kuaidianxiehaoba!!\n");pmm->free(node);
 	//printf("open:FILE->offset:%d\n", FILE->offset);
 	/*=========================unlock=========================*/
 	kmt->spin_unlock(&vfs_lk);	
