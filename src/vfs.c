@@ -788,7 +788,7 @@ int open(const char *path, int flags)
 	/*=========================lock=========================*/						
 		}			
 	}
-	int temp_fd = FILE.ops->open(node, &FILE, flags);
+	int temp_fd = FILE->ops->open(node, &FILE, flags);
 	//pmm->free(FILE); 
 	printf("kuaidianxiehaoba!!\n");pmm->free(node);
 	//printf("open:FILE->offset:%d\n", FILE->offset);
