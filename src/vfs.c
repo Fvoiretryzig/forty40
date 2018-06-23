@@ -166,7 +166,7 @@ void fs_init(filesystem_t *fs, const char *name, inode_t *dev)	//dev的作用
 }
 inode_t *lookup(filesystem_t *fs, const char *path, int flag)
 {	
-	printf("lookup:path:%s\n", path);
+	//printf("lookup:path:%s\n", path);
 	inode_t *ans = NULL;	//????????????????
 	int index = 0; int if_find = 0;
 	while(index < inode_cnt){
