@@ -558,6 +558,7 @@ void multi_thread_test()
 	kmt->spin_lock(&lk_multhread);
 	kmt->create(&t4, &file22, NULL);
 	kmt->create(&t5, &file11, NULL);
+	kmt->create(&t6, &file11fuben, NULL);
 	kmt->spin_unlock(&lk_multhread);
 }
 void test_file()
