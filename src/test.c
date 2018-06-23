@@ -101,10 +101,10 @@ void dev_test()
 			vfs->close(zero_fd);
 			continue;
 		}	
-		printf("dev_test:after read /dev/zero buf:%d\n\n", *buf);
+		printf("dev_test:after read /dev/zero buf:%d\n", *buf);
 		vfs->close(zero_fd);
 		vfs->close(random_fd);
-		printf("")
+		printf("dev_test:end\n\n");
 		kmt->spin_unlock(&lk);
 	}		
 	return;
