@@ -518,18 +518,18 @@ while(1){
 	}
 	return;
 }
-spinlock_t lk_multhread;
+spinlock_t lk_thread;
 void multi_thread_test()
 {
-	kmt->spin_lock(&lk_multhread);
+	kmt->spin_lock(&lk_thread);
 	kmt->create(&t4, &file2, NULL);kmt->create(&t5, &file22, NULL);
 	kmt->create(&t6, &file1, NULL);kmt->create(&t7, &file11, NULL);
-	kmt->spin_unlock(&lk_multhread);
+	kmt->spin_unlock(&lk_thread);
 }
 void test_file()
 {
 	kmt->spin_init(&lk, "filetest_lk");
-	kmt->spin_init(&lk, "multithread_lk");
+	kmt->spin_init(&lk_thread, "multithread_lk");
 	//single_thread_test();
 	multi_thread_test();
 	return;
