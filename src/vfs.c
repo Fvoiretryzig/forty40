@@ -167,7 +167,6 @@ void fs_init(filesystem_t *fs, const char *name, inode_t *dev)	//dev的作用
 inode_t *lookup(filesystem_t *fs, const char *path, int flag)
 {	
 	printf("lookup:path:%s\n", path);
-	printf("fs->inode[0]->name:%s if_exist:%d\n",fs->inode[0]->name,fs->inode[0]->if_exist);
 	inode_t *ans = NULL;	//????????????????
 	int index = 0; int if_find = 0;
 	while(index < inode_cnt){
@@ -717,6 +716,7 @@ int access(const char *path, int mode)
 int open(const char *path, int flags)
 {
 	kmt->spin_lock(&vfs_lk);
+	printf("fs->inode[0]->name:%s if_exist:%d\n",fs->inode[0]->name,fs->inode[0]->if_exist);
 	printf("OPEN:procfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", procfs_p->fs->inode[0]->name,procfs_p->fs->inode[0]->if_read, procfs_p->fs->inode[0]->if_write);
 	/*=========================lock=========================*/
 	inode_t* node = NULL; 
