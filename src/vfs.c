@@ -636,7 +636,7 @@ void vfs_init()
 	mount("/proc", create_procfs());
 	mount("/dev", create_devfs());
 	mount("/", create_kvfs());
-	for(int i = 0; i<inode_cnt; i++){
+	for(int i = 2; i<inode_cnt; i++){
 		procfs_p->fs->inode[i]->if_exist = 0;
 	}
 	kmt->spin_init(&vfs_lk, "vfs_lk");
@@ -716,7 +716,7 @@ int access(const char *path, int mode)
 int open(const char *path, int flags)
 {
 	kmt->spin_lock(&vfs_lk);
-	printf("procfs_p->fs->inode[0]->name:%s if_exist:%d\n",procfs_p->fs->inode[0]->name,procfs_p->fs->inode[0]->if_exist);
+	//printf("procfs_p->fs->inode[0]->name:%s if_exist:%d\n",procfs_p->fs->inode[0]->name,procfs_p->fs->inode[0]->if_exist);
 	printf("OPEN:procfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", procfs_p->fs->inode[0]->name,procfs_p->fs->inode[0]->if_read, procfs_p->fs->inode[0]->if_write);
 	/*=========================lock=========================*/
 	inode_t* node = NULL; 
