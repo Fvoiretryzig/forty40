@@ -1,11 +1,10 @@
 #include <kernel.h>
-
+#include <libc.h>
 int main()
 {
 	// AM initialization
 	_ioe_init();
 	if (os->interrupt) _asye_init(os->interrupt); 
-
 	// OS module initialization
 	if (os->init) os->init();
 	if (pmm->init) pmm->init();
