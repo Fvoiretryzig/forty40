@@ -116,11 +116,12 @@ void proc_test()
 		char buf[1024]; int size = 0;
 	/*========================cpuinfo========================*/
 		int cpu_fd = vfs->open("/proc/cpuinfo", O_RDONLY);
+		printf("proc_test: the cpu fd is %d\n", cpu_fd);
 		if(cpu_fd < 0){
 			printf("proc_test:open cpuinfo error!\n");
 			continue;
 		}
-		printf("proc_test: the cpu fd is %d\n", cpu_fd);
+		
 		size = vfs->read(cpu_fd, buf, 1024);
 		if(size < 0){
 			printf("proc_test:read error while read cpuinfo\n");
