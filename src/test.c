@@ -532,8 +532,8 @@ void test_file()
 {
 	kmt->spin_init(&lk, "filetest_lk");
 	kmt->spin_init(&lk_thread, "multithread_lk");
-	//single_thread_test();
-	multi_thread_test();
+	single_thread_test();
+	//multi_thread_test();
 	return;
 }
 
