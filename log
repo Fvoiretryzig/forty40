@@ -5,1170 +5,3626 @@ qemu-system-i386 -serial stdio build/os.img
 heap start:0x00200000 heap end:0x08000000
 Hello, OS World!
 heap start:0x00200000 heap end:0x08000000
-thread id:0
 in kmt thread_cnt:1
-OPEN:kvfs_p->fs->inode[0]:Sÿ if_read:-268370093 if_write:-268370093
-open: FILE address:0x00001e5c inode address:0x00000000
-lookup:path:/proc/0
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
 file_open:inode->name:/proc/0
-kuaidianxiehaoba!!
-lookup:path:/proc/0
 in file_write:name:/proc/0 buf:id:  size:4
-lookup:path:/proc/0
-lookup:path:/proc/0
 in file_write:name:/proc/0 buf:0 size:1
-lookup:path:/proc/0
-lookup:path:/proc/0
 in file_write:name:/proc/0 buf:
  size:1
-lookup:path:/proc/0
-lookup:path:/proc/0
 in file_write:name:/proc/0 buf:stack size:  size:12
-lookup:path:/proc/0
-lookup:path:/proc/0
 in file_write:name:/proc/0 buf:262144 size:6
-lookup:path:/proc/0
-lookup:path:/proc/0
 in file_write:name:/proc/0 buf:
  size:1
-lookup:path:/proc/0
-lookup:path:/proc/0
 in file_write:name:/proc/0 buf:stack start:  size:13
-lookup:path:/proc/0
-lookup:path:/proc/0
 in file_write:name:/proc/0 buf:2143862 size:7
-lookup:path:/proc/0
-lookup:path:/proc/0
 in file_write:name:/proc/0 buf:  size:1
-lookup:path:/proc/0
-lookup:path:/proc/0
 in file_write:name:/proc/0 buf:stack end:  size:11
-lookup:path:/proc/0
-lookup:path:/proc/0
 in file_write:name:/proc/0 buf:2406006 size:7
-lookup:path:/proc/0
-lookup:path:/proc/0
 in file_write:name:/proc/0 buf:
  size:1
-lookup:path:/proc/0
 in file_close:fd:3
-old id:0 current id:0
-in os_interrupt eip:0x001029dd
+in kmt thread_cnt:2
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file_open:inode->name:/proc/1
+in file_write:name:/proc/1 buf:id:  size:4
+in file_write:name:/proc/1 buf:1 size:1
+in file_write:name:/proc/1 buf:
+ size:1
+in file_write:name:/proc/1 buf:stack size:  size:12
+in file_write:name:/proc/1 buf:262144 size:6
+in file_write:name:/proc/1 buf:
+ size:1
+in file_write:name:/proc/1 buf:stack start:  size:13
+in file_write:name:/proc/1 buf:3201352 size:7
+in file_write:name:/proc/1 buf:  size:1
+in file_write:name:/proc/1 buf:stack end:  size:11
+in file_write:name:/proc/1 buf:3463496 size:7
+in file_write:name:/proc/1 buf:
+ size:1
+in file_close:fd:3
+in kmt thread_cnt:3
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file_open:inode->name:/proc/2
+in file_write:name:/proc/2 buf:id:  size:4
+in file_write:name:/proc/2 buf:2 size:1
+in file_write:name:/proc/2 buf:
+ size:1
+in file_write:name:/proc/2 buf:stack size:  size:12
+in file_write:name:/proc/2 buf:262144 size:6
+in file_write:name:/proc/2 buf:
+ size:1
+in file_write:name:/proc/2 buf:stack start:  size:13
+in file_write:name:/proc/2 buf:4258842 size:7
+in file_write:name:/proc/2 buf:  size:1
+in file_write:name:/proc/2 buf:stack end:  size:11
+in file_write:name:/proc/2 buf:4520986 size:7
+in file_write:name:/proc/2 buf:
+ size:1
+in file_close:fd:3
+in kmt thread_cnt:4
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file_open:inode->name:/proc/3
+in file_write:name:/proc/3 buf:id:  size:4
+in file_write:name:/proc/3 buf:3 size:1
+in file_write:name:/proc/3 buf:
+ size:1
+in file_write:name:/proc/3 buf:stack size:  size:12
+in file_write:name:/proc/3 buf:262144 size:6
+in file_write:name:/proc/3 buf:
+ size:1
+in file_write:name:/proc/3 buf:stack start:  size:13
+in file_write:name:/proc/3 buf:5316332 size:7
+in file_write:name:/proc/3 buf:  size:1
+in file_write:name:/proc/3 buf:stack end:  size:11
+in file_write:name:/proc/3 buf:5578476 size:7
+in file_write:name:/proc/3 buf:
+ size:1
+in file_close:fd:3
+old id:0 current id:1
+in os_interrupt eip:0x001062d6
 this is irq_timer
 
-file11:this is file11
-lookup:path:/home/vier
+file2:this is file2
 the file has not been created!!
-file11:hahah create!!!
-OPEN:kvfs_p->fs->inode[0]:Sÿ if_read:-268370093 if_write:-268370093
-open: FILE address:0x0024b1ce inode address:0x00000000
-lookup:path:/home/vier
+file2:hahah create!!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file_open:inode->name:/home/4040
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062d6
+this is irq_timer
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+the file has not been created!!
+file1:hahah create!!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
 file_open:inode->name:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
+file1:fd:3
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file1:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
 file11:this is file11
-lookup:path:/home/vier
 access:temp name:/home/vier
 file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
 file11:fd:3
-lookup:path:/home/vier
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
 file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file11:first write size:19
+file11:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file11:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062d6
+this is irq_timer
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
 file11:this is file11
-lookup:path:/home/vier
 access:temp name:/home/vier
 file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
 file11:fd:3
-lookup:path:/home/vier
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
 file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file11:first write size:19
+file11:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file11:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062d6
 this is irq_timer
 
 file11:this is file11
-lookup:path:/home/vier
 access:temp name:/home/vier
 file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
 file11:fd:3
-lookup:path:/home/vier
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
 file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file11:first write size:19
+file11:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file11:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
 file11:this is file11
-lookup:path:/home/vier
 access:temp name:/home/vier
 file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
 file11:fd:3
-lookup:path:/home/vier
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
 file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file11:first write size:19
+file11:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file11:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
-request trap into kernal...
-
-file11:this is file11
-lookup:path:/home/vier
-access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
-in file_write:name:/home/vier buf:this is /home/vier
- size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
-content:
-this is /home/vier
-lookup:path:/home/vier
-in file_close:fd:3
-file11 end
-
-old id:0 current id:0
-in os_interrupt eip:0x00105a52
+old id:0 current id:1
+in os_interrupt eip:0x001062d6
 this is irq_timer
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
-access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
-in file_write:name:/home/vier buf:this is /home/vier
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
  size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
 content:
-this is /home/vier
-lookup:path:/home/vier
-in file_close:fd:3
-file11 end
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
+file1:this is file1
 access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file1:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
-access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
-in file_write:name:/home/vier buf:this is /home/vier
- size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
-content:
-this is /home/vier
-lookup:path:/home/vier
-in file_close:fd:3
-file11 end
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a52
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062d6
 this is irq_timer
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
 file11:this is file11
-lookup:path:/home/vier
 access:temp name:/home/vier
 file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
 file11:fd:3
-lookup:path:/home/vier
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
 file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file11:first write size:19
+file11:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file11:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
-access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
-in file_write:name:/home/vier buf:this is /home/vier
- size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
-content:
-this is /home/vier
-lookup:path:/home/vier
-in file_close:fd:3
-file11 end
-
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
-access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
-in file_write:name:/home/vier buf:this is /home/vier
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
  size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
 content:
-this is /home/vier
-lookup:path:/home/vier
-in file_close:fd:3
-file11 end
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a52
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
 this is irq_timer
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
-request trap into kernal...
-
 file11:this is file11
-lookup:path:/home/vier
 access:temp name:/home/vier
 file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
 file11:fd:3
-lookup:path:/home/vier
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
 file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file11:first write size:19
+file11:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file11:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
-access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
-in file_write:name:/home/vier buf:this is /home/vier
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
  size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
 content:
-this is /home/vier
-lookup:path:/home/vier
-in file_close:fd:3
-file11 end
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
-access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
-in file_write:name:/home/vier buf:this is /home/vier
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
  size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
 content:
-this is /home/vier
-lookup:path:/home/vier
-in file_close:fd:3
-file11 end
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
+file1:this is file1
 access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file1:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a52
+old id:3 current id:0
+in os_interrupt eip:0x001062d6
 this is irq_timer
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
-request trap into kernal...
-
 file11:this is file11
-lookup:path:/home/vier
 access:temp name:/home/vier
 file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
 file11:fd:3
-lookup:path:/home/vier
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
 file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file11:first write size:19
+file11:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file11:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
 file11:this is file11
-lookup:path:/home/vier
 access:temp name:/home/vier
 file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
 file11:fd:3
-lookup:path:/home/vier
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
 file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file11:first write size:19
+file11:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file11:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
-access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
-in file_write:name:/home/vier buf:this is /home/vier
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
  size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
 content:
-this is /home/vier
-lookup:path:/home/vier
-in file_close:fd:3
-file11 end
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a52
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062d6
 this is irq_timer
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
 file11:this is file11
-lookup:path:/home/vier
 access:temp name:/home/vier
 file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
 file11:fd:3
-lookup:path:/home/vier
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
 file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file11:first write size:19
+file11:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file11:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
-access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
-in file_write:name:/home/vier buf:this is /home/vier
- size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
-content:
-this is /home/vier
-lookup:path:/home/vier
-in file_close:fd:3
-file11 end
-
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
-access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
-in file_write:name:/home/vier buf:this is /home/vier
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
  size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
 content:
-this is /home/vier
-lookup:path:/home/vier
-in file_close:fd:3
-file11 end
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a52
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062d6
 this is irq_timer
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
 file11:this is file11
-lookup:path:/home/vier
 access:temp name:/home/vier
 file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
 file11:fd:3
-lookup:path:/home/vier
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
 file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file11:first write size:19
+file11:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file11:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
-access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
-in file_write:name:/home/vier buf:this is /home/vier
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
  size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
 content:
-this is /home/vier
-lookup:path:/home/vier
-in file_close:fd:3
-file11 end
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
 access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file1:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a52
+old id:3 current id:0
+in os_interrupt eip:0x001062d6
 this is irq_timer
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
-request trap into kernal...
-
 file11:this is file11
-lookup:path:/home/vier
 access:temp name:/home/vier
 file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
 file11:fd:3
-lookup:path:/home/vier
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
 file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file11:first write size:19
+file11:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file11:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
 file11:this is file11
-lookup:path:/home/vier
 access:temp name:/home/vier
 file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
 file11:fd:3
-lookup:path:/home/vier
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
 file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file11:first write size:19
+file11:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file11:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
-request trap into kernal...
-
-file11:this is file11
-lookup:path:/home/vier
-access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
-in file_write:name:/home/vier buf:this is /home/vier
- size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
-content:
-this is /home/vier
-lookup:path:/home/vier
-in file_close:fd:3
-file11 end
-
-old id:0 current id:0
-in os_interrupt eip:0x00105a52
+old id:0 current id:1
+in os_interrupt eip:0x001062d6
 this is irq_timer
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
-access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
-in file_write:name:/home/vier buf:this is /home/vier
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
  size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
 content:
-this is /home/vier
-lookup:path:/home/vier
-in file_close:fd:3
-file11 end
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
+file1:this is file1
 access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file1:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
-access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
-in file_write:name:/home/vier buf:this is /home/vier
- size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
-content:
-this is /home/vier
-lookup:path:/home/vier
-in file_close:fd:3
-file11 end
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a52
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062d6
 this is irq_timer
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
 file11:this is file11
-lookup:path:/home/vier
 access:temp name:/home/vier
 file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
 file11:fd:3
-lookup:path:/home/vier
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
 file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file11:first write size:19
+file11:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file11:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
-access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
-in file_write:name:/home/vier buf:this is /home/vier
- size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
-content:
-this is /home/vier
-lookup:path:/home/vier
-in file_close:fd:3
-file11 end
-
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
-access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
-in file_write:name:/home/vier buf:this is /home/vier
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
  size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
 content:
-this is /home/vier
-lookup:path:/home/vier
-in file_close:fd:3
-file11 end
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a52
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062d6
 this is irq_timer
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
 file11:this is file11
-lookup:path:/home/vier
 access:temp name:/home/vier
 file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
 file11:fd:3
-lookup:path:/home/vier
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
 file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file11:first write size:19
+file11:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file11:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
 file11:this is file11
-lookup:path:/home/vier
 access:temp name:/home/vier
 file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
 file11:fd:3
-lookup:path:/home/vier
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
 file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file11:first write size:19
+file11:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file11:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
-request trap into kernal...
-
-file11:this is file11
-lookup:path:/home/vier
-access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
-in file_write:name:/home/vier buf:this is /home/vier
- size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
-content:
-this is /home/vier
-lookup:path:/home/vier
-in file_close:fd:3
-file11 end
-
-old id:0 current id:0
-in os_interrupt eip:0x00105a52
+old id:0 current id:1
+in os_interrupt eip:0x001062d6
 this is irq_timer
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
-access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
-in file_write:name:/home/vier buf:this is /home/vier
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
  size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
 content:
-this is /home/vier
-lookup:path:/home/vier
-in file_close:fd:3
-file11 end
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
-file11:this is file11
-lookup:path:/home/vier
+file1:this is file1
 access:temp name:/home/vier
-file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
-file11:fd:3
-lookup:path:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
 in file_write:name:/home/vier buf:this is /home/vier
  size:19
-file11:size:19
-file11first write size:19
-lookup:path:/home/vier
-lookup:path:/home/vier
-file11read size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
 content:
 this is /home/vier
-lookup:path:/home/vier
 in file_close:fd:3
-file11 end
+file1:end
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a52
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062d6
 this is irq_timer
 
-old id:0 current id:0
-in os_interrupt eip:0x00105a26
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
 request trap into kernal...
 
 file11:this is file11
-lookup:path:/home/vier
 access:temp name:/home/vier
 file11:xixi not create!!
-OPEN:kvfs_p->fs->inode[0]:/home/vier if_read:1 if_write:1
-open: FILE address:0x0024b1ce inode address:0x0030fdd0
-lookup:path:/home/vier
-kuaidianxiehaoba!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
 file11:fd:3
-loo
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062d6
+this is irq_timer
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file11:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file11:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062d6
+this is irq_timer
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062d6
+this is irq_timer
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file11:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062d6
+this is irq_timer
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file11:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file11:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062d6
+this is irq_timer
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062d6
+this is irq_timer
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file11:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062d6
+this is irq_timer
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file11:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062d6
+this is irq_timer
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file11:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+this is irq_timer
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file11:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062d6
+this is irq_timer
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062d6
+this is irq_timer
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file11:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+this is irq_timer
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file11:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+this is irq_timer
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file11:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062d6
+this is irq_timer
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file11:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062d6
+this is irq_timer
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file11:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062d6
+this is irq_timer
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file11:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file11:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062d6
+this is irq_timer
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062d6
+this is irq_timer
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file11:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+this is irq_timer
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file11:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file11:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file11:size:19
+file11:first write size:19
+file11:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file11:end
+
+old id:0 current id:1
+in os_interrupt eip:0x001062d6
+this is irq_timer
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file1:this is file1
+access:temp name:/home/vier
+file1:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file1:fd:3
+in file_write:name:/home/vier buf:this is /home/vier
+ size:19
+file1:size:19
+file1:first write size:19
+file1:read size:19
+content:
+this is /home/vier
+in file_close:fd:3
+file1:end
+
+old id:3 current id:0
+in os_interrupt eip:0x001062d6
+this is irq_timer
+
+old id:0 current id:1
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file2:this is file2
+access:temp name:/home/4040
+file2:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file2:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:size:19
+file2:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file2:second write size:19
+file2:read size:19
+content:
+this is /home/4040
+file2:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file2:end
+
+old id:1 current id:2
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file22:this is file22
+access:temp name:/home/4040
+file22:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/cpuinfo if_read:1 if_write:0
+file22:fd:3
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:size:19
+file22:first write size:19
+in file_write:name:/home/4040 buf:this is /home/4040
+ size:19
+file22:second write size:19
+file22:read size:19
+content:
+this is /home/4040
+file22:read size:38
+content:
+this is /home/4040
+this is /home/4040
+
+in file_close:fd:3
+file22:end
+
+old id:2 current id:3
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+old id:3 current id:0
+in os_interrupt eip:0x001062aa
+request trap into kernal...
+
+file11:this is file11
+access:temp name:/home/vier
+file11:xixi not create!!
+OPEN:procfs_p->fs->inode[0]:/proc/
