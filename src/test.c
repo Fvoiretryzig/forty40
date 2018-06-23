@@ -314,7 +314,7 @@ while(1){
 			kmt->spin_unlock(&lk);
 			_yield();
 		}
-		printf("file22:read size:%d\n", size); printf("content:\n%s\n", buf);
+		printf("file22:read size:%d\n", size); printf("content:\n%s", buf);
 		strcpy(buf, "");
 		vfs->close(fd);
 		printf("file22:end\n\n");
@@ -397,7 +397,7 @@ while(1){
 			kmt->spin_unlock(&lk);
 			_yield();
 		}
-		printf("file2:read size:%d\n", size); printf("content:\n%s\n", buf);
+		printf("file2:read size:%d\n", size); printf("content:\n%s", buf);
 		strcpy(buf, "");
 		vfs->close(fd);
 		printf("file2:end\n\n");
