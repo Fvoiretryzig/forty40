@@ -187,7 +187,7 @@ static void* pmm_alloc(size_t size)	//TODO():thread unsafe
 {
 	kmt->spin_lock(&pmm_lk);
 	void* ret = malloc_unsafe(size);
-	//printf("in pmm alloc:ret address:0x%08x program_break:0x%08x\n", ret, program_break);
+	printf("in pmm alloc:ret address:0x%08x program_break:0x%08x\n", ret, program_break);
 	kmt->spin_unlock(&pmm_lk);
 	return ret;
 }
