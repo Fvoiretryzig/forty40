@@ -207,7 +207,7 @@ void kv_test()
 			vfs->close(fd);	
 			continue;
 		}
-		printf("kv_test:read %s size:%d\ncontent:\n%s\n\n", name, size, buf);
+		printf("kv_test:read %s size:%d\ncontent:\n%s", name, size, buf);
 		strcpy(buf, "");
 		vfs->close(fd);
 		printf("kv_test:end\n\n");
