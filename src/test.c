@@ -234,10 +234,11 @@ void kv_test()
 }
 void single_thread_test()
 {
+	kmt->spin_lock(&lk_thread);
 	kmt->create(&t1, &dev_test, NULL);
 	kmt->create(&t2, &proc_test, NULL);	
 	kmt->create(&t3, &kv_test, NULL);
-	
+	kmt->spin_unlock(&lk_thread);
 }
 void file22()
 {	
@@ -530,8 +531,8 @@ void test_file()
 {
 	kmt->spin_init(&lk, "filetest_lk");
 	kmt->spin_init(&lk_thread, "multithread_lk");
-	//single_thread_test();
-	multi_thread_test();
+	single_thread_test();
+	//multi_thread_test();
 	return;
 }
 
