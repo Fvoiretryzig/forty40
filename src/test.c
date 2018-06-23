@@ -168,7 +168,7 @@ void kv_test()
 {		
 	while(1){
 		kmt->spin_lock(&lk);
-		char buf[1024]; int size = 0;
+		char buf[1024]; int size = 0; int fd = -1;
 		char name[64];	int offset = 0;	
 		strcpy(name, "/forty/40c");
 		if(vfs->access(name, F_OK) < 0){
