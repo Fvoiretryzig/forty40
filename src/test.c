@@ -73,7 +73,7 @@ void dev_test()
 			kmt->spin_unlock(&lk);
 			_yield();
 		}
-		printf("dev_test:this is the random number return by /dev/random:%s size:%d\n\n", buf, size);
+		printf("dev_test:this is the random number return by /dev/random:%s size:%d\n", buf, size);
 		/*========================null========================*/
 		int null_fd = vfs->open("/dev/null", O_RDWR);
 			printf("dev_test:null fd:%d\n", null_fd);
@@ -93,7 +93,7 @@ void dev_test()
 			kmt->spin_unlock(&lk);
 			_yield();
 		}
-		printf("dev_test:after read /dev/null buf:%d\n\n", *buf);
+		printf("dev_test:after read /dev/null buf:%d\n", *buf);
 		vfs->close(null_fd);
 		/*========================zero========================*/
 		int zero_fd = vfs->open("/dev/zero", O_RDONLY);
@@ -137,7 +137,7 @@ void proc_test()
 			kmt->spin_unlock(&lk);
 			_yield();
 		}
-		printf("proc_test:the read result:\nsize:%d\ncontent:\n%s\n\n", size, buf);
+		printf("proc_test:size:%d\ncontent:\n%s\n", size, buf);
 		vfs->close(cpu_fd);
 	/*========================meminfo========================*/
 		int mem_fd = vfs->open("/proc/meminfo", O_RDONLY);
@@ -154,7 +154,7 @@ void proc_test()
 			kmt->spin_unlock(&lk);
 			_yield();
 		}
-		printf("proc_test:size:%d\ncontent:\n%s\n\n", size, buf);
+		printf("proc_test:size:%d\ncontent:\n%s\n", size, buf);
 		vfs->close(mem_fd);
 	/*========================procinfo========================*/
 		int proc_fd = vfs->open("/proc/0", O_RDONLY);
@@ -171,7 +171,7 @@ void proc_test()
 			kmt->spin_unlock(&lk);
 			_yield();
 		}
-		printf("proc_test:size:%d\ncontent:\n%s\n", size, buf);
+		printf("proc_test:size:%d\ncontent:\n%s", size, buf);
 		vfs->close(proc_fd);
 		printf("proc_test:end\n\n");
 		kmt->spin_unlock(&lk);
@@ -532,8 +532,8 @@ void test_file()
 {
 	kmt->spin_init(&lk, "filetest_lk");
 	kmt->spin_init(&lk_thread, "multithread_lk");
-	single_thread_test();
-	//multi_thread_test();
+	//single_thread_test();
+	multi_thread_test();
 	return;
 }
 

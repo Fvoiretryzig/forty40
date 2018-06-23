@@ -515,7 +515,7 @@ ssize_t dev_file_read(inode_t *inode, file_t *file, char*buf, size_t size)
 }
 ssize_t kvproc_file_write(inode_t *inode, file_t *file, const char *buf, size_t size)
 {
-	printf("in file_write:name:%s buf:%s size:%d\n", inode->name, buf, size);
+	//printf("in file_write:name:%s buf:%s size:%d\n", inode->name, buf, size);
 	if(!inode->if_write){
 		printf("write permission error: cannot write %s\n", file->name);
 		return -1;
@@ -581,7 +581,7 @@ off_t file_lseek(inode_t *inode, file_t *file, off_t offset, int whence)
 int file_close(inode_t *inode, file_t *file)
 {
 	int current_fd = file->fd;
-	printf("in file_close:fd:%d\n", current_fd);
+	//printf("in file_close:fd:%d\n", current_fd);
 	fd[current_fd] = 0;
 	file_table[current_fd] = NULL;
 	return 0;	//不知道什么时候会是-1
@@ -717,7 +717,7 @@ int open(const char *path, int flags)
 {
 	kmt->spin_lock(&vfs_lk);
 	//printf("procfs_p->fs->inode[0]->name:%s if_exist:%d\n",procfs_p->fs->inode[0]->name,procfs_p->fs->inode[0]->if_exist);
-	printf("OPEN:procfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", procfs_p->fs->inode[0]->name,procfs_p->fs->inode[0]->if_read, procfs_p->fs->inode[0]->if_write);
+	//printf("OPEN:procfs_p->fs->inode[0]:%s if_read:%d if_write:%d\n", procfs_p->fs->inode[0]->name,procfs_p->fs->inode[0]->if_read, procfs_p->fs->inode[0]->if_write);
 	/*=========================lock=========================*/
 	inode_t* node = NULL; 
 	file_t *FILE = (file_t*)pmm->alloc(sizeof(file_t));
